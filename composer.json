@@ -5,9 +5,15 @@
     "require": {
         "php": "^8.1"
     },
+    "autoload": {
+        "psr-4": {
+            "Par\\Core\\": "packages/core/src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Par\\CoreTest\\": "packages/core/test/"
         }
     },
     "license": "MIT",
@@ -18,11 +24,20 @@
             "role": "lead"
         }
     ],
+    "replace": {
+        "par/core": "0.1.0"
+    },
     "config": {
         "sort-packages": true,
         "platform": {
             "php": "8.1"
         }
     },
-    "minimum-stability": "dev"
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
