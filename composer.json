@@ -1,0 +1,23 @@
+{
+    "name": "par/par",
+    "description": "PHP Addition Repository (PAR)",
+    "type": "project",
+    "require": {
+        "php": "^8.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Brouwer",
+            "email": "alex@factorit.nl",
+            "role": "lead"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1"
+        }
+    },
+    "minimum-stability": "dev"
+}
