@@ -1,0 +1,30 @@
+name: "Code style"
+
+on:
+  pull_request:
+    paths:
+      - "**.php"
+      - "phpcs.xml"
+      - ".github/workflows/phpcs.yml"
+
+jobs:
+  phpcs:
+    name: "PHPCS"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository to the runner
+        uses: "actions/checkout@v4"
+
+      - name: Setup PHP
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.1"
+          tools: cs2pr
+
+      - name: Composer install
+        uses: "ramsey/composer-install@v2"
+
+      - name: Send feedback on Github
+        run: |
+          vendor/bin/phpcs --report=checkstyle -q | cs2pr
