@@ -8,12 +8,10 @@ branches:
         dismiss_stale_reviews: true
         require_code_owner_reviews: false
         required_approving_review_count: 1
-#      required_status_checks:
-#        strict: true
-#        contexts:
-#          - "Code Style (ubuntu-latest, 8.1)"
-#          - "Static Analysis (ubuntu-latest, 8.1)"
-#          - "Unit Tests (ubuntu-latest, 8.1)"
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Code style"
       restrictions: null
       required_linear_history: true
 
