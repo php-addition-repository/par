@@ -9,8 +9,7 @@ setup: init
 	$(DOCKER_COMPOSE) run workspace composer install
 
 workspace: init
-	$(DOCKER_COMPOSE) run workspace sh
-
+	$(DOCKER_COMPOSE) run --interactive workspace bash
 
 ~/.cache/composer:
 	mkdir ~/.cache/composer
