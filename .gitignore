@@ -7,3 +7,5 @@ composer.phar
 
 .idea
 .docker/.env
+
+.phpunit.result.cache
