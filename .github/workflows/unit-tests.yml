@@ -35,8 +35,8 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: ${{ matrix.php }}
-          #          extensions: ${{ join(fromJson(needs.supported-versions-matrix.outputs.extensions), ',') }}
-          coverage: xdebug
+          #extensions: ${{ join(fromJson(needs.supported-versions-matrix.outputs.extensions), ',') }}
+          #coverage: xdebug
 
       - name: Composer install
         uses: "ramsey/composer-install@v2"
@@ -45,5 +45,4 @@ jobs:
         uses: mheap/phpunit-matcher-action@v1
 
       - name: Run phpunit
-        run: |
-          vendor/bin/phpunit --teamcity
+        run: ./vendor/bin/phpunit --teamcity
