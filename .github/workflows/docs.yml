@@ -31,7 +31,7 @@ jobs:
         name: Push main to docs
         uses: "danharrin/monorepo-split-github-action@v2.3.0"
         with:
-          package_directory: "packages/docs/docs"
+          package_directory: "packages/docs"
           repository_organization: "php-addition-repository"
           repository_name: "php-addition-repository.github.io"
           user_name: "Alex Brouwer"
@@ -44,7 +44,7 @@ jobs:
         uses: "danharrin/monorepo-split-github-action@v2.3.0"
         with:
           tag: ${GITHUB_REF#refs/tags/}
-          package_directory: "packages/docs/docs"
+          package_directory: "packages/docs"
           repository_organization: "php-addition-repository"
           repository_name: "php-addition-repository.github.io"
           user_name: "Alex Brouwer"
