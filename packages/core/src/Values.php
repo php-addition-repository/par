@@ -6,10 +6,13 @@ namespace Par\Core;
 
 use DateTimeInterface;
 
+/**
+ * Helper class with methods to assist in value handling.
+ */
 final class Values
 {
     /**
-     * Determines if values should be considered equal.
+     * Determines if two values should be considered equal.
      *
      * - If `$value` implements `Par\Core\ObjectEquality` then `$value->equals($otherValue)` is used.
      * - If `$otherValue` implements `Par\Core\ObjectEquality` then `$otherValue->equals($value)` is used.
@@ -17,7 +20,7 @@ final class Values
      *   using `RFC3339_EXTENDED`.
      * - Otherwise a strict comparison (`$value === $otherValue`) is used.
      *
-     * @param mixed $value A value
+     * @param mixed $value The value to test
      * @param mixed $otherValue The other value with which to compare
      *
      * @return bool True if both values should be considered equal
@@ -41,6 +44,8 @@ final class Values
     }
 
     /**
+     * Determine if two DateTimeInterface instances can be considered equal.
+     *
      * @param DateTimeInterface $value
      * @param DateTimeInterface $otherValue
      * @return bool
