@@ -1,0 +1,75 @@
+name: 'Packages'
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  GITHUB_TOKEN: "x-access-token:${{ secrets.MONOREPO_GIT_TOKEN }}"
+
+jobs:
+  provide_packages_json:
+    # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository to the runner
+        uses: "actions/checkout@v4"
+
+      - name: Setup PHP
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.1"
+          tools: none
+
+      - name: Composer install
+        uses: "ramsey/composer-install@v2"
+
+      # get package json list
+      - id: packages
+        run: echo "packages=$(vendor/bin/monorepo-builder packages-json --exclude-package docs)" >> $GITHUB_OUTPUT
+
+    # this step is needed, so the output gets to the next defined job
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+
+  split_monorepo:
+    needs: provide_packages_json
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.provide_packages_json.outputs.packages) }}
+
+    steps:
+      - name: Check out the repository to the runner
+        uses: "actions/checkout@v4"
+
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Push main to ${{ matrix.package }}
+        uses: "danharrin/monorepo-split-github-action@v2.3.0"
+        with:
+          package_directory: "packages/${{ matrix.package }}"
+          repository_organization: "php-addition-repository"
+          repository_name: "${{ matrix.package }}"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
+          branch: "main"
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        name: Push tag to ${{ matrix.package }}
+        uses: "danharrin/monorepo-split-github-action@v2.3.0"
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
+          package_directory: "packages/${{ matrix.package }}"
+          repository_organization: "php-addition-repository"
+          repository_name: "${{ matrix.package }}"
+          user_name: "Alex Brouwer"
+          user_email: "brouwer.alexander@gmail.com"
+          branch: "main"
