@@ -11,7 +11,7 @@ on:
       - '*'
 
 env:
-  GITHUB_TOKEN: "${{ secrets.REPO_GIT_TOKEN }}"
+  GITHUB_TOKEN: "x-access-token:${{ secrets.MONOREPO_GIT_TOKEN }}"
 
 jobs:
   docs:
