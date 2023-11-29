@@ -15,7 +15,7 @@ final class ValuesEqualsTest extends TestCase
     public static function provideForEquals(): iterable
     {
         $valueTypes = [
-            'string' => ['foo', 'foo'],
+            'string' => ['foo', 'bar'],
             'int' => [1, 2],
             'float' => [0.1, 0.2],
             'bool' => [true, false],
