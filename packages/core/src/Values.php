@@ -21,6 +21,13 @@ final class Values
      * - When both values are instances of `\DateTimeImmutable` `$value == $otherValue` is used.
      * - Otherwise a strict comparison (`$value === $otherValue`) is used.
      *
+     * Usage:
+     * ```php
+     * if (Values::equals($a, $b)) {
+     *     // When equal
+     * }
+     * ```
+     *
      * @param mixed $value The value to test
      * @param mixed $otherValue The other value with which to compare
      *
@@ -51,11 +58,19 @@ final class Values
     /**
      * Determines if a value should be considered equal to __one__ or __more__ other values.
      *
+     * Usage:
+     * ```php
+     * if (Values::equalsOneOf($a, $b, $c)) {
+     * // When not equal to $b or $c
+     * }
+     * ```
+     *
      * @param mixed $value The value to test
      * @param mixed ...$otherValues The other values with which to compare
      * @return bool True if value should be considered equal to one or more of the other values
      *
      * @psalm-mutation-free
+     * @see Values::equals
      */
     public static function equalsOneOf(mixed $value, mixed ...$otherValues): bool
     {
@@ -71,11 +86,19 @@ final class Values
     /**
      * Determines if a value should be considered equal to __none__ of the other values.
      *
+     * Usage:
+     * ```php
+     * if (Values::equalsNoneOf($a, $b, $c)) {
+     *     // When not equal to $b and $c
+     * }
+     * ```
      * @param mixed $value The value to test
      * @param mixed ...$otherValues The other values with which to compare
      * @return bool True if value should be considered equal to none of the other values
      *
      * @psalm-mutation-free
+     * @see Values::equals
+     *
      */
     public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
     {

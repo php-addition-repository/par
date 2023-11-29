@@ -37,4 +37,5 @@
         </guide>
     </version>
     <template name="default"/>
+    <setting name="template.color" value="blue"/>
 </phpdocumentor>
