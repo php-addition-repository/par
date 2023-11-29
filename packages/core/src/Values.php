@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Par\Core;
 
-use DateTimeInterface;
+use DateTime;
+use DateTimeImmutable;
 
 /**
  * Helper class with methods to assist in value handling.
@@ -14,10 +15,10 @@ final class Values
     /**
      * Determines if two values should be considered equal.
      *
-     * - If `$value` implements `Par\Core\ObjectEquality` then `$value->equals($otherValue)` is used.
-     * - If `$otherValue` implements `Par\Core\ObjectEquality` then `$otherValue->equals($value)` is used.
-     * - When both values implement the `DateTimeInterface` they are considered equal when the equal when formatted
-     *   using `RFC3339_EXTENDED`.
+     * - If `$value` implements `\Par\Core\ObjectEquality` then `$value->equals($otherValue)` is used.
+     * - If `$otherValue` implements `\Par\Core\ObjectEquality` then `$otherValue->equals($value)` is used.
+     * - When both values are instances of `\DateTime` `$value == $otherValue` is used.
+     * - When both values are instances of `\DateTimeImmutable` `$value == $otherValue` is used.
      * - Otherwise a strict comparison (`$value === $otherValue`) is used.
      *
      * @param mixed $value The value to test
@@ -36,28 +37,15 @@ final class Values
             return $otherValue->equals($value);
         }
 
-        if ($value instanceof DateTimeInterface && $otherValue instanceof DateTimeInterface) {
-            return self::compareDateTimes($value, $otherValue);
+        if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
+            return $value == $otherValue;
+        }
+
+        if ($value instanceof DateTime && $otherValue instanceof DateTime) {
+            return $value == $otherValue;
         }
 
         return $value === $otherValue;
-    }
-
-    /**
-     * Determine if two DateTimeInterface instances can be considered equal.
-     *
-     * @param DateTimeInterface $value
-     * @param DateTimeInterface $otherValue
-     * @return bool
-     *
-     * @psalm-mutation-free
-     * @psalm-suppress ImpureMethodCall
-     */
-    private static function compareDateTimes(DateTimeInterface $value, DateTimeInterface $otherValue): bool
-    {
-        $comparisonFormat = DateTimeInterface::RFC3339_EXTENDED;
-
-        return $value->format($comparisonFormat) === $otherValue->format($comparisonFormat);
     }
 
     /**

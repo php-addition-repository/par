@@ -39,11 +39,20 @@ final class ValuesEqualsTest extends TestCase
         $dateTime = new \DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-instances' => [$dateTime, $dateTime, true];
 
-        $sameDateTime = new \DateTimeImmutable('2023-11-28 16:16:23');
+        $sameDateTime = new \DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-values' => [$dateTime, $sameDateTime, true];
 
-        $otherDateTime = new \DateTimeImmutable('2023-11-28 16:16:24');
+        $otherDateTime = new \DateTime('2023-11-28 16:16:24');
         yield 'different-datetime-values' => [$dateTime, $otherDateTime, false];
+
+        $dateTime = new \DateTimeImmutable('2023-11-28 16:16:23');
+        yield 'same-datetime-immutable-instances' => [$dateTime, $dateTime, true];
+
+        $sameDateTime = new \DateTimeImmutable('2023-11-28 16:16:23');
+        yield 'same-datetime-immutable-values' => [$dateTime, $sameDateTime, true];
+
+        $otherDateTime = new \DateTimeImmutable('2023-11-28 16:16:24');
+        yield 'different-datetime-immutable-values' => [$dateTime, $otherDateTime, false];
     }
 
     public static function provideForEqualsOneOf(): iterable

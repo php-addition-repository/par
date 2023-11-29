@@ -1,6 +1,4 @@
-# PHP Addition Repository
-
-## Documentation
+# PHP Addition Repository - Docs
 
 Documentation can be found [here](https://php-addition-repository.github.io/)
 
