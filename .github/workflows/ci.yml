@@ -1,0 +1,57 @@
+name: "CI"
+
+on:
+  push:
+    paths:
+      - "**.php"
+      - "composer.json"
+      - "phpunit.xml"
+      - "psalm.xml"
+      - ".github/workflows/ci.yml"
+
+jobs:
+  supported-versions-matrix:
+    name: Supported PHP Versions Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.supported-versions-matrix.outputs.version }}
+    steps:
+      - name: Check out the repository to the runner
+        uses: "actions/checkout@v4"
+      - id: supported-versions-matrix
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+
+  run:
+    name: "PHP ${{ matrix.php }}"
+    runs-on: ubuntu-latest
+    needs:
+      - supported-versions-matrix
+    strategy:
+      matrix:
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
+
+    steps:
+      - name: Check out the repository to the runner
+        uses: "actions/checkout@v4"
+
+      - name: Setup PHP
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+          #extensions: ${{ join(fromJson(needs.supported-versions-matrix.outputs.extensions), ',') }}
+
+      - name: Composer install
+        uses: "ramsey/composer-install@v2"
+
+      - name: Composer validate
+        run: composer validate --strict
+
+      - name: Run psalm
+        run: ./vendor/bin/psalm --output-format=github
+
+      - name: Configure phpunit github matchers
+        uses: mheap/phpunit-matcher-action@v1
+
+      - name: Run phpunit
+        run: ./vendor/bin/phpunit --teamcity
