@@ -12,10 +12,29 @@ use PHPUnit\Framework\TestCase;
 
 final class ValuesEqualsTest extends TestCase
 {
-    public static function provideForEquality(): iterable
+    public static function provideForEquals(): iterable
     {
-        yield 'same-scalar' => ['foo', 'foo', true];
-        yield 'different-scalar' => ['foo', 1, false];
+        $valueTypes = [
+            'string' => ['foo', 'bar'],
+            'int' => [1, 2],
+            'float' => [0.1, 0.2],
+            'bool' => [true, false],
+            'array' => [['foo'], ['bar']],
+            'object' => [new \stdClass(), new \stdClass()],
+            'object-equality' => [new ScalarValueObject('foo'), new ScalarValueObject('bar')],
+        ];
+
+        foreach ($valueTypes as $type => $values) {
+            foreach ($values as $key => $value) {
+                if ($key === 0) {
+                    yield 'same-' . $type . '-value' => [$value, $value, true];
+                } else {
+                    yield 'different-' . $type . '-value' => [$values[0], $value, false];
+                }
+            }
+
+            yield $type . '-vs-null' => [$values[0], null, false];
+        }
 
         $dateTime = new \DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-instances' => [$dateTime, $dateTime, true];
@@ -25,24 +44,65 @@ final class ValuesEqualsTest extends TestCase
 
         $otherDateTime = new \DateTimeImmutable('2023-11-28 16:16:24');
         yield 'different-datetime-values' => [$dateTime, $otherDateTime, false];
+    }
 
-        $valueObject = new ScalarValueObject('foo');
-        yield 'same-object-equality-instances' => [$valueObject, $valueObject, true];
+    public static function provideForEqualsOneOf(): iterable
+    {
+        $list = [1, 2, 'bar', 3, 4, 'baz', null, new \stdClass()];
 
-        $sameValueObject = new ScalarValueObject('foo');
-        yield 'same-object-equality-values' => [$valueObject, $sameValueObject, true];
+        yield 'in-mixed-list' => [3, $list, true];
+        yield 'not-in-mixed-list' => ['foo', $list, false];
 
-        $otherValueObject = new ScalarValueObject(1);
-        yield 'different-object-equality-values' => [$valueObject, $otherValueObject, false];
+        yield 'in-object-equality-list' => [
+            new ScalarValueObject('foo'),
+            [
+                new ScalarValueObject('bar'),
+                new ScalarValueObject('foo'),
+                new ScalarValueObject('baz')
+            ],
+            true
+        ];
+
+        yield 'not-in-object-equality-list' => [
+            new ScalarValueObject('foobar'),
+            [
+                new ScalarValueObject('bar'),
+                new ScalarValueObject('foo'),
+                new ScalarValueObject('baz')
+            ],
+            false
+        ];
+
+        yield 'no-other-values' => [1, [], false];
     }
 
     #[Test]
-    #[DataProvider("provideForEquality")]
+    #[DataProvider("provideForEquals")]
     public function itCanDetermineIfTwoValuesShouldBeConsideredEqual(
         mixed $value,
         mixed $otherValue,
         bool $expectedEqual
     ): void {
         $this->assertEquals($expectedEqual, Values::equals($value, $otherValue));
+    }
+
+    #[Test]
+    #[DataProvider("provideForEqualsOneOf")]
+    public function itCanDetermineIfValueShouldBeConsideredEqualToOneOfOtherValues(
+        mixed $value,
+        array $otherValues,
+        bool $expectedEqual
+    ): void {
+        $this->assertEquals($expectedEqual, Values::equalsOneOf($value, ...$otherValues));
+    }
+
+    #[Test]
+    #[DataProvider("provideForEqualsOneOf")]
+    public function itCanDetermineIfValueShouldBeConsideredEqualToNoneOfOtherValues(
+        mixed $value,
+        array $otherValues,
+        bool $expectedEqual
+    ): void {
+        $this->assertNotEquals($expectedEqual, Values::equalsNoneOf($value, ...$otherValues));
     }
 }
