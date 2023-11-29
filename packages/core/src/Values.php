@@ -59,4 +59,44 @@ final class Values
 
         return $value->format($comparisonFormat) === $otherValue->format($comparisonFormat);
     }
+
+    /**
+     * Determines if a value should be considered equal to __one__ or __more__ other values.
+     *
+     * @param mixed $value The value to test
+     * @param mixed ...$otherValues The other values with which to compare
+     * @return bool True if value should be considered equal to one or more of the other values
+     *
+     * @psalm-mutation-free
+     */
+    public static function equalsOneOf(mixed $value, mixed ...$otherValues): bool
+    {
+        foreach ($otherValues as $otherValue) {
+            if (self::equals($value, $otherValue)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines if a value should be considered equal to __none__ of the other values.
+     *
+     * @param mixed $value The value to test
+     * @param mixed ...$otherValues The other values with which to compare
+     * @return bool True if value should be considered equal to none of the other values
+     *
+     * @psalm-mutation-free
+     */
+    public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
+    {
+        foreach ($otherValues as $otherValue) {
+            if (self::equals($value, $otherValue)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
