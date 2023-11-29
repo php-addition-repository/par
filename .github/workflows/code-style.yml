@@ -26,5 +26,4 @@ jobs:
         uses: "ramsey/composer-install@v2"
 
       - name: Run phpcs
-        run: |
-          vendor/bin/phpcs --report=checkstyle -q | cs2pr
+        run: ./vendor/bin/phpcs --report=checkstyle -q | cs2pr
