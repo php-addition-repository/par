@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Par\CoreTest\Unit\PHPUnit;
+namespace Par\CoreTest\Unit;
 
 use Par\Core\Values;
 use Par\CoreTest\Fixtures\ScalarValueObject;
