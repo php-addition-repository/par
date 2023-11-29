@@ -25,6 +25,6 @@ jobs:
       - name: Composer install
         uses: "ramsey/composer-install@v2"
 
-      - name: Send feedback on Github
+      - name: Run phpcs
         run: |
           vendor/bin/phpcs --report=checkstyle -q | cs2pr
