@@ -9,7 +9,7 @@
         <output>build/docs</output>
         <cache>build/.cache/docs</cache>
     </paths>
-    <version number="latest">
+    <version number="1.0">
         <folder>latest</folder>
         <api>
             <source dsn=".">
