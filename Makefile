@@ -21,6 +21,15 @@ test:
 docs:
 	docker run --rm --volume $(TOPDIR):/data phpdoc/phpdoc:3 project:run
 
+release/major:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release major
+
+release/minor:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release minor
+
+release/patch:
+	$(DOCKER_COMPOSE) run workspace monorepo-builder release patch
+
 ~/.cache/composer:
 	mkdir ~/.cache/composer
 
