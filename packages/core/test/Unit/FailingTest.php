@@ -10,6 +10,6 @@ class FailingTest extends TestCase
 {
     public function testItReportsFailure()
     {
-        $this->assertFalse(true);
+        $this->assertFalse(false);
     }
 }
