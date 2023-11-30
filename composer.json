@@ -25,7 +25,7 @@
         }
     ],
     "replace": {
-        "par/core": "0.1.0"
+        "par/core": "*"
     },
     "config": {
         "sort-packages": true,
@@ -35,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.1.x-dev"
+            "dev-main": "0.0.x-dev"
         }
     },
     "require-dev": {
