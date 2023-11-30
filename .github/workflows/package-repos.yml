@@ -1,4 +1,4 @@
-name: 'Packages'
+name: 'Update package repositories'
 
 on:
   push:
@@ -11,39 +11,13 @@ env:
   GITHUB_TOKEN: "x-access-token:${{ secrets.MONOREPO_GIT_TOKEN }}"
 
 jobs:
-  provide_packages_json:
-    # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository to the runner
-        uses: "actions/checkout@v4"
-
-      - name: Setup PHP
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "8.1"
-          tools: none
-
-      - name: Composer install
-        uses: "ramsey/composer-install@v2"
-
-      # get package json list
-      - id: packages
-        run: echo "packages=$(vendor/bin/monorepo-builder packages-json --exclude-package docs)" >> $GITHUB_OUTPUT
-
-    # this step is needed, so the output gets to the next defined job
-    outputs:
-      packages: ${{ steps.packages.outputs.packages }}
-
-  split_monorepo:
-    needs: provide_packages_json
-
+  run:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJson(needs.provide_packages_json.outputs.packages) }}
+        package:
+          - core
 
     steps:
       - name: Check out the repository to the runner
