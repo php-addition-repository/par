@@ -21,17 +21,17 @@ test:
 docs:
 	docker run --rm --volume $(TOPDIR):/data phpdoc/phpdoc:3 project:run
 
+release/major: export GITHUB_TOKEN := $(shell gh auth token)
 release/major:
-	$(DOCKER_COMPOSE) run workspace monorepo-builder release major
+	$(DOCKER_COMPOSE) run --env GITHUB_TOKEN workspace monorepo-builder release major
 
-github-token:
-	export GITHUB_TOKEN := $(shell gh auth token)
+release/minor: export GITHUB_TOKEN := $(shell gh auth token)
+release/minor:
+	$(DOCKER_COMPOSE) run --env GITHUB_TOKEN workspace monorepo-builder release minor
 
-release/minor: github-token
-	$(DOCKER_COMPOSE) run workspace monorepo-builder release minor
-
+release/patch: export GITHUB_TOKEN := $(shell gh auth token)
 release/patch:
-	$(DOCKER_COMPOSE) run workspace monorepo-builder release patch
+	$(DOCKER_COMPOSE) run --env GITHUB_TOKEN workspace monorepo-builder release patch
 
 ~/.cache/composer:
 	mkdir ~/.cache/composer
