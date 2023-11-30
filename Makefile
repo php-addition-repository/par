@@ -24,7 +24,8 @@ docs:
 release/major:
 	$(DOCKER_COMPOSE) run workspace monorepo-builder release major
 
-github-token: export GITHUB_TOKEN := $(shell gh auth token)
+github-token:
+	export GITHUB_TOKEN := $(shell gh auth token)
 
 release/minor: github-token
 	$(DOCKER_COMPOSE) run workspace monorepo-builder release minor
