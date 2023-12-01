@@ -33,6 +33,10 @@ release/patch: export GITHUB_TOKEN := $(shell gh auth token)
 release/patch:
 	$(DOCKER_COMPOSE) run --env GITHUB_TOKEN workspace monorepo-builder release patch
 
+release: export GITHUB_TOKEN := $(shell gh auth token)
+release:
+	$(DOCKER_COMPOSE) run --env GITHUB_TOKEN workspace monorepo-builder release $(version)
+
 ~/.cache/composer:
 	mkdir ~/.cache/composer
 
