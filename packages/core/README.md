@@ -1,6 +1,6 @@
 # PHP Addition Repository - Core
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/php-addition-repository/core?sort=semver)](https://github.com/php-addition-repository/core/releases)
+[![GitHub tag](https://img.shields.io/github/v/tag/php-addition-repository/core)](https://github.com/php-addition-repository/core/tags)
 [![Packagist Downloads](https://img.shields.io/packagist/dm/par/core)](https://packagist.org/packages/par/core)
 
 Core structures and helpers.
