@@ -1,13 +1,6 @@
 name: "CI"
 
-on:
-  push:
-    paths:
-      - "**.php"
-      - "composer.json"
-      - "phpunit.xml.dist"
-      - "psalm.xml"
-      - ".github/workflows/ci.yml"
+on: [ push ]
 
 jobs:
   supported-versions-matrix:
