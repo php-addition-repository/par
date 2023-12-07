@@ -56,6 +56,25 @@ final class Values
     }
 
     /**
+     * @param mixed    $value
+     * @param iterable $otherValues
+     * @param bool     $onMatch
+     *
+     * @return bool
+     * @psalm-mutation-free
+     */
+    private static function containsValue(mixed $value, iterable $otherValues, bool $onMatch = true): bool
+    {
+        foreach ($otherValues as $otherValue) {
+            if (self::equals($value, $otherValue)) {
+                return $onMatch;
+            }
+        }
+
+        return !$onMatch;
+    }
+
+    /**
      * Determines if a value should be considered equal to __one__ or __more__ other values.
      *
      * Usage:
@@ -74,13 +93,7 @@ final class Values
      */
     public static function equalsOneOf(mixed $value, mixed ...$otherValues): bool
     {
-        foreach ($otherValues as $otherValue) {
-            if (self::equals($value, $otherValue)) {
-                return true;
-            }
-        }
-
-        return false;
+        return self::equalsOneIn($value, $otherValues);
     }
 
     /**
@@ -98,16 +111,57 @@ final class Values
      *
      * @psalm-mutation-free
      * @see Values::equals
-     *
      */
     public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
     {
-        foreach ($otherValues as $otherValue) {
-            if (self::equals($value, $otherValue)) {
-                return false;
-            }
-        }
+        return self::equalsNoneIn($value, $otherValues);
+    }
 
-        return true;
+    /**
+     * Determines if a value should be considered equal to __one__ of the items in the list of other values.
+     *
+     * Usage:
+     * ```php
+     * if (Values::equalsOneIn($a, [$b, $c])) {
+     *     // When equal to $b or $c
+     * }
+     * ```
+     *
+     * @see Values::equals
+     *
+     * @param iterable $otherValues The list of other values with which to compare
+     * @param mixed    $value The value to test
+     *
+     * @return bool True if value should be considered equal to one of the items in the list of other values
+     *
+     * @psalm-mutation-free
+     */
+    public static function equalsOneIn(mixed $value, iterable $otherValues): bool
+    {
+        return self::containsValue($value, $otherValues);
+    }
+
+    /**
+     * Determines if a value should be considered equal to __none__ of the items in the list of other values.
+     *
+     * Usage:
+     * ```php
+     * if (Values::equalsNoneIn($a, [$b, $c])) {
+     *     // When not equal to $b and $c
+     * }
+     * ```
+     *
+     * @see Values::equals
+     *
+     * @param iterable $otherValues The list of other values with which to compare
+     * @param mixed    $value The value to test
+     *
+     * @return bool True if value should be considered equal to none of the items in the list of other values
+     *
+     * @psalm-mutation-free
+     */
+    public static function equalsNoneIn(mixed $value, iterable $otherValues): bool
+    {
+        return self::containsValue($value, $otherValues, false);
     }
 }

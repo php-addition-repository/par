@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ValuesEqualsTest extends TestCase
 {
-    public static function provideForEquals(): iterable
+    public static function equalsProvider(): iterable
     {
         $valueTypes = [
             'string' => ['foo', 'bar'],
@@ -36,6 +36,8 @@ final class ValuesEqualsTest extends TestCase
             yield $type . '-vs-null' => [$values[0], null, false];
         }
 
+        yield 'null-vs-object-equality' => [null, new ScalarValueObject('foo'), false];
+
         $dateTime = new \DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-instances' => [$dateTime, $dateTime, true];
 
@@ -55,7 +57,7 @@ final class ValuesEqualsTest extends TestCase
         yield 'different-datetime-immutable-values' => [$dateTime, $otherDateTime, false];
     }
 
-    public static function provideForEqualsOneOf(): iterable
+    public static function equalsOneOfProvider(): iterable
     {
         $list = [1, 2, 'bar', 3, 4, 'baz', null, new \stdClass()];
 
@@ -86,7 +88,7 @@ final class ValuesEqualsTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("provideForEquals")]
+    #[DataProvider("equalsProvider")]
     public function itCanDetermineIfTwoValuesShouldBeConsideredEqual(
         mixed $value,
         mixed $otherValue,
@@ -96,22 +98,24 @@ final class ValuesEqualsTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("provideForEqualsOneOf")]
+    #[DataProvider("equalsOneOfProvider")]
     public function itCanDetermineIfValueShouldBeConsideredEqualToOneOfOtherValues(
         mixed $value,
         array $otherValues,
         bool $expectedEqual
     ): void {
         $this->assertEquals($expectedEqual, Values::equalsOneOf($value, ...$otherValues));
+        $this->assertEquals($expectedEqual, Values::equalsOneIn($value, $otherValues));
     }
 
     #[Test]
-    #[DataProvider("provideForEqualsOneOf")]
+    #[DataProvider("equalsOneOfProvider")]
     public function itCanDetermineIfValueShouldBeConsideredEqualToNoneOfOtherValues(
         mixed $value,
         array $otherValues,
         bool $expectedEqual
     ): void {
         $this->assertNotEquals($expectedEqual, Values::equalsNoneOf($value, ...$otherValues));
+        $this->assertNotEquals($expectedEqual, Values::equalsNoneIn($value, $otherValues));
     }
 }
