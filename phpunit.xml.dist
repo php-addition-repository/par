@@ -17,6 +17,6 @@
     </source>
 
     <extensions>
-        <bootstrap class="\Par\Core\PHPUnit\ObjectEqualityExtension"/>
+        <bootstrap class="\Par\Core\PHPUnit\CoreExtension"/>
     </extensions>
 </phpunit>
