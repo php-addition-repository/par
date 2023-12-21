@@ -9,6 +9,9 @@ init: .docker/.env ~/.cache/composer
 setup: init
 	$(DOCKER_COMPOSE) run workspace composer install
 
+docker/rebuild:
+	$(DOCKER_COMPOSE) build
+
 workspace: init
 	$(DOCKER_COMPOSE) run --interactive workspace bash
 
