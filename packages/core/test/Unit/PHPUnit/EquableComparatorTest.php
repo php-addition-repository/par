@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\PHPUnit;
 
-use Par\Core\ObjectEquality;
-use Par\Core\PHPUnit\ObjectEqualityComparator;
+use Par\Core\Equable;
+use Par\Core\PHPUnit\EquableComparator;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
-final class ObjectEqualityComparatorTest extends TestCase
+final class EquableComparatorTest extends TestCase
 {
     #[Test]
     public function itAcceptsWhenExpectedOrActualIsInstanceOfObjectEqualityInterface(): void
     {
-        $comparator = new ObjectEqualityComparator();
+        $comparator = new EquableComparator();
 
-        $objectEqualityMock = $this->createMock(ObjectEquality::class);
+        $objectEqualityMock = $this->createMock(Equable::class);
 
         $this->assertTrue($comparator->accepts($objectEqualityMock, 'bar'));
         $this->assertTrue($comparator->accepts('bar', $objectEqualityMock));
@@ -27,13 +27,13 @@ final class ObjectEqualityComparatorTest extends TestCase
     #[Test]
     public function ttCanAssertEquality(): void
     {
-        $comparator = new ObjectEqualityComparator();
+        $comparator = new EquableComparator();
 
-        $objectEqualityMock = $this->createMock(ObjectEquality::class);
+        $objectEqualityMock = $this->createMock(Equable::class);
         $objectEqualityMock->method('equals')->willReturnOnConsecutiveCalls(true, true, true, false);
 
         $comparator->assertEquals($objectEqualityMock, 'foo');
-        $comparator->assertEquals('foo', $objectEqualityMock);
+        $comparator->assertEquals(1, $objectEqualityMock);
         $comparator->assertEquals($objectEqualityMock, $objectEqualityMock);
 
         $this->expectException(ComparisonFailure::class);

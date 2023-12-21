@@ -4,34 +4,40 @@ declare(strict_types=1);
 
 namespace Par\Core\PHPUnit;
 
-use Par\Core\ObjectEquality;
+use Par\Core\Equable;
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Exporter\Exporter;
 
-final class ObjectEqualityComparator extends Comparator
+final class EquableComparator extends Comparator
 {
     public function accepts(mixed $expected, mixed $actual): bool
     {
-        return $expected instanceof ObjectEquality || $actual instanceof ObjectEquality;
+        return $expected instanceof Equable || $actual instanceof Equable;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @param mixed|Equable $expected
+     * @param mixed|Equable $actual
+     */
     public function assertEquals(
         mixed $expected,
         mixed $actual,
         float $delta = 0.0,
         bool $canonicalize = false,
         bool $ignoreCase = false
-    ): void {
-        $right = $expected;
-        $left = $actual;
-
-        if ($expected instanceof ObjectEquality) {
+    ): void
+    {
+        if ($expected instanceof Equable) {
             $left = $expected;
             $right = $actual;
+        } else {
+            $right = $expected;
+            /** @var Equable $actual */
+            $left = $actual;
         }
-
-        assert($left instanceof ObjectEquality);
 
         if (!$left->equals($right)) {
             $exporter = new Exporter();

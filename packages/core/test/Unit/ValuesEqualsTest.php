@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Par\CoreTest\Unit;
 
 use Par\Core\Values;
-use Par\CoreTest\Fixtures\ScalarValueObject;
+use Par\CoreTest\Fixtures\EquableScalarObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ final class ValuesEqualsTest extends TestCase
             'bool' => [true, false],
             'array' => [['foo'], ['bar']],
             'object' => [new \stdClass(), new \stdClass()],
-            'object-equality' => [new ScalarValueObject('foo'), new ScalarValueObject('bar')],
+            'object-equality' => [new EquableScalarObject('foo'), new EquableScalarObject('bar')],
         ];
 
         foreach ($valueTypes as $type => $values) {
@@ -36,7 +36,7 @@ final class ValuesEqualsTest extends TestCase
             yield $type . '-vs-null' => [$values[0], null, false];
         }
 
-        yield 'null-vs-object-equality' => [null, new ScalarValueObject('foo'), false];
+        yield 'null-vs-object-equality' => [null, new EquableScalarObject('foo'), false];
 
         $dateTime = new \DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-instances' => [$dateTime, $dateTime, true];
@@ -65,21 +65,21 @@ final class ValuesEqualsTest extends TestCase
         yield 'not-in-mixed-list' => ['foo', $list, false];
 
         yield 'in-object-equality-list' => [
-            new ScalarValueObject('foo'),
+            new EquableScalarObject('foo'),
             [
-                new ScalarValueObject('bar'),
-                new ScalarValueObject('foo'),
-                new ScalarValueObject('baz')
+                new EquableScalarObject('bar'),
+                new EquableScalarObject('foo'),
+                new EquableScalarObject('baz')
             ],
             true
         ];
 
         yield 'not-in-object-equality-list' => [
-            new ScalarValueObject('foobar'),
+            new EquableScalarObject('foobar'),
             [
-                new ScalarValueObject('bar'),
-                new ScalarValueObject('foo'),
-                new ScalarValueObject('baz')
+                new EquableScalarObject('bar'),
+                new EquableScalarObject('foo'),
+                new EquableScalarObject('baz')
             ],
             false
         ];
@@ -104,8 +104,8 @@ final class ValuesEqualsTest extends TestCase
         array $otherValues,
         bool $expectedEqual
     ): void {
-        $this->assertEquals($expectedEqual, Values::equalsOneOf($value, ...$otherValues));
-        $this->assertEquals($expectedEqual, Values::equalsOneIn($value, $otherValues));
+        $this->assertEquals($expectedEqual, Values::equalsAnyOf($value, ...$otherValues));
+        $this->assertEquals($expectedEqual, Values::equalsAnyIn($value, $otherValues));
     }
 
     #[Test]
