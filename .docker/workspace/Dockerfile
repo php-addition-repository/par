@@ -54,7 +54,7 @@ ARG PHP_EXTENSION_INSTALLER_VERSION=1.5.42
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/${PHP_EXTENSION_INSTALLER_VERSION}/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
-    && install-php-extensions curl json mbstring intl xdebug-^3.1
+    && install-php-extensions curl json mbstring intl xdebug-^3.1 opcache
 
 # php config
 #COPY ${SERVICE_DIR}/config/php/conf.d/*  /usr/local/etc/php/conf.d/
