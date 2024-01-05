@@ -32,7 +32,7 @@ final class Values
      * @param mixed $otherValue The other value with which to compare
      *
      * @return bool True if both values should be considered equal
-     * @psalm-mutation-free
+     * @psalm-pure
      */
     public static function equals(mixed $value, mixed $otherValue): bool
     {
