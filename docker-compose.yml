@@ -20,8 +20,8 @@ services:
         target: /home/app/.gitconfig
         type: bind
         read_only: true
-      -   source: ~/.cache
-          target: /home/app/.cache
+      - source: ~/.cache
+        target: /home/app/.cache
         type: bind
       - source: .
         target: /app
