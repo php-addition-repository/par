@@ -15,7 +15,8 @@
     },
     "require": {
         "php": "^8.1",
-        "loophp/iterables": "^3.0"
+        "loophp/iterables": "^3.0",
+        "webmozart/assert": "^1.11"
     },
     "autoload": {
         "psr-4": {
