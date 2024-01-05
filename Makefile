@@ -70,6 +70,8 @@ githooks: ## Configure githooks
 	@$(call MK_NOTIFY,"Configuring githooks")
 	@git config -f "$(HERE)/.git/config" core.hooksPath "$(HERE)/.githooks"
 
+workspace: docker/workspace ## Alias for docker/workspace
+
 ##@ Tools
 
 qa: phpunit psalm phpcs ## Run all QA tools
