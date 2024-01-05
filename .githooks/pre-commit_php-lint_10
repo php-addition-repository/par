@@ -67,7 +67,7 @@ foreach ($files as $file) {
     );
     $result = 0;
     exec($cmd, $output, $result);
-    if (-1 === $result) {
+    if (0 !== $result) {
         foreach ($output as $line) {
             if (empty($line)) {
                 continue;
