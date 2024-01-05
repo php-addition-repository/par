@@ -8,5 +8,4 @@ use RuntimeException as NativeRuntimeException;
 
 abstract class RuntimeException extends NativeRuntimeException implements ExceptionInterface
 {
-
 }

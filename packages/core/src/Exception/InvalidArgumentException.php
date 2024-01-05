@@ -8,5 +8,4 @@ use InvalidArgumentException as NativeInvalidArgumentException;
 
 abstract class InvalidArgumentException extends NativeInvalidArgumentException implements ExceptionInterface
 {
-
 }

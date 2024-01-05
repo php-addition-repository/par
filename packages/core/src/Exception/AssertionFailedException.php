@@ -6,5 +6,4 @@ namespace Par\Core\Exception;
 
 final class AssertionFailedException extends InvalidArgumentException
 {
-
 }
