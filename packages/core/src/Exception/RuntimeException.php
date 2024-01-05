@@ -6,7 +6,7 @@ namespace Par\Core\Exception;
 
 use RuntimeException as NativeRuntimeException;
 
-class RuntimeException extends NativeRuntimeException implements ExceptionInterface
+abstract class RuntimeException extends NativeRuntimeException implements ExceptionInterface
 {
 
 }
