@@ -94,7 +94,7 @@ if (0 === $exitStatus) {
     echo " <3 All files lint free.\n\n";
 } else {
     echo "-----------------------------------------\n";
-    echo " Please fix all errors before commiting.\n";
+    echo " Please fix all errors before committing.\n";
     echo "-----------------------------------------\n\n";
     # End and abort
     exit($exitStatus);
