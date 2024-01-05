@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Par\CoreTest\Unit\Comparison;
+
+use Par\Core\Comparison\CallableComparator;
+use Par\Core\Comparison\Order;
+use Par\Core\Comparison\ThenComparator;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
+
+final class ThenComparatorTest extends TestCase
+{
+    #[Test]
+    public function itReturnsDecoratedWhenReversed(): void
+    {
+        $comparator = new ThenComparator(
+            new CallableComparator(static fn(array $left, array $right) => $left[0] <=> $right[0]),
+            new CallableComparator(static fn(array $left, array $right) => $left[1] <=> $right[1]),
+        );
+
+        $this->assertEquals(Order::Equal, $comparator->compare([1, 2], [1, 2]));
+        $this->assertEquals(Order::Lesser, $comparator->compare([1, 2], [1, 1]));
+        $this->assertEquals(Order::Greater, $comparator->compare([2, 1], [2, 2]));
+    }
+}
