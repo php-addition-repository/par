@@ -9,6 +9,7 @@ use loophp\iterators\IterableIteratorAggregate;
 use loophp\iterators\MultipleIterableAggregate;
 use loophp\iterators\PackIterableAggregate;
 use MultipleIterator;
+use Par\Core\Assert;
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Exporter\Exporter;
@@ -36,9 +37,8 @@ final class IterableComparator extends Comparator
         bool $ignoreCase = false,
         array &$processed = []
     ): void {
-        // TODO should not use native assert
-        assert(is_iterable($expected));
-        assert(is_iterable($actual));
+        Assert::isIterable($expected);
+        Assert::isIterable($actual);
 
         // don't compare twice to allow for cyclic dependencies
         if (
