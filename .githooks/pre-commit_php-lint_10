@@ -2,8 +2,7 @@
 <?php
 
 /**
- * Git Hook to disallow PHP syntax errors to be committed
- * by running php -l (PHP Lint) on yet-to-be-committed files.
+ * Git Hook to disallow PHP syntax errors to be committed by running php -l (PHP Lint) on yet-to-be-committed files.
  */
 
 # Fetch current commit state
