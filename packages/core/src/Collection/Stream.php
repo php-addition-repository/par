@@ -309,7 +309,7 @@ final class Stream implements Collection
     /**
      * TODO
      *
-     * @param callable(TValue): bool $predicate TODO
+     * @param pure-callable(TValue): bool $predicate TODO
      *
      * @return bool
      */
