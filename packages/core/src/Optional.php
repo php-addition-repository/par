@@ -126,9 +126,11 @@ final class Optional implements Equable
      *
      * @return TValue
      * @throws NoSuchElementException if no value is present
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function get(): mixed
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->orElseThrow();
     }
 
@@ -243,11 +245,12 @@ final class Optional implements Equable
      *
      * If no supplying function is provided a default supplier will be used that returns a `NoSuchElementException`.
      *
-     * @template T of Throwable
-     * @param callable():T|null $exceptionSupplier the supplying function that produces an exception to be thrown
+     * @param callable():Throwable|null $exceptionSupplier the supplying function that produces an exception to be
+     *     thrown
      *
      * @return TValue
-     * @throws Throwable|NoSuchElementException
+     * @throws NoSuchElementException if no value is present and no `$exceptionSupplier` is provided
+     * @throws Throwable if no value is present and a `$exceptionSupplier` is provided
      */
     public function orElseThrow(callable $exceptionSupplier = null): mixed
     {
