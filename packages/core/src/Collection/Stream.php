@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Par\Core\Collection;
 
+use Countable;
 use Generator;
+use IteratorAggregate;
 use loophp\collection\Collection as CollectionFactory;
 use loophp\collection\Contract\Collection as CollectionInterface;
 use loophp\collection\Contract\Operation\Sortable;
@@ -12,15 +14,16 @@ use loophp\collection\Operation\MatchOne;
 use Par\Core\Assert;
 use Par\Core\Comparison\Comparator;
 use Par\Core\Comparison\Comparators;
+use Par\Core\Exception\InvalidArgumentException;
 use Par\Core\Optional;
 use Traversable;
 
 /**
  * @immutable
  * @template TValue
- * @implements Collection<int, TValue>
+ * @implements IteratorAggregate<int, TValue>
  */
-final class Stream implements Collection
+final class Stream implements IteratorAggregate, Countable
 {
     /**
      * @param CollectionInterface<int, TValue> $innerCollection
