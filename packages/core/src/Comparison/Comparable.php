@@ -9,7 +9,7 @@ use Par\Core\Comparison\Exception\IncomparableException;
 /**
  * This interface imposes a total ordering on the objects of each class that implements it.
  *
- * @template TValue
+ * @template TValue of object
  */
 interface Comparable
 {
@@ -24,12 +24,12 @@ interface Comparable
      * $a->equals($b)`. Generally speaking, any class that implements the `Par\Core\Comparison\Comparable` interface
      * and violates this condition should clearly state this fact.
      *
-     * @param TValue|mixed          $other
+     * @param TValue|null $other
      *
      * @return Order The order of other in comparison to this
      * @throws IncomparableException if other value cannot be compared to this
      * @psalm-mutation-free
      * @psalm-assert-if-true TValue $other
      */
-    public function compare(mixed $other): Order;
+    public function compare(?object $other): Order;
 }
