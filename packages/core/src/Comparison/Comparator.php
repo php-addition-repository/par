@@ -26,6 +26,8 @@ interface Comparator
     public function compare(mixed $v1, mixed $v2): Order;
 
     /**
+     * Returns a comparator that imposes the reverse ordering of this comparator.
+     *
      * @return Comparator<TValue>
      * @psalm-mutation-free
      */
