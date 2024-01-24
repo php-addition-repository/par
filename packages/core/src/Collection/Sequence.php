@@ -7,8 +7,8 @@ namespace Par\Core\Collection;
 use Par\Core\Exception\IndexOutOfBoundsException;
 
 /**
- * An ordered collection, where the user can access elements by their integer index (position in the list), and search
- * for elements in the list.
+ * An ordered collection, where the user can access elements by their integer index (position in the sequence), and
+ * search for elements in the sequence.
  *
  * Some languages refer to this as a `List`.
  *
