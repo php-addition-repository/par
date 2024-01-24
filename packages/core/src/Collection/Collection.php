@@ -20,8 +20,56 @@ use Traversable;
 interface Collection extends IteratorAggregate, Countable
 {
     /**
+     * Returns true if this sequence contains the specified element.
+     *
+     * More formally, returns true if and only if this sequence contains at least one element `$e` such that
+     * `Values.equals($element, $e)`.
+     *
+     * @param mixed $element element whose presence in this vector is to be tested
+     *
+     * @return bool `true` if this vector contains the specified element
+     */
+    public function contains(mixed $element): bool;
+
+    /**
+     * Returns true if this Vector contains all of the elements in the specified iterable.
+     *
+     * @param iterable $elements an iterable whose elements will be tested for containment in this Vector
+     *
+     * @return bool `true` if this vector contains all the elements from the specified iterable
+     */
+    public function containsAll(iterable $elements): bool;
+
+    /**
      * {@inheritDoc}
      * @return Traversable<TKey, TValue>
      */
     public function getIterator(): Traversable;
+
+    /**
+     * Returns `true` if this collection contains no elements.
+     *
+     * The implementation behind this method might be more optimized then `count($this) === 0` since counting the
+     * collection could require iterating over all elements.
+     *
+     * @return bool `true` if this collection contains no elements
+     */
+    public function isEmpty(): bool;
+
+    /**
+     * Returns a Stream with this collection as its source.
+     *
+     * @return Stream<TValue>
+     */
+    public function stream(): Stream;
+
+    /**
+     * Returns an array containing all of the elements in this collection.
+     *
+     * If this collection makes any guarantees as to what order its elements are returned by its iterator, this method
+     * must return the elements in the same order.
+     *
+     * @return array<TKey, TValue> An array representation of this collection
+     */
+    public function toArray(): array;
 }
