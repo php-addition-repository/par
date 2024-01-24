@@ -12,7 +12,7 @@ namespace Par\Core;
  * other value types which is confusing. By implementing this interface on the objects that require comparison you can
  * use `$a->equals($b)` and you have all the control.
  *
- * @template TValue Type of value that could be considered equal.
+ * @template TValue of object Type of value that could be considered equal.
  */
 interface Equable
 {
@@ -32,13 +32,13 @@ interface Equable
      * }
      * ```
      *
-     * @param TValue|mixed          $other The other value with which to compare
+     * @param TValue|null $other The other value with which to compare
      *
-     * @return bool True if this object should be considered equal to other value
+     * @return bool `true` if this object should be considered equal to other value
      * @example packages/core/test/Fixtures/ScalarValueObject.php 15 7 Implementation example
      *
      * @psalm-pure
      * @psalm-assert-if-true TValue $other
      */
-    public function equals(mixed $other): bool;
+    public function equals(?object $other): bool;
 }

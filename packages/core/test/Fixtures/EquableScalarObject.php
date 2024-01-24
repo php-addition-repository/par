@@ -20,7 +20,7 @@ final class EquableScalarObject implements Equable
     {
     }
 
-    public function equals(mixed $other): bool
+    public function equals(?object $other): bool
     {
         if ($other instanceof self) {
             return $other->value === $this->value;
