@@ -23,7 +23,7 @@ interface MutableSequence extends Sequence, MutableSequencedCollection
      *
      * @return static<TValue> This sequence with all its elements in reverse order
      */
-    public function reverse(): static;
+    public function reverse(): self;
 
     /**
      * Replaces the element at the specified position in this sequence with the specified element.
@@ -61,7 +61,7 @@ interface MutableSequence extends Sequence, MutableSequencedCollection
      *
      * @return static<TValue> This sequence with all its elements sorted according to the provided comparator
      */
-    public function sort(callable|Comparator $comparator = null): static;
+    public function sort(callable|Comparator $comparator = null): self;
 
     /**
      * Removes the element at the specified position in this sequence.

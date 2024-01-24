@@ -9,8 +9,10 @@ use IteratorAggregate;
 use Traversable;
 
 /**
- * TODO
- * @template TKey
+ * The root interface in the collection hierarchy. A collection represents a group of objects, known as its elements.
+ * Some collections allow duplicate elements and others do not. Some are ordered, and others are unordered.
+ *
+ * @template TKey of array-key
  * @template TValue
  *
  * @extends IteratorAggregate<TKey, TValue>

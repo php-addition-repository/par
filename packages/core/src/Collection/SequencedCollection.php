@@ -36,7 +36,7 @@ interface SequencedCollection extends Collection
      *
      * @return static<TValue> A new collection with the elements of this collection in reverse order
      */
-    public function reversed(): static;
+    public function reversed(): self;
 
     /**
      * Returns a sorted version of this collection.
@@ -48,5 +48,5 @@ interface SequencedCollection extends Collection
      *
      * @return static<TValue> A new collection with the elements sorted according to the provided comparator
      */
-    public function sorted(callable|Comparator $comparator = null): static;
+    public function sorted(callable|Comparator $comparator = null): self;
 }
