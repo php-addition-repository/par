@@ -215,11 +215,14 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns a stream consisting of the elements of this stream that match the given predicate.
      *
-     * @param callable(TValue): bool $predicate TODO
+     * This is an intermediate operation.
      *
-     * @return static<TValue>
+     * @param pure-callable(TValue): bool $predicate a non-interfering predicate to apply to each element to
+     *     determine if it should be included
+     *
+     * @return static<TValue> The new stream
      */
     public function filter(callable $predicate): Stream
     {
@@ -228,9 +231,11 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Performs an action for each element of this stream.
      *
-     * @param callable(TValue): void $action TODO
+     * This is a terminal operation.
+     *
+     * @param pure-callable(TValue): void $action a non-interfering action to perform on the elements
      *
      * @return void
      */
@@ -249,11 +254,27 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns `true` if this collection contains no elements.
      *
-     * @param int<0, max> $maxSize TODO
+     * The implementation behind this method might be more optimized then `count($this) === 0` since counting the
+     * collection could require iterating over all elements.
      *
-     * @return static<TValue>
+     * @return bool `true` if this collection contains no elements
+     */
+    public function isEmpty(): bool
+    {
+        return $this->anyMatch(static fn(): bool => true);
+    }
+
+    /**
+     * Returns a stream consisting of the elements of this stream, truncated to be no longer than maxSize in length.
+     *
+     * This is an intermediate operation.
+     *
+     * @param int<0, max> $maxSize the number of elements the stream should be limited to
+     *
+     * @return static<TValue> The new stream
+     * @throws InvalidArgumentException if maxSize is negative
      */
     public function limit(int $maxSize): Stream
     {
@@ -266,12 +287,15 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns a stream consisting of the results of applying the given function to the elements of this stream.
+     *
+     * This is an intermediate operation.
+     *
      * @template UValue
      *
-     * @param callable(TValue): UValue $mapper TODO
+     * @param callable(TValue): UValue $mapper a function to apply to each element
      *
-     * @return static<UValue>
+     * @return static<UValue> The new stream
      */
     public function map(callable $mapper): Stream
     {
@@ -280,11 +304,15 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns the maximum element of this stream according to the provided comparator.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator TODO
+     * This is a terminal operation.
      *
-     * @return Optional<TValue>
+     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
+     *     elements of this stream
+     *
+     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
+     *     stream is empty
      */
     public function max(callable|Comparator $comparator = null): Optional
     {
@@ -300,11 +328,15 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns the minimum element of this stream according to the provided comparator.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator TODO
+     * This is a terminal operation.
      *
-     * @return Optional<TValue>
+     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
+     * *     elements of this stream
+     *
+     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
+     *      stream is empty
      */
     public function min(callable|Comparator $comparator = null): Optional
     {
@@ -319,11 +351,17 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns whether no elements of this stream match the provided predicate.
      *
-     * @param pure-callable(TValue): bool $predicate TODO
+     * May not evaluate the predicate on all elements if not necessary for determining the result. If the stream is
+     * empty then true is returned and the predicate is not evaluated.
      *
-     * @return bool
+     * This is a terminal operation.
+     *
+     * @param pure-callable(TValue): bool $predicate a non-interfering predicate to apply to elements of this stream
+     *
+     * @return bool `true` if either no elements of the stream match the provided predicate or the stream is empty,
+     *     otherwise `false`
      */
     public function noneMatch(callable $predicate): bool
     {
@@ -331,11 +369,15 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns a stream consisting of the elements of this stream, additionally performing the provided action on each
+     * element as elements are consumed from the resulting stream.
      *
-     * @param callable(TValue): void $action TODO
+     * This is an intermediate operation.
      *
-     * @return Stream<TValue>
+     * @param pure-callable(TValue): void $action a non-interfering action to perform on the elements as they are
+     *     consumed from the stream
+     *
+     * @return Stream<TValue> The new stream
      */
     public function peek(callable $action): self
     {
@@ -347,11 +389,17 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns a stream consisting of the remaining elements of this stream after discarding the first n elements of
+     * the stream.
      *
-     * @param int<0, max> $num TODO
+     * If this stream contains fewer than n elements then an empty stream will be returned.
      *
-     * @return static<TValue>
+     * This is an intermediate operation.
+     *
+     * @param int<0, max> $num the number of leading elements to skip
+     *
+     * @return static<TValue> The new stream
+     * @throws InvalidArgumentException if num is negative
      */
     public function skip(int $num): Stream
     {
@@ -364,11 +412,14 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Returns a stream consisting of the elements of this stream, sorted according to the provided comparator.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator TODO
+     * This is an intermediate operation.
      *
-     * @return static<TValue>
+     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
+     *     to be used to compare stream elements
+     *
+     * @return static<TValue> The new stream
      */
     public function sorted(callable|Comparator $comparator = null): self
     {
@@ -381,11 +432,23 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * TODO
+     * Transform this stream to an array.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator TODO
+     * This is a terminal operation.
      *
-     * @return callable(TValue, TValue): int<-1, 1>
+     * @return TValue[]
+     */
+    public function toArray(): array
+    {
+        return $this->innerCollection->all();
+    }
+
+    /**
+     * Transforms a comparator to a callable that can be used by the internal collection.
+     *
+     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator The comparator to transform
+     *
+     * @return pure-callable(TValue, TValue): int<-1, 1>
      */
     private function toInnerComparator(callable|Comparator $comparator = null): callable
     {
