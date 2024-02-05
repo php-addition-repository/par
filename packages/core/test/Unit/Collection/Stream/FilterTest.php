@@ -8,6 +8,9 @@ use Par\Core\Collection\Stream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class FilterTest extends TestCase
 {
     #[Test]
@@ -15,6 +18,6 @@ final class FilterTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals([1, 2], $stream->filter(static fn(int $value): bool => $value < 3));
+        self::assertEquals([1, 2], $stream->filter(static fn(int $value): bool => $value < 3));
     }
 }

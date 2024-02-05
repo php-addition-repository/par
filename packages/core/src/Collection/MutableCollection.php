@@ -9,6 +9,7 @@ namespace Par\Core\Collection;
  *
  * @template TKey of array-key
  * @template TValue
+ *
  * @extends Collection<TKey, TValue>
  */
 interface MutableCollection extends Collection
@@ -17,8 +18,6 @@ interface MutableCollection extends Collection
      * Appends the specified element to the end of this list (optional operation).
      *
      * @param TValue $element element to be appended to this list
-     *
-     * @return void
      */
     public function add(mixed $element): void;
 
@@ -45,7 +44,7 @@ interface MutableCollection extends Collection
      * Removes all of the elements of this sequence that satisfy the given predicate.
      *
      * @param callable(TValue): bool $predicate a non-interfering predicate which returns true for elements to be
-     *     removed
+     *                                          removed
      *
      * @return bool `true` if any elements were removed
      */

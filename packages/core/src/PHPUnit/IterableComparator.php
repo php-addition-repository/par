@@ -45,8 +45,8 @@ final class IterableComparator extends ArrayComparator
 
         // don't compare twice to allow for cyclic dependencies
         if (
-            in_array([$actual, $expected], $processed, true) ||
-            in_array([$expected, $actual], $processed, true)
+            in_array([$actual, $expected], $processed, true)
+            || in_array([$expected, $actual], $processed, true)
         ) {
             return;
         }
@@ -152,8 +152,8 @@ final class IterableComparator extends ArrayComparator
             throw new ComparisonFailure(
                 $expected,
                 $actual,
-                $e->getExpectedAsString() === '' ? $exporter->export($e->getExpected()) : $e->getExpectedAsString(),
-                $e->getActualAsString() === '' ? $exporter->export($e->getActual()) : $e->getActualAsString(),
+                '' === $e->getExpectedAsString() ? $exporter->export($e->getExpected()) : $e->getExpectedAsString(),
+                '' === $e->getActualAsString() ? $exporter->export($e->getActual()) : $e->getActualAsString(),
                 sprintf('Expected iterable %s is different from actual %s at index %d', $itemPart, $itemPart, $index)
             );
         }

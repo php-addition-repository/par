@@ -8,6 +8,9 @@ use Par\Core\Collection\Stream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AnyMatchTest extends TestCase
 {
     #[Test]
@@ -15,7 +18,7 @@ final class AnyMatchTest extends TestCase
     {
         $stream = Stream::fromIterable(['a', 'b', false, 'd', 'e']);
 
-        $this->assertTrue($stream->anyMatch(static fn(mixed $value): bool => is_bool($value)));
+        self::assertTrue($stream->anyMatch(static fn(mixed $value): bool => is_bool($value)));
     }
 
     #[Test]
@@ -24,7 +27,7 @@ final class AnyMatchTest extends TestCase
         /** @var Stream<mixed> $stream */
         $stream = Stream::fromIterable(range('a', 'e'));
 
-        $this->assertFalse($stream->anyMatch(static fn(mixed $value): bool => !is_string($value)));
+        self::assertFalse($stream->anyMatch(static fn(mixed $value): bool => !is_string($value)));
     }
 
     #[Test]
@@ -33,6 +36,6 @@ final class AnyMatchTest extends TestCase
         /** @var Stream<mixed> $stream */
         $stream = Stream::empty();
 
-        $this->assertFalse($stream->anyMatch(static fn(mixed $value): bool => is_string($value)));
+        self::assertFalse($stream->anyMatch(static fn(mixed $value): bool => is_string($value)));
     }
 }

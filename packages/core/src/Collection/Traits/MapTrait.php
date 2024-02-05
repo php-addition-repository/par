@@ -9,13 +9,11 @@ use Par\Core\Collection\Map;
 /**
  * @template TKey
  * @template TValue
+ *
  * @mixin Map<TKey, TValue>
  */
 trait MapTrait
 {
-    /**
-     * @inheritDoc
-     */
     public function getOrDefault(mixed $key, mixed $default = null): mixed
     {
         if ($this->containsKey($key)) {

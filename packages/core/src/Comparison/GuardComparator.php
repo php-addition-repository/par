@@ -10,10 +10,10 @@ use Par\Core\Comparison\Exception\IncomparableException;
 /**
  * This comparator makes sure that both values pass provided predicate.
  *
- * It will throw a `Par\Core\Comparator\IncomparableException` when the predicate returns` false` for either value in
- * the comparison.
+ * It will throw a `Par\Core\Comparator\IncomparableException` when the predicate returns` false` for either value in the comparison.
  *
  * @template TValue
+ *
  * @implements Comparator<TValue>
  */
 final class GuardComparator implements Comparator
@@ -39,8 +39,7 @@ final class GuardComparator implements Comparator
     /**
      * @param Comparator<TValue> $guardedComparator The comparator that is guarded
      * @param callable(TValue): bool $predicate The predicate to use
-     * @param string $additionalInfo Optional additional info to add to the thrown exception
-     *     message.
+     * @param string $additionalInfo optional additional info to add to the thrown exception message
      */
     public function __construct(
         private readonly Comparator $guardedComparator,
@@ -50,9 +49,6 @@ final class GuardComparator implements Comparator
         $this->test = $predicate(...);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $test = $this->test;

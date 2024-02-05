@@ -10,6 +10,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class ConstructorsTest extends TestCase
 {
     public static function floatRangeProvider(): iterable
@@ -26,16 +29,16 @@ final class ConstructorsTest extends TestCase
         yield 'returning generator' => [
             static fn(int $a, int $b): Generator => yield from range($a, $b),
             [1, 5],
-            range(1, 5)
+            range(1, 5),
         ];
 
         yield 'returning array' => [
             static fn(int $a, int $b): array => range($a, $b),
             [1, 5],
-            range(1, 5)
+            range(1, 5),
         ];
 
-        $classWithMethod = new class () {
+        $classWithMethod = new class() {
             public function getValues(): Generator
             {
                 yield from range(1, 5);
@@ -43,7 +46,7 @@ final class ConstructorsTest extends TestCase
         };
         yield 'class with method' => [[$classWithMethod, 'getValues'], [], range(1, 5)];
 
-        $classWithStaticMethod = new class () {
+        $classWithStaticMethod = new class() {
             public static function getValues(): Generator
             {
                 yield from range(1, 5);
@@ -51,7 +54,7 @@ final class ConstructorsTest extends TestCase
         };
         yield 'class with static method' => [[$classWithStaticMethod, 'getValues'], [], range(1, 5)];
 
-        $invokableClass = new class () {
+        $invokableClass = new class() {
             public function __invoke(): Generator
             {
                 yield from range(1, 5);
@@ -62,13 +65,13 @@ final class ConstructorsTest extends TestCase
 
     public static function fromGeneratorProvider(): iterable
     {
-        $generator = (static function (): iterable {
+        $generator = (static function(): iterable {
             yield from range('a', 'e');
         })();
 
         yield 'generator' => [$generator, range('a', 'e')];
 
-        $generator = (static function (): Generator {
+        $generator = (static function(): Generator {
             yield from range('a', 'e');
         })();
         $generator->next();
@@ -81,7 +84,7 @@ final class ConstructorsTest extends TestCase
     {
         yield 'array' => [range('A', 'F'), range('A', 'F')];
 
-        $generator = (static function (): Generator {
+        $generator = (static function(): Generator {
             yield from range('a', 'e');
         })();
         $generator->next();
@@ -106,51 +109,51 @@ final class ConstructorsTest extends TestCase
         yield 'execute callable' => [
             [
                 3,
-                static fn(): array => range(1, 5)
+                static fn(): array => range(1, 5),
             ],
             [
                 range(1, 5),
                 range(1, 5),
-                range(1, 5)
-            ]
+                range(1, 5),
+            ],
         ];
 
         yield 'default callable' => [
             [10],
-            range(1, 10)
+            range(1, 10),
         ];
 
         yield 'negative times' => [
             [-5],
-            []
+            [],
         ];
         yield 'zero times' => [
             [0],
-            []
+            [],
         ];
 
         yield 'one time' => [
             [1],
-            [1]
+            [1],
         ];
 
         yield 'no arguments' => [
             [],
-            []
+            [],
         ];
     }
 
     #[Test]
     public function empty(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             [],
             Stream::empty()
         );
     }
 
     #[Test]
-    #[DataProvider("floatRangeProvider")]
+    #[DataProvider('floatRangeProvider')]
     public function floatRange(array $parameters, iterable $expectedIterable, int $limit = 0): void
     {
         $stream = Stream::floatRange(...$parameters);
@@ -165,13 +168,9 @@ final class ConstructorsTest extends TestCase
 
     /**
      * @param callable(mixed...): iterable $callable
-     * @param iterable $parameters
-     * @param iterable $expectedIterable
-     *
-     * @return void
      */
     #[Test]
-    #[DataProvider("fromCallableProvider")]
+    #[DataProvider('fromCallableProvider')]
     public function fromCallable(
         callable $callable,
         iterable $parameters,
@@ -184,7 +183,7 @@ final class ConstructorsTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("fromGeneratorProvider")]
+    #[DataProvider('fromGeneratorProvider')]
     public function fromGenerator(Generator $generator, iterable $expectedIterable): void
     {
         self::assertEquals(
@@ -194,17 +193,17 @@ final class ConstructorsTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("fromIterableProvider")]
+    #[DataProvider('fromIterableProvider')]
     public function fromIterable(iterable $iterable, iterable $expectedIterable): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             $expectedIterable,
             Stream::fromIterable($iterable)
         );
     }
 
     #[Test]
-    #[DataProvider("intRangeProvider")]
+    #[DataProvider('intRangeProvider')]
     public function intRange(array $parameters, iterable $expectedIterable, int $limit = 0): void
     {
         $stream = Stream::intRange(...$parameters);
@@ -218,7 +217,7 @@ final class ConstructorsTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("timesProvider")]
+    #[DataProvider('timesProvider')]
     public function times(array $parameters, iterable $expectedIterable): void
     {
         self::assertEquals(

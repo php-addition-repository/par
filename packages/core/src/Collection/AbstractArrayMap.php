@@ -14,6 +14,7 @@ use Traversable;
 /**
  * @template TKey of array-key
  * @template TValue
+ *
  * @implements Map<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
  */
@@ -38,7 +39,7 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * TODO
+     * TODO.
      *
      * @return static<array-key, mixed>
      */
@@ -48,7 +49,8 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * TODO
+     * TODO.
+     *
      * @template UKey of array-key
      * @template UValue
      *
@@ -62,10 +64,11 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * TODO
+     * TODO.
      *
      * @template UKey of array-key
      * @template UValue
+     *
      * @param iterable<UKey, UValue> $map TODO
      *
      * @return static<UKey, UValue>
@@ -77,16 +80,13 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
         foreach ($map as $key => $value) {
             self::guardItemArrayKey($i, $key);
             $array[$key] = $value;
-            $i++;
+            ++$i;
         }
 
         return new static($array);
     }
 
     /**
-     * @param mixed $key
-     *
-     * @return void
      * @phpstan-assert TKey $key
      */
     protected static function guardArrayKey(mixed $key): void
@@ -97,10 +97,6 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * @param int $index
-     * @param mixed $key
-     *
-     * @return void
      * @phpstan-assert TKey $key
      */
     protected static function guardItemArrayKey(int $index, mixed $key): void
@@ -152,7 +148,6 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * @inheritDoc
      * @throws InvalidTypeException if `$offset` is of an inappropriate type for this map
      */
     public function offsetExists(mixed $offset): bool
@@ -161,7 +156,6 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * @inheritDoc
      * @throws NoSuchElementException if this map contains no mapping for the key
      * @throws InvalidTypeException if `$offset` is of an inappropriate type for this map
      */
@@ -181,7 +175,6 @@ abstract class AbstractArrayMap implements Map, ArrayAccess
     }
 
     /**
-     * @inheritDoc
      * @return Vector<TValue>
      */
     public function values(): Vector

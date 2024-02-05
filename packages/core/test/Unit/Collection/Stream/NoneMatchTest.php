@@ -8,6 +8,9 @@ use Par\Core\Collection\Stream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class NoneMatchTest extends TestCase
 {
     #[Test]
@@ -16,7 +19,7 @@ final class NoneMatchTest extends TestCase
         /** @var Stream<mixed> $stream */
         $stream = Stream::fromIterable(['a', 'b', false, 'd', 'e']);
 
-        $this->assertTrue($stream->noneMatch(static fn(mixed $value): bool => $value === 'f'));
+        self::assertTrue($stream->noneMatch(static fn(mixed $value): bool => 'f' === $value));
     }
 
     #[Test]
@@ -25,7 +28,7 @@ final class NoneMatchTest extends TestCase
         /** @var Stream<mixed> $stream */
         $stream = Stream::fromIterable(range('a', 'e'));
 
-        $this->assertFalse($stream->noneMatch(static fn(mixed $value): bool => $value === 'd'));
+        self::assertFalse($stream->noneMatch(static fn(mixed $value): bool => 'd' === $value));
     }
 
     #[Test]
@@ -34,6 +37,6 @@ final class NoneMatchTest extends TestCase
         /** @var Stream<mixed> $stream */
         $stream = Stream::empty();
 
-        $this->assertTrue($stream->noneMatch(static fn(mixed $value): bool => is_string($value)));
+        self::assertTrue($stream->noneMatch(static fn(mixed $value): bool => is_string($value)));
     }
 }

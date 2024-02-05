@@ -7,10 +7,11 @@ namespace Par\Core\Collection;
 use BadMethodCallException;
 
 /**
- * TODO
+ * TODO.
  *
  * @template TKey of array-key
  * @template TValue
+ *
  * @extends AbstractArrayMap<TKey, TValue>
  */
 final class ArrayMap extends AbstractArrayMap

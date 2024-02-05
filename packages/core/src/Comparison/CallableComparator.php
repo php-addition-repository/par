@@ -8,6 +8,7 @@ use Closure;
 
 /**
  * @template TValue
+ *
  * @implements  Comparator<TValue>
  */
 final class CallableComparator implements Comparator
@@ -40,9 +41,6 @@ final class CallableComparator implements Comparator
         $this->comparator = $comparator(...);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $comparator = $this->comparator;

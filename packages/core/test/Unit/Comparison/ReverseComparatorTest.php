@@ -10,6 +10,9 @@ use Par\Core\Comparison\ReverseComparator;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class ReverseComparatorTest extends TestCase
 {
     #[Test]
@@ -18,7 +21,7 @@ final class ReverseComparatorTest extends TestCase
         $decorated = new CallableComparator(static fn(int $a, int $b): int => $a <=> $b);
         $comparator = new ReverseComparator($decorated);
 
-        $this->assertSame($decorated, $comparator->reversed());
+        self::assertSame($decorated, $comparator->reversed());
     }
 
     #[Test]
@@ -26,8 +29,8 @@ final class ReverseComparatorTest extends TestCase
     {
         $comparator = new ReverseComparator(new CallableComparator(static fn(int $a, int $b): int => $a <=> $b));
 
-        $this->assertEquals(Order::Equal, $comparator->compare(1, 1));
-        $this->assertEquals(Order::Lesser, $comparator->compare(2, 1));
-        $this->assertEquals(Order::Greater, $comparator->compare(1, 2));
+        self::assertEquals(Order::Equal, $comparator->compare(1, 1));
+        self::assertEquals(Order::Lesser, $comparator->compare(2, 1));
+        self::assertEquals(Order::Greater, $comparator->compare(1, 2));
     }
 }

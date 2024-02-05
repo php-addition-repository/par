@@ -22,8 +22,7 @@ final class EquableComparator extends Comparator
         float $delta = 0.0,
         bool $canonicalize = false,
         bool $ignoreCase = false
-    ): void
-    {
+    ): void {
         assert($expected instanceof Equable);
         assert(is_null($actual) || is_object($actual));
 

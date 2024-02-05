@@ -8,12 +8,13 @@ use Par\Core\Collection\Traits\MutableMapTrait;
 use Par\Core\Optional;
 
 /**
- * TODO
+ * TODO.
+ *
  * @template TKey of array-key
  * @template TValue
  *
- * @implements MutableMap<TKey, TValue>
  * @extends AbstractArrayMap<TKey, TValue>
+ * @implements MutableMap<TKey, TValue>
  */
 final class MutableArrayMap extends AbstractArrayMap implements MutableMap
 {

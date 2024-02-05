@@ -12,7 +12,8 @@ use Par\Core\Optional;
  *
  * @template TKey
  * @template TValue
- * @template-extends Map<TKey, TValue>
+ *
+ * @extends Map<TKey, TValue>
  */
 interface MutableMap extends Map
 {
@@ -35,7 +36,8 @@ interface MutableMap extends Map
      * @param callable(TKey, ?TValue): ?TValue $remappingFunction the remapping function to compute a value
      *
      * @return Optional<TValue> optional with the new value associated with the specified key, or an empty optional if
-     *     remapping returned `null`.
+     *                          remapping returned `null`
+     *
      * @throws InvalidTypeException if the key or remapped value is of an inappropriate type for this map
      */
     public function compute(mixed $key, callable $remappingFunction): Optional;
@@ -52,7 +54,8 @@ interface MutableMap extends Map
      * @param callable(TKey): ?TValue $remappingFunction the remapping function to compute a value
      *
      * @return Optional<TValue> optional with the remapped value associated with the specified key, or an empty
-     *     optional if the remapping returned `null`
+     *                          optional if the remapping returned `null`
+     *
      * @throws InvalidTypeException if the key or remapped value is of an inappropriate type for this map
      */
     public function computeIfAbsent(mixed $key, callable $remappingFunction): Optional;
@@ -65,7 +68,8 @@ interface MutableMap extends Map
      * @param callable(TKey, ?TValue): ?TValue $remappingFunction the remapping function to compute a value
      *
      * @return Optional<TValue> optional with the new value associated with the specified key, or an empty optional if
-     *     the remapping returned `null`
+     *                          the remapping returned `null`
+     *
      * @throws InvalidTypeException if the key or remapped value is of an inappropriate type for this map
      */
     public function computeIfPresent(mixed $key, callable $remappingFunction): Optional;
@@ -77,7 +81,8 @@ interface MutableMap extends Map
      * @param TValue $value value to be associated with the specified key
      *
      * @return Optional<TValue> optional with the previous value associated with `$key`, or an empty optional if
-     *     there was no mapping for `$key`
+     *                          there was no mapping for `$key`
+     *
      * @throws InvalidTypeException if the key or value is of an inappropriate type for this map
      */
     public function put(mixed $key, mixed $value): Optional;
@@ -87,7 +92,6 @@ interface MutableMap extends Map
      *
      * @param Map<TKey, TValue> $map mappings to be stored in this map
      *
-     * @return void
      * @throws InvalidTypeException if any of the keys or values are of an inappropriate type for this map
      */
     public function putAll(Map $map): void;
@@ -96,11 +100,12 @@ interface MutableMap extends Map
      * If the specified key is not already associated with a value associated it with the given value.
      *
      * @template UValue of TValue
+     *
      * @param TKey $key key with which the specified value is to be associated
      * @param UValue $value value to be associated with the specified key
      *
      * @return Optional<TValue> optional with the previous value associated with `$key`, or an empty optional if
-     *      there was no mapping for `$key`
+     *                          there was no mapping for `$key`
      */
     public function putIfAbsent(mixed $key, mixed $value): Optional;
 
@@ -110,7 +115,8 @@ interface MutableMap extends Map
      * @param TKey $key key whose mapping is to be removed from the map
      *
      * @return Optional<TValue> optional with the previous value associated with `$key`, or an empty optional of there
-     *     was no mapping for `$key`
+     *                          was no mapping for `$key`
+     *
      * @throws InvalidTypeException if the key is of an inappropriate type for this map
      */
     public function remove(mixed $key): Optional;

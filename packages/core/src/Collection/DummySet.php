@@ -9,12 +9,14 @@ use Traversable;
 
 /**
  * @template TValue
+ *
  * @implements Set<TValue>
  */
 final class DummySet implements Set
 {
     /**
-     * TODO
+     * TODO.
+     *
      * @template UValue
      *
      * @param iterable<UValue> $iterable

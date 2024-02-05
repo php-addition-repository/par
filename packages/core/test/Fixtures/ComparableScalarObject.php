@@ -10,6 +10,7 @@ use Par\Core\Comparison\Order;
 
 /**
  * @internal
+ *
  * @implements Comparable<self>
  */
 final class ComparableScalarObject implements Comparable

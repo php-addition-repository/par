@@ -6,6 +6,7 @@ namespace Par\Core\Comparison;
 
 /**
  * @template TValue
+ *
  * @implements Comparator<TValue>
  */
 final class ThenComparator implements Comparator
@@ -33,9 +34,6 @@ final class ThenComparator implements Comparator
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         return Order::from($this->first->compare($v1, $v2)->value <=> $this->next->compare($v1, $v2)->value);

@@ -6,6 +6,7 @@ namespace Par\Core\Comparison;
 
 /**
  * @template TValue
+ *
  * @implements Comparator<TValue>
  */
 final class ReverseComparator implements Comparator
@@ -27,9 +28,6 @@ final class ReverseComparator implements Comparator
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         return $this->reversedComparator->compare($v1, $v2)->invert();

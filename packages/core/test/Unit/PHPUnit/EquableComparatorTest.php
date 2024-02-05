@@ -10,6 +10,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
+/**
+ * @internal
+ */
 final class EquableComparatorTest extends TestCase
 {
     #[Test]
@@ -19,10 +22,10 @@ final class EquableComparatorTest extends TestCase
 
         $objectEqualityMock = $this->createMock(Equable::class);
 
-        $this->assertTrue($comparator->accepts($objectEqualityMock, $objectEqualityMock));
-        $this->assertTrue($comparator->accepts($objectEqualityMock, null));
-        $this->assertFalse($comparator->accepts($objectEqualityMock, 'bar'));
-        $this->assertFalse($comparator->accepts('bar', $objectEqualityMock));
+        self::assertTrue($comparator->accepts($objectEqualityMock, $objectEqualityMock));
+        self::assertTrue($comparator->accepts($objectEqualityMock, null));
+        self::assertFalse($comparator->accepts($objectEqualityMock, 'bar'));
+        self::assertFalse($comparator->accepts('bar', $objectEqualityMock));
     }
 
     #[Test]

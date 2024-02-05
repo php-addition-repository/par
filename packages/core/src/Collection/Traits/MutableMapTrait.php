@@ -11,13 +11,11 @@ use Par\Core\Optional;
 /**
  * @template TKey
  * @template TValue
+ *
  * @mixin MutableMap<TKey, TValue>
  */
 trait MutableMapTrait
 {
-    /**
-     * @inheritDoc
-     */
     public function compute(mixed $key, callable $remappingFunction): Optional
     {
         $oldValue = $this->getOrDefault($key);
@@ -31,9 +29,6 @@ trait MutableMapTrait
         return Optional::fromNullable($newValue);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function computeIfAbsent(mixed $key, callable $remappingFunction): Optional
     {
         $newValue = null;
@@ -47,9 +42,6 @@ trait MutableMapTrait
         return Optional::fromNullable($newValue);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function computeIfPresent(mixed $key, callable $remappingFunction): Optional
     {
         if ($this->containsKey($key)) {
@@ -67,9 +59,6 @@ trait MutableMapTrait
         return Optional::empty();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function putAll(Map $map): void
     {
         foreach ($map as $key => $value) {
@@ -77,9 +66,6 @@ trait MutableMapTrait
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function putIfAbsent(mixed $key, mixed $value): Optional
     {
         if (!$this->containsKey($key)) {

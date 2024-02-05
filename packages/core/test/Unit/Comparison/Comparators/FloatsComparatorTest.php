@@ -11,6 +11,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class FloatsComparatorTest extends TestCase
 {
     public static function comparableValuesProvider(): iterable
@@ -22,7 +25,7 @@ final class FloatsComparatorTest extends TestCase
 
     public static function comparableValuesUsingExtractorProvider(): iterable
     {
-        $toFloatExtractor = static fn(string|float|int $value): float => (float)$value;
+        $toFloatExtractor = static fn(string|float|int $value): float => (float) $value;
 
         yield 'equal' => ['0.1', 0.1, $toFloatExtractor, Order::Equal];
         yield 'greater' => ['2', 1, $toFloatExtractor, Order::Greater];
@@ -38,7 +41,7 @@ final class FloatsComparatorTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("incompatibleValuesProvider")]
+    #[DataProvider('incompatibleValuesProvider')]
     public function itThrowsIncomparableExceptionForIncompatibleValues(mixed $a, mixed $b): void
     {
         $comparator = Comparators::floats();
@@ -51,20 +54,20 @@ final class FloatsComparatorTest extends TestCase
      * @param callable(mixed): float $extractor
      */
     #[Test]
-    #[DataProvider("comparableValuesUsingExtractorProvider")]
+    #[DataProvider('comparableValuesUsingExtractorProvider')]
     public function itWillCompareValuesFromExtractor(mixed $a, mixed $b, callable $extractor, Order $expected): void
     {
         $comparator = Comparators::floats($extractor);
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 
     #[Test]
-    #[DataProvider("comparableValuesProvider")]
+    #[DataProvider('comparableValuesProvider')]
     public function itCanCompareValues(float $a, float $b, Order $expected): void
     {
         $comparator = Comparators::floats();
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 }

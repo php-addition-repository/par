@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Par\Core\Collection;
 
+use ArrayIterator;
 use loophp\collection\Operation\Append;
 use loophp\collection\Operation\Drop;
 use loophp\collection\Operation\First;
@@ -21,13 +22,15 @@ use Traversable;
  * Abstract implementation of a sequence.
  *
  * @internal
+ *
  * @template TValue
+ *
  * @implements Sequence<TValue>
  */
 abstract class AbstractVector implements Sequence
 {
     /**
-     * @var array<int<0,max>, TValue> internal array used to store the values of the sequence.
+     * @var array<int<0,max>, TValue> internal array used to store the values of the sequence
      */
     protected array $array = [];
 
@@ -55,6 +58,7 @@ abstract class AbstractVector implements Sequence
      * Creates a vector containing the elements of the specified iterable, in the order they are returned by it.
      *
      * @template UValue
+     *
      * @param iterable<UValue> $iterable iterable whose elements are to be placed into this vector
      *
      * @return static<UValue> A vector containing all values from the provided iterable in the order
@@ -101,18 +105,15 @@ abstract class AbstractVector implements Sequence
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->array);
+        return new ArrayIterator($this->array);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function indexOf(mixed $element, int $index = null): int
+    public function indexOf(mixed $element, ?int $index = null): int
     {
         $this->guardIndexExists($index);
 
         $pipe = Pipe::of()(
-            Drop::of()($index === null ? 0 : $index),
+            Drop::of()(null === $index ? 0 : $index),
             MatchOne::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
             Flip::of()(),
             Append::of()(-1),
@@ -123,8 +124,6 @@ abstract class AbstractVector implements Sequence
     }
 
     /**
-     * @inheritDoc
-     * @return bool
      * @phpstan-assert-if-false non-empty-array<int<0, max>, TValue> $this->array
      */
     public function isEmpty(): bool
@@ -141,16 +140,13 @@ abstract class AbstractVector implements Sequence
         return $this->array[count($this->array) - 1];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function lastIndexOf(mixed $element, int $index = null): int
+    public function lastIndexOf(mixed $element, ?int $index = null): int
     {
         $this->guardIndexExists($index);
 
         $pipe = Pipe::of()(
             Reverse::of()(),
-            Drop::of()($index === null ? 0 : count($this) - $index - 1),
+            Drop::of()(null === $index ? 0 : count($this) - $index - 1),
             MatchOne::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
             Flip::of()(),
             Append::of()(-1),
@@ -165,7 +161,7 @@ abstract class AbstractVector implements Sequence
         return new static(array_reverse($this->array));
     }
 
-    public function sorted(callable|Comparator $comparator = null): static
+    public function sorted(callable|Comparator|null $comparator = null): static
     {
         return new static(
             Stream::fromIterable($this->array)->sorted($comparator)->toArray()

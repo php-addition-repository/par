@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory;
 
+/**
+ * @internal
+ */
 final class IterableComparatorTest extends TestCase
 {
     public static function assertEqualityProvider(): iterable
@@ -19,25 +22,25 @@ final class IterableComparatorTest extends TestCase
         yield 'expected with different keys' => [
             new ArrayIterator([1 => 1, 2, 3, 4, 5]),
             [1 => 1, 2, 3, 4, 5],
-            range(1, 5)
+            range(1, 5),
         ];
 
         yield 'actual with different keys' => [
             new ArrayIterator(range(1, 5)),
             range(1, 5),
-            [1 => 1, 2, 3, 4, 5]
+            [1 => 1, 2, 3, 4, 5],
         ];
 
         yield 'actual with more items' => [
             new ArrayIterator(range(1, 5)),
             range(1, 5),
-            range(1, 6)
+            range(1, 6),
         ];
 
         yield 'expected with more items' => [
             new ArrayIterator(range(1, 6)),
             range(1, 6),
-            range(1, 5)
+            range(1, 5),
         ];
     }
 
@@ -46,15 +49,15 @@ final class IterableComparatorTest extends TestCase
     {
         $comparator = new IterableComparator();
 
-        $this->assertTrue($comparator->accepts(new ArrayIterator([]), []));
-        $this->assertTrue($comparator->accepts(new ArrayIterator([]), new ArrayIterator([])));
-        $this->assertTrue($comparator->accepts([], new ArrayIterator([])));
-        $this->assertFalse($comparator->accepts([], []));
-        $this->assertFalse($comparator->accepts('foo', new ArrayIterator([])));
+        self::assertTrue($comparator->accepts(new ArrayIterator([]), []));
+        self::assertTrue($comparator->accepts(new ArrayIterator([]), new ArrayIterator([])));
+        self::assertTrue($comparator->accepts([], new ArrayIterator([])));
+        self::assertFalse($comparator->accepts([], []));
+        self::assertFalse($comparator->accepts('foo', new ArrayIterator([])));
     }
 
     #[Test]
-    #[DataProvider("assertEqualityProvider")]
+    #[DataProvider('assertEqualityProvider')]
     public function itCanAssertEquality(iterable $expected, iterable $equalActual, iterable $nonEqualActual): void
     {
         $comparator = new IterableComparator();

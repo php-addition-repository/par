@@ -9,6 +9,9 @@ use Par\Core\Comparison\Comparators;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class MinMaxTest extends TestCase
 {
     #[Test]
@@ -16,8 +19,8 @@ final class MinMaxTest extends TestCase
     {
         $stream = Stream::fromIterable([5, 4, 3, 2, 1]);
 
-        $this->assertEquals(5, $stream->max()->get());
-        $this->assertEquals(1, $stream->min()->get());
+        self::assertEquals(5, $stream->max()->get());
+        self::assertEquals(1, $stream->min()->get());
     }
 
     #[Test]
@@ -25,8 +28,8 @@ final class MinMaxTest extends TestCase
     {
         $stream = Stream::fromIterable([5, 4, 3, 2, 1]);
 
-        $this->assertEquals(5, $stream->max(Comparators::values())->get());
-        $this->assertEquals(1, $stream->min(Comparators::values())->get());
+        self::assertEquals(5, $stream->max(Comparators::values())->get());
+        self::assertEquals(1, $stream->min(Comparators::values())->get());
     }
 
     #[Test]
@@ -35,8 +38,8 @@ final class MinMaxTest extends TestCase
         $stream = Stream::fromIterable([5, 4, 3, 2, 1]);
 
         $callable = static fn(int $a, int $b): int => $a <=> $b;
-        $this->assertEquals(5, $stream->max($callable)->get());
-        $this->assertEquals(1, $stream->min($callable)->get());
+        self::assertEquals(5, $stream->max($callable)->get());
+        self::assertEquals(1, $stream->min($callable)->get());
     }
 
     #[Test]
@@ -44,7 +47,7 @@ final class MinMaxTest extends TestCase
     {
         $stream = Stream::empty();
 
-        $this->assertTrue($stream->max()->isEmpty());
-        $this->assertTrue($stream->min()->isEmpty());
+        self::assertTrue($stream->max()->isEmpty());
+        self::assertTrue($stream->min()->isEmpty());
     }
 }

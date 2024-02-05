@@ -12,8 +12,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
     protected const MAX_SHORT_LENGTH = 100;
 
     /**
-     * @inheritDoc
-     *
      * @throws AssertionFailedException
      */
     protected static function reportInvalidArgument($message): never
@@ -21,9 +19,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
         throw new AssertionFailedException($message);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected static function valueToString(mixed $value): string
     {
         if (null === $value) {
@@ -68,8 +63,8 @@ abstract class Assert extends \Webmozart\Assert\Assert
             if (mb_strlen($value) > static::MAX_SHORT_LENGTH) {
                 $value = sprintf(
                     '%s...%s',
-                    mb_substr($value, 0, (int)ceil(static::MAX_SHORT_LENGTH / 2) - 3),
-                    mb_substr($value, (int)floor(static::MAX_SHORT_LENGTH / 2) * -1)
+                    mb_substr($value, 0, (int) ceil(static::MAX_SHORT_LENGTH / 2) - 3),
+                    mb_substr($value, (int) floor(static::MAX_SHORT_LENGTH / 2) * -1)
                 );
             }
 

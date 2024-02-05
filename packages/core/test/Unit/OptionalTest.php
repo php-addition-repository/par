@@ -9,7 +9,11 @@ use Par\Core\Optional;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
+/**
+ * @internal
+ */
 final class OptionalTest extends TestCase
 {
     public static function allValuesProvider(): iterable
@@ -37,7 +41,7 @@ final class OptionalTest extends TestCase
         yield [false];
         yield [0];
         yield [1];
-        yield [new \stdClass()];
+        yield [new stdClass()];
         yield [[]];
     }
 
@@ -46,7 +50,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromAny('bar');
 
-        $this->assertEquals(Optional::empty(), $optional->filter(static fn(string $value): bool => $value !== 'bar'));
+        self::assertEquals(Optional::empty(), $optional->filter(static fn(string $value): bool => 'bar' !== $value));
     }
 
     #[Test]
@@ -54,7 +58,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromAny('foo');
 
-        $this->assertEquals($optional, $optional->filter(static fn(string $value): bool => $value === 'foo'));
+        self::assertEquals($optional, $optional->filter(static fn(string $value): bool => 'foo' === $value));
     }
 
     #[Test]
@@ -64,12 +68,12 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresent(
-            static function (string $value) use (&$invocations): void {
+            static function(string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
         );
 
-        $this->assertEquals([], $invocations);
+        self::assertEquals([], $invocations);
     }
 
     #[Test]
@@ -79,12 +83,12 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresent(
-            static function (string $value) use (&$invocations): void {
+            static function(string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
         );
 
-        $this->assertEquals(['foo'], $invocations);
+        self::assertEquals(['foo'], $invocations);
     }
 
     #[Test]
@@ -94,15 +98,15 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresentOrElse(
-            static function (string $value) use (&$invocations): void {
+            static function(string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
-            static function () use (&$invocations): void {
+            static function() use (&$invocations): void {
                 $invocations[] = 'empty';
             },
         );
 
-        $this->assertEquals(['empty'], $invocations);
+        self::assertEquals(['empty'], $invocations);
     }
 
     #[Test]
@@ -112,25 +116,25 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresentOrElse(
-            static function (string $value) use (&$invocations): void {
+            static function(string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
-            static function () use (&$invocations): void {
+            static function() use (&$invocations): void {
                 $invocations[] = '<empty>';
             },
         );
 
-        $this->assertEquals(['foo'], $invocations);
+        self::assertEquals(['foo'], $invocations);
     }
 
     /**
      * @param Optional<mixed> $subject
      */
     #[Test]
-    #[DataProvider("equalsProvider")]
+    #[DataProvider('equalsProvider')]
     public function itCanDetermineEquality(Optional $subject, mixed $other, bool $expected): void
     {
-        $this->assertEquals($expected, $subject->equals($other));
+        self::assertEquals($expected, $subject->equals($other));
     }
 
     #[Test]
@@ -138,33 +142,33 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::empty();
 
-        $this->assertFalse($optional->isPresent());
-        $this->assertTrue($optional->isEmpty());
+        self::assertFalse($optional->isPresent());
+        self::assertTrue($optional->isEmpty());
 
         $this->expectException(NoSuchElementException::class);
         $optional->get();
     }
 
     #[Test]
-    #[DataProvider("allValuesProvider")]
+    #[DataProvider('allValuesProvider')]
     public function itHasValueWhenConstructedFromAny(mixed $a): void
     {
         $optional = Optional::fromAny($a);
 
-        $this->assertTrue($optional->isPresent());
-        $this->assertFalse($optional->isEmpty());
-        $this->assertEquals($a, $optional->get());
+        self::assertTrue($optional->isPresent());
+        self::assertFalse($optional->isEmpty());
+        self::assertEquals($a, $optional->get());
     }
 
     #[Test]
-    #[DataProvider("nonNullableValuesProvider")]
+    #[DataProvider('nonNullableValuesProvider')]
     public function itHasValueWhenConstructedFromNullableWithNonNull(mixed $a): void
     {
         $optional = Optional::fromNullable($a);
 
-        $this->assertTrue($optional->isPresent());
-        $this->assertFalse($optional->isEmpty());
-        $this->assertEquals($a, $optional->get());
+        self::assertTrue($optional->isPresent());
+        self::assertFalse($optional->isEmpty());
+        self::assertEquals($a, $optional->get());
     }
 
     #[Test]
@@ -172,8 +176,8 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromNullable(null);
 
-        $this->assertFalse($optional->isPresent());
-        $this->assertTrue($optional->isEmpty());
+        self::assertFalse($optional->isPresent());
+        self::assertTrue($optional->isEmpty());
 
         $this->expectException(NoSuchElementException::class);
         $optional->get();
@@ -184,7 +188,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::empty();
 
-        $this->assertEquals(Optional::empty(), $optional->map(static fn(string $value): string => $value . '-mapped'));
+        self::assertEquals(Optional::empty(), $optional->map(static fn(string $value): string => $value . '-mapped'));
     }
 
     #[Test]
@@ -192,7 +196,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromAny('foo');
 
-        $this->assertEquals(
+        self::assertEquals(
             Optional::fromAny('foo-mapped'),
             $optional->map(static fn(string $value): string => $value . '-mapped')
         );
@@ -205,7 +209,7 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'foo';
 
-        $this->assertEquals($otherValue, $optional->orElseGet(static fn(): string => $otherValue));
+        self::assertEquals($otherValue, $optional->orElseGet(static fn(): string => $otherValue));
     }
 
     #[Test]
@@ -216,7 +220,7 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'bar';
 
-        $this->assertEquals($value, $optional->orElseGet(static fn(): string => $otherValue));
+        self::assertEquals($value, $optional->orElseGet(static fn(): string => $otherValue));
     }
 
     #[Test]
@@ -226,7 +230,7 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'bar';
 
-        $this->assertEquals($otherValue, $optional->orElse($otherValue));
+        self::assertEquals($otherValue, $optional->orElse($otherValue));
     }
 
     #[Test]
@@ -237,6 +241,6 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'bar';
 
-        $this->assertEquals($value, $optional->orElse($otherValue));
+        self::assertEquals($value, $optional->orElse($otherValue));
     }
 }

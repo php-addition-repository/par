@@ -10,6 +10,9 @@ use Par\Core\Comparison\Order;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class ComparisonUtilsTest extends TestCase
 {
     public static function provideForComesAfter(): iterable
@@ -40,99 +43,99 @@ final class ComparisonUtilsTest extends TestCase
         yield 'not-equals' => [false, 4, 3];
     }
 
-    #[DataProvider("provideForComesAfter")]
+    #[DataProvider('provideForComesAfter')]
     public function testItCanDetermineIfValueComesAfterAnotherValue(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
-        $this->assertEquals($expected, Comparators::comesAfter($value, $otherValue));
+        self::assertEquals($expected, Comparators::comesAfter($value, $otherValue));
     }
 
-    #[DataProvider("provideForComesAfter")]
+    #[DataProvider('provideForComesAfter')]
     public function testItCanDetermineIfValueComesAfterAnotherValueUsingCustomComparator(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
         $comparatorMock = $this->createMock(Comparator::class);
-        $comparatorMock->expects($this->once())
+        $comparatorMock->expects(self::once())
             ->method('compare')
             ->with($value, $otherValue)
             ->willReturn($expected ? Order::Greater : Order::Lesser);
 
-        $this->assertEquals($expected, Comparators::comesAfter($value, $otherValue, $comparatorMock));
+        self::assertEquals($expected, Comparators::comesAfter($value, $otherValue, $comparatorMock));
     }
 
-    #[DataProvider("provideForComesAfterOrEquals")]
+    #[DataProvider('provideForComesAfterOrEquals')]
     public function testItCanDetermineIfValueComesAfterOrEqualsAnotherValue(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
-        $this->assertEquals($expected, Comparators::comesAfterOrEquals($value, $otherValue));
+        self::assertEquals($expected, Comparators::comesAfterOrEquals($value, $otherValue));
     }
 
-    #[DataProvider("provideForComesAfterOrEquals")]
+    #[DataProvider('provideForComesAfterOrEquals')]
     public function testItCanDetermineIfValueComesAfterOrEqualsAnotherValueUsingCustomComparator(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
         $comparatorMock = $this->createMock(Comparator::class);
-        $comparatorMock->expects($this->once())
+        $comparatorMock->expects(self::once())
             ->method('compare')
             ->with($value, $otherValue)
             ->willReturn($expected ? Order::Equal : Order::Lesser);
 
-        $this->assertEquals($expected, Comparators::comesAfterOrEquals($value, $otherValue, $comparatorMock));
+        self::assertEquals($expected, Comparators::comesAfterOrEquals($value, $otherValue, $comparatorMock));
     }
 
-    #[DataProvider("provideForComesBefore")]
+    #[DataProvider('provideForComesBefore')]
     public function testItCanDetermineIfValueComesBeforeAnotherValue(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
-        $this->assertEquals($expected, Comparators::comesBefore($value, $otherValue));
+        self::assertEquals($expected, Comparators::comesBefore($value, $otherValue));
     }
 
-    #[DataProvider("provideForComesBefore")]
+    #[DataProvider('provideForComesBefore')]
     public function testItCanDetermineIfValueComesBeforeAnotherValueUsingCustomComparator(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
         $comparatorMock = $this->createMock(Comparator::class);
-        $comparatorMock->expects($this->once())
+        $comparatorMock->expects(self::once())
             ->method('compare')
             ->with($value, $otherValue)
             ->willReturn($expected ? Order::Lesser : Order::Greater);
 
-        $this->assertEquals($expected, Comparators::comesBefore($value, $otherValue, $comparatorMock));
+        self::assertEquals($expected, Comparators::comesBefore($value, $otherValue, $comparatorMock));
     }
 
-    #[DataProvider("provideForComesBeforeOrEquals")]
+    #[DataProvider('provideForComesBeforeOrEquals')]
     public function testItCanDetermineIfValueComesBeforeOrEqualsAnotherValue(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
-        $this->assertEquals($expected, Comparators::comesBeforeOrEquals($value, $otherValue));
+        self::assertEquals($expected, Comparators::comesBeforeOrEquals($value, $otherValue));
     }
 
-    #[DataProvider("provideForComesBeforeOrEquals")]
+    #[DataProvider('provideForComesBeforeOrEquals')]
     public function testItCanDetermineIfValueComesBeforeOrEqualsAnotherValueUsingCustomComparator(
         bool $expected,
         mixed $value,
         mixed $otherValue
     ): void {
         $comparatorMock = $this->createMock(Comparator::class);
-        $comparatorMock->expects($this->once())
+        $comparatorMock->expects(self::once())
             ->method('compare')
             ->with($value, $otherValue)
             ->willReturn($expected ? Order::Equal : Order::Greater);
 
-        $this->assertEquals($expected, Comparators::comesBeforeOrEquals($value, $otherValue, $comparatorMock));
+        self::assertEquals($expected, Comparators::comesBeforeOrEquals($value, $otherValue, $comparatorMock));
     }
 }

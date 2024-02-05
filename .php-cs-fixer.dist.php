@@ -6,24 +6,78 @@ $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__);
 
 return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PHP83Migration' => true,
-        '@PER-CS2.0' => true,
+        '@PHPUnit100Migration:risky' => true,
+        '@Symfony' => true,
         'blank_line_before_statement' => [
             'statements' => [
                 'continue',
                 'declare',
                 'return',
                 'throw',
-                'try'
-            ]
+                'try',
+            ],
         ],
-        'braces_position' => [
-            'allow_single_line_anonymous_functions' => true,
-            'allow_single_line_empty_anonymous_classes' => true
+        'class_attributes_separation' => [
+            'elements' => [
+                'const' => 'only_if_meta',
+                'method' => 'one',
+                'property' => 'only_if_meta',
+                'trait_import' => 'none',
+                'case' => 'none',
+            ],
+        ],
+        'concat_space' => [
+            'spacing' => 'one',
+        ],
+        'function_declaration' => [
+            'closure_function_spacing' => 'none',
+            'closure_fn_spacing' => 'none',
+        ],
+        'general_phpdoc_tag_rename' => [
+            'replacements' => [
+                'template-implements' => 'implements',
+                'template-mixin' => 'mixin',
+                'template-extends' => 'extends',
+                'inheritDocs' => 'inheritDoc',
+            ],
         ],
         'global_namespace_import' => [
             'import_classes' => true,
-        ]
+        ],
+        'phpdoc_align' => [
+            'align' => 'left',
+        ],
+        'phpdoc_order' => [
+            'order' => [
+                'deprecated',
+                'internal',
+                'see',
+                'template',
+                'extends',
+                'implements',
+                'var',
+                'param',
+                'return',
+                'throws',
+            ],
+        ],
+        'phpdoc_separation' => [
+            'groups' => [
+                ['Annotation', 'NamedArgumentConstructor', 'Target'],
+                ['author', 'copyright', 'license'],
+                ['category', 'package', 'subpackage'],
+                ['property', 'property-read', 'property-write'],
+                ['deprecated', 'link', 'see', 'since'],
+                ['mixin', 'extends', 'implements'],
+            ],
+        ],
+        'php_unit_internal_class' => true,
+        'php_unit_test_case_static_method_calls' => [
+            'call_type' => 'self',
+        ],
+        'single_line_throw' => false,
     ])
     ->setFinder($finder);

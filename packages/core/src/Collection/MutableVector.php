@@ -11,7 +11,9 @@ use Par\Core\Comparison\Comparators;
  * A mutable vector.
  *
  * @see Vector
+ *
  * @template TValue
+ *
  * @extends AbstractVector<TValue>
  * @implements MutableSequence<TValue>
  */
@@ -121,7 +123,7 @@ final class MutableVector extends AbstractVector implements MutableSequence
         return $changed;
     }
 
-    public function sort(callable|Comparator $comparator = null): static
+    public function sort(callable|Comparator|null $comparator = null): static
     {
         if (!$comparator instanceof Comparator) {
             $comparator = is_callable($comparator) ? Comparators::with($comparator) : Comparators::values();

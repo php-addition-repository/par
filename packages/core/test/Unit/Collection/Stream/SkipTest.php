@@ -9,6 +9,9 @@ use Par\Core\Exception\AssertionFailedException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class SkipTest extends TestCase
 {
     #[Test]
@@ -18,7 +21,7 @@ final class SkipTest extends TestCase
 
         $this->expectException(AssertionFailedException::class);
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $stream->skip(-2);
     }
 
@@ -27,7 +30,7 @@ final class SkipTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals($stream, $stream->skip(0));
+        self::assertEquals($stream, $stream->skip(0));
     }
 
     #[Test]
@@ -35,6 +38,6 @@ final class SkipTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals([3, 4, 5], $stream->skip(2));
+        self::assertEquals([3, 4, 5], $stream->skip(2));
     }
 }

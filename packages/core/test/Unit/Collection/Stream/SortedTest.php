@@ -9,6 +9,9 @@ use Par\Core\Comparison\Comparators;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class SortedTest extends TestCase
 {
     #[Test]
@@ -16,7 +19,7 @@ final class SortedTest extends TestCase
     {
         $stream = Stream::fromIterable([5, 4, 3, 2, 1]);
 
-        $this->assertEquals(range(1, 5), $stream->sorted());
+        self::assertEquals(range(1, 5), $stream->sorted());
     }
 
     #[Test]
@@ -24,7 +27,7 @@ final class SortedTest extends TestCase
     {
         $stream = Stream::fromIterable([5, 4, 3, 2, 1]);
 
-        $this->assertEquals(range(1, 5), $stream->sorted(static fn(int $a, int $b): int => $a <=> $b));
+        self::assertEquals(range(1, 5), $stream->sorted(static fn(int $a, int $b): int => $a <=> $b));
     }
 
     #[Test]
@@ -32,6 +35,6 @@ final class SortedTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals([5, 4, 3, 2, 1], $stream->sorted(Comparators::values()->reversed()));
+        self::assertEquals([5, 4, 3, 2, 1], $stream->sorted(Comparators::values()->reversed()));
     }
 }

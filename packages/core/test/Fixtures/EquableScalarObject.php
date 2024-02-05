@@ -8,6 +8,7 @@ use Par\Core\Equable;
 
 /**
  * @internal
+ *
  * @implements Equable<EquableScalarObject>
  */
 final class EquableScalarObject implements Equable

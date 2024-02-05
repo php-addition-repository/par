@@ -13,14 +13,16 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 final class UpdateChangelogReleaseWorker implements ReleaseWorkerInterface
 {
     /**
-     * @var string
      * @see https://regex101.com/r/X3W0Fg/1
+     *
+     * @var string
      */
     private const UNRELEASED_HEADLINE_REGEX = '/^\#\# \[Unreleased\]$/m';
 
     /**
-     * @var string
      * @see https://regex101.com/r/kGF5MH/1
+     *
+     * @var string
      */
     private const UNRELEASED_HEADLINK_REGEX = '/^\[Unreleased\]: .+$/m';
 

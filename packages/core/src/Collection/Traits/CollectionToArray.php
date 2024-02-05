@@ -10,6 +10,7 @@ use Par\Core\Exception\InvalidTypeException;
 /**
  * @template TKey
  * @template TValue
+ *
  * @mixin Collection<TKey, TValue>
  */
 trait CollectionToArray

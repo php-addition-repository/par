@@ -29,7 +29,9 @@ use Traversable;
  * are consumed only as needed.
  *
  * @immutable
+ *
  * @template TValue
+ *
  * @implements IteratorAggregate<int, TValue>
  */
 final class Stream implements IteratorAggregate, Countable
@@ -56,7 +58,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @param float $start Start float of range
      * @param float $end Maximum float in range, must be greater that or equal to start
-     * @param float $step Step size of each item in range stream, must be zero or more.
+     * @param float $step step size of each item in range stream, must be zero or more
      *
      * @return self<float>
      */
@@ -80,7 +82,7 @@ final class Stream implements IteratorAggregate, Countable
      * @template UValue
      *
      * @param callable(mixed ...$parameters): iterable<UValue> $callable The callable to execute
-     * @param iterable<int, mixed>                             $parameters The parameters to execute the callable with
+     * @param iterable<int, mixed> $parameters The parameters to execute the callable with
      *
      * @return self<UValue>
      */
@@ -98,7 +100,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @template UValue
      *
-     * @param Generator<UValue> $generator The generator to use.
+     * @param Generator<UValue> $generator The generator to use
      *
      * @return Stream<UValue>
      */
@@ -118,7 +120,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @template UValue
      *
-     * @param iterable<UValue> $iterable The iterable to use.
+     * @param iterable<UValue> $iterable the iterable to use
      *
      * @return Stream<UValue>
      */
@@ -134,9 +136,9 @@ final class Stream implements IteratorAggregate, Countable
     /**
      * Create integer stream.
      *
-     * @param int         $start Start integer of range
-     * @param int         $end Maximum integer in range, must be greater that or equal to start
-     * @param int<0, max> $step Step size of each item in range stream, must be zero or more.
+     * @param int $start Start integer of range
+     * @param int $end Maximum integer in range, must be greater that or equal to start
+     * @param int<0, max> $step step size of each item in range stream, must be zero or more
      *
      * @return Stream<int>
      */
@@ -158,12 +160,12 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @template UValue
      *
-     * @param int                       $amount The amount of times to execute the callback
+     * @param int $amount The amount of times to execute the callback
      * @param callable(int):UValue|null $callable The callable to invoke
      *
      * @return ($callable is null ? Stream<int> : Stream<UValue>)
      */
-    public static function times(int $amount = 0, callable $callable = null): self
+    public static function times(int $amount = 0, ?callable $callable = null): self
     {
         return new self(CollectionFactory::times($amount, $callable));
     }
@@ -175,8 +177,6 @@ final class Stream implements IteratorAggregate, Countable
      * empty, `true` is returned.
      *
      * @param callable(TValue): bool $predicate A predicate to apply to elements of this stream
-     *
-     * @return bool
      */
     public function allMatch(callable $predicate): bool
     {
@@ -190,8 +190,6 @@ final class Stream implements IteratorAggregate, Countable
      * empty, `false` is returned.
      *
      * @param callable(TValue): bool $predicate A predicate to apply to elements of this stream
-     *
-     * @return bool
      */
     public function anyMatch(callable $predicate): bool
     {
@@ -202,8 +200,6 @@ final class Stream implements IteratorAggregate, Countable
 
     /**
      * Returns the count of elements in this stream.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -216,7 +212,7 @@ final class Stream implements IteratorAggregate, Countable
      * This is an intermediate operation.
      *
      * @param callable(TValue): bool $predicate a non-interfering predicate to apply to each element to
-     *     determine if it should be included
+     *                                          determine if it should be included
      *
      * @return static<TValue> The new stream
      */
@@ -231,8 +227,6 @@ final class Stream implements IteratorAggregate, Countable
      * This is a terminal operation.
      *
      * @param callable(TValue): void $action a non-interfering action to perform on the elements
-     *
-     * @return void
      */
     public function forEach(callable $action): void
     {
@@ -240,7 +234,6 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * {@inheritDoc}
      * @return Traversable<int, TValue>
      */
     public function getIterator(): Traversable
@@ -269,12 +262,13 @@ final class Stream implements IteratorAggregate, Countable
      * @param int<0, max> $maxSize the number of elements the stream should be limited to
      *
      * @return static<TValue> The new stream
+     *
      * @throws InvalidArgumentException if maxSize is negative
      */
     public function limit(int $maxSize): Stream
     {
         Assert::greaterThanEq($maxSize, 0);
-        if ($maxSize === 0) {
+        if (0 === $maxSize) {
             return self::empty();
         }
 
@@ -303,12 +297,12 @@ final class Stream implements IteratorAggregate, Countable
      * This is a terminal operation.
      *
      * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
-     *     elements of this stream
+     *                                                                                elements of this stream
      *
      * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
-     *     stream is empty
+     *                          stream is empty
      */
-    public function max(callable|Comparator $comparator = null): Optional
+    public function max(callable|Comparator|null $comparator = null): Optional
     {
         return Optional::fromCurrent(
             $this->innerCollection->sort(
@@ -327,12 +321,12 @@ final class Stream implements IteratorAggregate, Countable
      * This is a terminal operation.
      *
      * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
-     * *     elements of this stream
+     *                                                                                *     elements of this stream
      *
      * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
-     *      stream is empty
+     *                          stream is empty
      */
-    public function min(callable|Comparator $comparator = null): Optional
+    public function min(callable|Comparator|null $comparator = null): Optional
     {
         return Optional::fromCurrent(
             $this->innerCollection->sort(
@@ -355,7 +349,7 @@ final class Stream implements IteratorAggregate, Countable
      * @param callable(TValue): bool $predicate a non-interfering predicate to apply to elements of this stream
      *
      * @return bool `true` if either no elements of the stream match the provided predicate or the stream is empty,
-     *     otherwise `false`
+     *              otherwise `false`
      */
     public function noneMatch(callable $predicate): bool
     {
@@ -369,13 +363,13 @@ final class Stream implements IteratorAggregate, Countable
      * This is an intermediate operation.
      *
      * @param callable(TValue): void $action a non-interfering action to perform on the elements as they are
-     *     consumed from the stream
+     *                                       consumed from the stream
      *
      * @return Stream<TValue> The new stream
      */
     public function peek(callable $action): self
     {
-        return new self($this->innerCollection->apply(static function (mixed $value) use ($action): bool {
+        return new self($this->innerCollection->apply(static function(mixed $value) use ($action): bool {
             $action($value);
 
             return true;
@@ -393,12 +387,13 @@ final class Stream implements IteratorAggregate, Countable
      * @param int<0, max> $num the number of leading elements to skip
      *
      * @return static<TValue> The new stream
+     *
      * @throws InvalidArgumentException if num is negative
      */
     public function skip(int $num): Stream
     {
         Assert::greaterThanEq($num, 0);
-        if ($num === 0) {
+        if (0 === $num) {
             return $this;
         }
 
@@ -411,11 +406,11 @@ final class Stream implements IteratorAggregate, Countable
      * This is an intermediate operation.
      *
      * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
-     *     to be used to compare stream elements
+     *                                                                                to be used to compare stream elements
      *
      * @return static<TValue> The new stream
      */
-    public function sorted(callable|Comparator $comparator = null): self
+    public function sorted(callable|Comparator|null $comparator = null): self
     {
         return new self(
             $this->innerCollection->sort(
@@ -444,7 +439,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @return callable(TValue, TValue): int<-1, 1>
      */
-    private function toInnerComparator(callable|Comparator $comparator = null): callable
+    private function toInnerComparator(callable|Comparator|null $comparator = null): callable
     {
         if (!$comparator instanceof Comparator) {
             $comparator = is_callable($comparator) ? Comparators::with($comparator) : Comparators::values();

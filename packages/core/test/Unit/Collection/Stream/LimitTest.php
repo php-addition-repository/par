@@ -9,6 +9,9 @@ use Par\Core\Exception\AssertionFailedException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class LimitTest extends TestCase
 {
     #[Test]
@@ -17,7 +20,7 @@ final class LimitTest extends TestCase
         $stream = Stream::fromIterable(range(1, 5));
 
         $this->expectException(AssertionFailedException::class);
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $stream->limit(-2);
     }
 
@@ -26,7 +29,7 @@ final class LimitTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals([], $stream->limit(0));
+        self::assertEquals([], $stream->limit(0));
     }
 
     #[Test]
@@ -34,6 +37,6 @@ final class LimitTest extends TestCase
     {
         $stream = Stream::fromIterable(range(1, 5));
 
-        $this->assertEquals([1, 2], $stream->limit(2));
+        self::assertEquals([1, 2], $stream->limit(2));
     }
 }

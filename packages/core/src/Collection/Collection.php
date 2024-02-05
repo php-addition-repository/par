@@ -41,7 +41,6 @@ interface Collection extends IteratorAggregate, Countable
     public function containsAll(iterable $elements): bool;
 
     /**
-     * {@inheritDoc}
      * @return Traversable<TKey, TValue>
      */
     public function getIterator(): Traversable;
