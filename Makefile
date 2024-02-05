@@ -52,7 +52,7 @@ default: help
 ##@ Help
 
 help: ## Display this help
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[0-9a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-40s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[0-9a-zA-Z_-//]+:.*?##/ { printf "  \033[36m%-40s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 # Create sections using \#\#@ {section name}; see above "Help" comment
 # Provide help for a target using comments starting with two hashtags; see above "help" target
@@ -60,37 +60,57 @@ help: ## Display this help
 
 ##@ Repo
 
-setup: composer githooks ## Setup repository
+install: install/composer install/githooks ## Install everything needed to work with this repository
+setup: install/composer  ## Setup repository according to new branch
 
-composer: ## Install composer
+install/composer: ## Install composer
 	@$(call MK_NOTIFY,"Running composer install")
 	@CMD="composer install" $(MAKE) docker/workspace
 
-githooks: ## Configure githooks
+install/githooks: ## Configure githooks
 	@$(call MK_NOTIFY,"Configuring githooks")
 	@git config -f "$(HERE)/.git/config" core.hooksPath "$(HERE)/.githooks"
 
 workspace: docker/workspace ## Alias for docker/workspace
 
+##@ Quality assurance
+
+qa: qa/lint qa/test/unit qa/analyse ## Run all QA tools
+
+qa/lint: tools/php-cs-fixer ## Run code linting
+qa/test/unit: tools/phpunit ## Run unit tests
+qa/analyse: tools/phpstan ## Run code analysis
+
 ##@ Tools
 
-qa: phpunit psalm phpcs ## Run all QA tools
-
-phpcs: ## Run PHPCS
-	@$(call MK_NOTIFY,"Running PHPCS")
-	@CMD="phpcs -p -s" $(MAKE) docker/workspace
-
-phpcbf:  ## Run PHPCBF
-	@$(call MK_NOTIFY,"Running PHPCBF")
-	@CMD="phpcbf" $(MAKE) docker/workspace
-
-phpunit: ## Run PHPUnit
+.PHONY: tools/phpunit
+tools/phpunit: ## Run PHPUnit
 	@$(call MK_NOTIFY,"Running PHPUnit")
 	@CMD="phpunit" $(MAKE) docker/workspace
 
-psalm: ## Run Psalm
-	@$(call MK_NOTIFY,"Running Psalm")
-	@CMD="psalm" $(MAKE) docker/workspace
+.PHONY: tools/php-cs-fixer
+tools/php-cs-fixer: ## Run PHP-CS-Fixer
+	@if [ -z "$(TOOL_ARGS)" ]; then \
+		CMD="php-cs-fixer check" $(MAKE) docker/workspace; \
+	else \
+		CMD="php-cs-fixer $(TOOL_ARGS)" $(MAKE) docker/workspace; \
+	fi
+
+.PHONY: tools/phpstan
+tools/phpstan: ## Run PHPStan
+	@$(call MK_NOTIFY,"Running PHPStan")
+	@if [ -z "$(TOOL_ARGS)" ]; then \
+		CMD="phpstan --memory-limit=2G" $(MAKE) docker/workspace; \
+	else \
+		CMD="phpstan --memory-limit=2G $(TOOL_ARGS)" $(MAKE) docker/workspace; \
+	fi
+
+.PHONY: tools/uninstall
+tools/uninstall: ## Uninstall all tools
+	@$(call MK_NOTIFY,"Cleaning up installed tools")
+	@rm -rf "$(HERE)/tools/php-cs-fixer/vendor"
+	@rm -rf "$(HERE)/tools/phpstan/vendor"
+	@$(call MK_SUCCESS,"Done")
 
 ##@ Build
 

@@ -17,3 +17,6 @@ max_line_length = 80
 
 [**.{yml,yaml}]
 indent_size = 2
+
+[**.{neon,dist.neon}]
+indent_style = tab

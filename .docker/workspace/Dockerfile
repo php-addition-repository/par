@@ -64,6 +64,11 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
 #--------------------------------------------------------------------------
 
 COPY --from=composer:2.4 /usr/bin/composer /usr/bin/composer
+
+#--------------------------------------------------------------------------
+# Github
+#--------------------------------------------------------------------------
+
 COPY --from=ghcr.io/supportpal/github-gh-cli:2.39.2 /usr/bin/gh /usr/bin/gh
 
 #--------------------------------------------------------------------------
@@ -80,4 +85,4 @@ WORKDIR ${WORKDIR}
 RUN mkdir /home/${APP_USER}/.composer
 
 # Make sure PATH contains project bin and project composer bin
-ENV PATH="${WORKDIR}/bin:${WORKDIR}/vendor/bin:${PATH}"
+ENV PATH="${WORKDIR}/bin:${WORKDIR}/vendor/bin:${WORKDIR}/tools/bin:${PATH}"

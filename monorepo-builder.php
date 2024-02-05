@@ -29,13 +29,10 @@ return static function (MBConfig $mbConfig): void {
                 ],
             ],
             ComposerJsonSection::REQUIRE_DEV => [
-                "phpunit/phpunit" => "^10.4",
-                "psalm/plugin-phpunit" => "^0.18",
+                "phpunit/phpunit" => "^10.5",
                 "roave/security-advisories" => "dev-master",
-                "squizlabs/php_codesniffer" => "^3.7",
                 "symfony/string" => "^6.4",
                 "symplify/monorepo-builder" => "^11.2",
-                "vimeo/psalm" => "^5.16"
             ],
         ]
     );
