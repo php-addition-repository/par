@@ -28,8 +28,7 @@ interface Comparable
      *
      * @return Order The order of other in comparison to this
      * @throws IncomparableException if other value cannot be compared to this
-     * @psalm-mutation-free
-     * @psalm-assert-if-true TValue $other
+     * @phpstan-assert-if-true TValue $other
      */
     public function compare(?object $other): Order;
 }

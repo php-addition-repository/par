@@ -48,7 +48,7 @@ final class FloatsComparatorTest extends TestCase
     }
 
     /**
-     * @param pure-callable(mixed): float $extractor
+     * @param callable(mixed): float $extractor
      */
     #[Test]
     #[DataProvider("comparableValuesUsingExtractorProvider")]

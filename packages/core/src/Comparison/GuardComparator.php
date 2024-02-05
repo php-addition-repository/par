@@ -33,13 +33,13 @@ final class GuardComparator implements Comparator
      */
     use UsingComparatorTrait;
 
-    /** @var pure-Closure(TValue): bool */
+    /** @var Closure(TValue): bool */
     private Closure $test;
 
     /**
-     * @param Comparator<TValue>          $guardedComparator The comparator that is guarded
-     * @param pure-callable(TValue): bool $predicate The predicate to use
-     * @param string                      $additionalInfo Optional additional info to add to the thrown exception
+     * @param Comparator<TValue> $guardedComparator The comparator that is guarded
+     * @param callable(TValue): bool $predicate The predicate to use
+     * @param string $additionalInfo Optional additional info to add to the thrown exception
      *     message.
      */
     public function __construct(
@@ -52,7 +52,6 @@ final class GuardComparator implements Comparator
 
     /**
      * @inheritDoc
-     * @psalm-external-mutation-free
      */
     public function compare(mixed $v1, mixed $v2): Order
     {

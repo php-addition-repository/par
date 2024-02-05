@@ -21,17 +21,9 @@ final class ForEachTest extends TestCase
         $invoker->expects($matcher)
             ->method('__invoke')
             ->willReturnCallback(function (int $value) use ($matcher) {
-                /** @psalm-suppress InternalMethod */
-                match ($matcher->numberOfInvocations()) {
-                    1 => $this->assertEquals(1, $value),
-                    2 => $this->assertEquals(2, $value),
-                    3 => $this->assertEquals(3, $value),
-                    4 => $this->assertEquals(4, $value),
-                    5 => $this->assertEquals(5, $value),
-                };
+                $this->assertEquals($value, $matcher->numberOfInvocations());
             });
-        /** @psalm-var pure-callable $invoker */
 
-        $this->assertNotSame($stream, $stream->forEach($invoker));
+        $stream->forEach($invoker);
     }
 }

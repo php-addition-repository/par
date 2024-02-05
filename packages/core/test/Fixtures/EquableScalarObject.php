@@ -8,8 +8,7 @@ use Par\Core\Equable;
 
 /**
  * @internal
- * @psalm-immutable
- * @implements Equable<self>
+ * @implements Equable<EquableScalarObject>
  */
 final class EquableScalarObject implements Equable
 {
@@ -20,7 +19,7 @@ final class EquableScalarObject implements Equable
     {
     }
 
-    public function equals(?object $other): bool
+    public function equals(mixed $other): bool
     {
         if ($other instanceof self) {
             return $other->value === $this->value;

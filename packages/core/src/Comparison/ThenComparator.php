@@ -35,7 +35,6 @@ final class ThenComparator implements Comparator
 
     /**
      * @inheritDoc
-     * @psalm-mutation-free
      */
     public function compare(mixed $v1, mixed $v2): Order
     {

@@ -163,6 +163,13 @@ final class ConstructorsTest extends TestCase
         );
     }
 
+    /**
+     * @param callable(mixed...): iterable $callable
+     * @param iterable $parameters
+     * @param iterable $expectedIterable
+     *
+     * @return void
+     */
     #[Test]
     #[DataProvider("fromCallableProvider")]
     public function fromCallable(

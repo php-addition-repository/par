@@ -43,7 +43,7 @@ interface SequencedCollection extends Collection
      *
      * The sort is stable: this method must not reorder equal elements.
      *
-     * @param pure-callable(TValue,TValue):int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
+     * @param callable(TValue,TValue):int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
      *      to be used to determine the new order of the elements from this sequence
      *
      * @return static<TValue> A new collection with the elements sorted according to the provided comparator

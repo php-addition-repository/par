@@ -25,7 +25,7 @@ interface Collection extends IteratorAggregate, Countable
      * More formally, returns true if and only if this sequence contains at least one element `$e` such that
      * `Values.equals($element, $e)`.
      *
-     * @param mixed $element element whose presence in this vector is to be tested
+     * @param TValue|mixed $element element whose presence in this vector is to be tested
      *
      * @return bool `true` if this vector contains the specified element
      */
@@ -34,7 +34,7 @@ interface Collection extends IteratorAggregate, Countable
     /**
      * Returns true if this Vector contains all of the elements in the specified iterable.
      *
-     * @param iterable $elements an iterable whose elements will be tested for containment in this Vector
+     * @param iterable<TValue|mixed> $elements an iterable whose elements will be tested for containment in this Vector
      *
      * @return bool `true` if this vector contains all the elements from the specified iterable
      */

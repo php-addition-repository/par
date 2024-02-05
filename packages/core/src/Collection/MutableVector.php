@@ -88,7 +88,7 @@ final class MutableVector extends AbstractVector implements MutableSequence
         return $current;
     }
 
-    public function reverse(): self
+    public function reverse(): static
     {
         $this->array = array_reverse($this->array);
 
@@ -121,7 +121,7 @@ final class MutableVector extends AbstractVector implements MutableSequence
         return $changed;
     }
 
-    public function sort(callable|Comparator $comparator = null): self
+    public function sort(callable|Comparator $comparator = null): static
     {
         if (!$comparator instanceof Comparator) {
             $comparator = is_callable($comparator) ? Comparators::with($comparator) : Comparators::values();

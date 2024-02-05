@@ -21,9 +21,9 @@ interface MutableSequence extends Sequence, MutableSequencedCollection
     /**
      * Reverses all the elements of this sequence.
      *
-     * @return static<TValue> This sequence with all its elements in reverse order
+     * @return $this This sequence with all its elements in reverse order
      */
-    public function reverse(): self;
+    public function reverse(): static;
 
     /**
      * Replaces the element at the specified position in this sequence with the specified element.
@@ -56,12 +56,12 @@ interface MutableSequence extends Sequence, MutableSequencedCollection
      *
      * The sort is stable: this method must not reorder equal elements.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
      *       to be used to determine the new order of the elements from this sequence
      *
-     * @return static<TValue> This sequence with all its elements sorted according to the provided comparator
+     * @return $this This sequence with all its elements sorted according to the provided comparator
      */
-    public function sort(callable|Comparator $comparator = null): self;
+    public function sort(callable|Comparator $comparator = null): static;
 
     /**
      * Removes the element at the specified position in this sequence.

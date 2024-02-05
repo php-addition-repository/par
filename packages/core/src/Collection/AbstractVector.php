@@ -23,7 +23,6 @@ use Traversable;
  * @internal
  * @template TValue
  * @implements Sequence<TValue>
- * @psalm-consistent-templates
  */
 abstract class AbstractVector implements Sequence
 {
@@ -35,7 +34,7 @@ abstract class AbstractVector implements Sequence
     /**
      * @param iterable<TValue> $iterable
      */
-    final private function __construct(iterable $iterable = [])
+    final private function __construct(iterable $iterable)
     {
         foreach ($iterable as $value) {
             $this->array[] = $value;
@@ -45,11 +44,11 @@ abstract class AbstractVector implements Sequence
     /**
      * Creates a vector without any elements.
      *
-     * @return static an empty vector
+     * @return static<mixed> an empty vector
      */
     public static function empty(): self
     {
-        return new static();
+        return new static([]);
     }
 
     /**
@@ -126,7 +125,7 @@ abstract class AbstractVector implements Sequence
     /**
      * @inheritDoc
      * @return bool
-     * @psalm-assert-if-false non-empty-array<int<0, max>, TValue> $this->array
+     * @phpstan-assert-if-false non-empty-array<int<0, max>, TValue> $this->array
      */
     public function isEmpty(): bool
     {
@@ -161,12 +160,12 @@ abstract class AbstractVector implements Sequence
         return $pipe($this->array)->first();
     }
 
-    public function reversed(): self
+    public function reversed(): static
     {
         return new static(array_reverse($this->array));
     }
 
-    public function sorted(callable|Comparator $comparator = null): self
+    public function sorted(callable|Comparator $comparator = null): static
     {
         return new static(
             Stream::fromIterable($this->array)->sorted($comparator)->toArray()

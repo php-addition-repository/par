@@ -21,20 +21,12 @@ final class PeekTest extends TestCase
         $invoker->expects($matcher)
             ->method('__invoke')
             ->willReturnCallback(function (int $value) use ($matcher) {
-                /** @psalm-suppress InternalMethod */
-                match ($matcher->numberOfInvocations()) {
-                    1 => $this->assertEquals(1, $value),
-                    2 => $this->assertEquals(2, $value),
-                    3 => $this->assertEquals(3, $value),
-                    4 => $this->assertEquals(4, $value),
-                    5 => $this->assertEquals(5, $value),
-                };
-        });
-        /** @psalm-var pure-callable $invoker */
+                $this->assertEquals($value, $matcher->numberOfInvocations());
+            });
 
         $this->assertNotSame($stream, $peekedStream = $stream->peek($invoker));
 
         // Need to call a terminal operation on the peeked stream to trigger the peeking.
-        count($peekedStream);
+        $peekedStream->noneMatch(static fn() => false);
     }
 }

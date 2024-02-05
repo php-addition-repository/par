@@ -27,13 +27,13 @@ final class Comparators
      * $comparator->compare($value, $otherValue) === Order::Greater;
      * ```
      *
-     * @param mixed           $value The value to test
-     * @param mixed           $otherValue The other value to test against
-     * @param Comparator|null $comparator Optional comparator to use, defaults to
+     * @template TValue
+     * @param TValue $value The value to test
+     * @param TValue $otherValue The other value to test against
+     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
      *     `\Par\Core\Comparison\Comparators::values()`
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public static function comesAfter(mixed $value, mixed $otherValue, Comparator $comparator = null): bool
     {
@@ -50,13 +50,13 @@ final class Comparators
      * $comparator->compare($value, $otherValue) !== Order::Lesser;
      * ```
      *
-     * @param mixed           $value The value to test
-     * @param mixed           $otherValue The other value to test against
-     * @param Comparator|null $comparator Optional comparator to use, defaults to
+     * @template TValue
+     * @param TValue $value The value to test
+     * @param TValue $otherValue The other value to test against
+     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
      *     `\Par\Core\Comparison\Comparators::values()`
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public static function comesAfterOrEquals(mixed $value, mixed $otherValue, Comparator $comparator = null): bool
     {
@@ -70,14 +70,14 @@ final class Comparators
      * ```
      * $comparator->compare($value, $otherValue) === Order::Lesser;
      * ```
+     * @template TValue
      *
-     * @param mixed           $value The value to test
-     * @param mixed           $otherValue The other value to test against.
-     * @param Comparator|null $comparator Optional comparator to use, defaults to
+     * @param TValue $value The value to test
+     * @param TValue $otherValue The other value to test against.
+     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
      *     `\Par\Core\Comparison\Comparators::values()`
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public static function comesBefore(mixed $value, mixed $otherValue, Comparator $comparator = null): bool
     {
@@ -94,13 +94,13 @@ final class Comparators
      * $comparator->compare($value, $otherValue) !== Order::Greater;
      * ```
      *
-     * @param mixed           $value The value to test
-     * @param mixed           $otherValue The other value to test against.
-     * @param Comparator|null $comparator Optional comparator to use, defaults to
+     * @template TValue
+     * @param TValue $value The value to test
+     * @param TValue $otherValue The other value to test against.
+     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
      *     `\Par\Core\Comparison\Comparators::values()`
      *
      * @return bool
-     * @psalm-mutation-free
      */
     public static function comesBeforeOrEquals(mixed $value, mixed $otherValue, Comparator $comparator = null): bool
     {
@@ -113,11 +113,10 @@ final class Comparators
      * The comparator will automatically implement a guard to make sure both values are floats.
      *
      * @template TValue
-     * @param pure-callable(TValue): float|null $extractor An extractor that returns the float value to use in the
+     * @param callable(TValue): float|null $extractor An extractor that returns the float value to use in the
      *     comparison.
      *
-     * @psalm-return ($extractor is null ? Comparator<float> : Comparator<TValue>)
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> : Comparator<float>)
      */
     public static function floats(?callable $extractor = null): Comparator
     {
@@ -137,12 +136,10 @@ final class Comparators
      * The comparator will automatically implement a guard to make sure both values are integers.
      *
      * @template TValue
-     *
-     * @param pure-callable(TValue): int|null $extractor An extractor that returns the integer value to use in the
+     * @param callable(TValue): int|null $extractor An extractor that returns the integer value to use in the
      *     comparison.
      *
-     * @psalm-return ($extractor is null ? Comparator<int> : Comparator<TValue>)
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> : Comparator<int>)
      */
     public static function integers(?callable $extractor = null): Comparator
     {
@@ -163,11 +160,10 @@ final class Comparators
      * the `Stringable` interface.
      *
      * @template TValue
-     * @param pure-callable(TValue): (string|Stringable)|null $extractor An extractor that returns the string or
-     *     Stringable value to use in the comparison.
+     * @param callable(TValue): (string|Stringable)|null $extractor An extractor that returns the `string` or
+     *     `Stringable` value to use in the comparison.
      *
-     * @psalm-return ($extractor is null ? Comparator<string|Stringable> : Comparator<TValue>)
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> :Comparator<string|Stringable>)
      */
     public static function naturalCaseSensitiveOrder(?callable $extractor = null): Comparator
     {
@@ -192,12 +188,10 @@ final class Comparators
      * the `Stringable` interface.
      *
      * @template TValue
-     *
-     * @param pure-callable(TValue): (string|Stringable)|null $extractor An extractor that returns the string or
+     * @param callable(TValue): (string|Stringable)|null $extractor An extractor that returns the string or
      *     Stringable value to use in the comparison.
      *
-     * @psalm-return ($extractor is null ? Comparator<string|Stringable> : Comparator<TValue>)
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> : Comparator<string|Stringable>)
      */
     public static function naturalOrder(?callable $extractor = null): Comparator
     {
@@ -222,11 +216,10 @@ final class Comparators
      * the `Stringable` interface.
      *
      * @template TValue
-     * @param pure-callable(TValue): (string|Stringable)|null $extractor An extractor that returns the string or
+     * @param callable(TValue): (string|Stringable)|null $extractor An extractor that returns the string or
      *     Stringable value to use in the comparison.
      *
-     * @psalm-return ($extractor is null ? Comparator<string|Stringable> : Comparator<TValue>)
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> : Comparator<string|Stringable>)
      */
     public static function strings(?callable $extractor = null): Comparator
     {
@@ -250,11 +243,9 @@ final class Comparators
      *
      * @template TValue
      * @template UValue
-     * @param pure-callable(TValue): UValue|null $extractor An extractor that returns the value to use in the
-     *     comparison.
+     * @param callable(TValue): UValue|null $extractor An extractor that returns the value to use in the comparison.
      *
-     * @return Comparator<TValue>
-     * @psalm-mutation-free
+     * @return ($extractor is callable ? Comparator<TValue> : Comparator<mixed>)
      */
     public static function values(?callable $extractor = null): Comparator
     {
@@ -284,10 +275,9 @@ final class Comparators
      *
      * @template TValue
      *
-     * @param pure-callable(TValue, TValue): (Order|int<-1,1>) $comparator The comparator callback
+     * @param callable(TValue, TValue): (Order|int<-1,1>) $comparator The comparator callback
      *
      * @return Comparator<TValue>
-     * @psalm-mutation-free
      */
     public static function with(callable $comparator): Comparator
     {
@@ -297,11 +287,10 @@ final class Comparators
     /**
      * @template TValue
      * @template UValue
-     * @param Comparator                        $decorated
-     * @param pure-callable(TValue):UValue|null $extractor
+     * @param Comparator<TValue> $decorated
+     * @param callable(TValue):UValue|null $extractor
      *
      * @return Comparator<TValue>
-     * @psalm-mutation-free
      */
     private static function decorateWithExtractor(Comparator $decorated, ?callable $extractor): Comparator
     {
@@ -313,8 +302,7 @@ final class Comparators
     }
 
     /**
-     * @return pure-callable(mixed): bool
-     * @psalm-pure
+     * @return callable(mixed): bool
      */
     private static function getStringPredicate(): callable
     {

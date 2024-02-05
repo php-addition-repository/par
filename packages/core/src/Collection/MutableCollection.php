@@ -44,7 +44,7 @@ interface MutableCollection extends Collection
     /**
      * Removes all of the elements of this sequence that satisfy the given predicate.
      *
-     * @param pure-callable(TValue): bool $predicate a non-interfering predicate which returns true for elements to be
+     * @param callable(TValue): bool $predicate a non-interfering predicate which returns true for elements to be
      *     removed
      *
      * @return bool `true` if any elements were removed

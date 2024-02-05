@@ -44,9 +44,7 @@ final class Stream implements IteratorAggregate, Countable
     /**
      * Create an empty stream.
      *
-     * @template UValue
-     *
-     * @return Stream<UValue>
+     * @return self<mixed>
      */
     public static function empty(): self
     {
@@ -60,7 +58,7 @@ final class Stream implements IteratorAggregate, Countable
      * @param float $end Maximum float in range, must be greater that or equal to start
      * @param float $step Step size of each item in range stream, must be zero or more.
      *
-     * @return Stream<float>
+     * @return self<float>
      */
     public static function floatRange(float $start = 0.0, float $end = INF, float $step = 1.0): self
     {
@@ -84,7 +82,7 @@ final class Stream implements IteratorAggregate, Countable
      * @param callable(mixed ...$parameters): iterable<UValue> $callable The callable to execute
      * @param iterable<int, mixed>                             $parameters The parameters to execute the callable with
      *
-     * @return Stream<UValue>
+     * @return self<UValue>
      */
     public static function fromCallable(callable $callable, iterable $parameters): self
     {
@@ -120,7 +118,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @template UValue
      *
-     * @param iterable<UValue>|Stream<UValue> $iterable The iterable to use.
+     * @param iterable<UValue> $iterable The iterable to use.
      *
      * @return Stream<UValue>
      */
@@ -163,7 +161,7 @@ final class Stream implements IteratorAggregate, Countable
      * @param int                       $amount The amount of times to execute the callback
      * @param callable(int):UValue|null $callable The callable to invoke
      *
-     * @psalm-return ($callable is null ? Stream<int> : Stream<UValue>)
+     * @return ($callable is null ? Stream<int> : Stream<UValue>)
      */
     public static function times(int $amount = 0, callable $callable = null): self
     {
@@ -176,13 +174,12 @@ final class Stream implements IteratorAggregate, Countable
      * May not evaluate the predicate on all elements if not necessary for determining the result. If this stream is
      * empty, `true` is returned.
      *
-     * @param pure-callable(TValue): bool $predicate A predicate to apply to elements of this stream
+     * @param callable(TValue): bool $predicate A predicate to apply to elements of this stream
      *
      * @return bool
      */
     public function allMatch(callable $predicate): bool
     {
-        /** @psalm-suppress PossiblyInvalidArgument */
         return $this->innerCollection->every($predicate);
     }
 
@@ -192,7 +189,7 @@ final class Stream implements IteratorAggregate, Countable
      * May not evaluate the predicate on all elements if not necessary for determining the result. If the stream is
      * empty, `false` is returned.
      *
-     * @param pure-callable(TValue): bool $predicate A predicate to apply to elements of this stream
+     * @param callable(TValue): bool $predicate A predicate to apply to elements of this stream
      *
      * @return bool
      */
@@ -200,7 +197,6 @@ final class Stream implements IteratorAggregate, Countable
     {
         $matcher = static fn(): bool => true;
 
-        /** @psalm-suppress PossiblyInvalidArgument */
         return (new MatchOne())()($matcher)($predicate)($this->innerCollection)->current();
     }
 
@@ -219,14 +215,13 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param pure-callable(TValue): bool $predicate a non-interfering predicate to apply to each element to
+     * @param callable(TValue): bool $predicate a non-interfering predicate to apply to each element to
      *     determine if it should be included
      *
      * @return static<TValue> The new stream
      */
     public function filter(callable $predicate): Stream
     {
-        /** @psalm-suppress PossiblyInvalidArgument */
         return new self($this->innerCollection->filter($predicate));
     }
 
@@ -235,7 +230,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param pure-callable(TValue): void $action a non-interfering action to perform on the elements
+     * @param callable(TValue): void $action a non-interfering action to perform on the elements
      *
      * @return void
      */
@@ -299,7 +294,6 @@ final class Stream implements IteratorAggregate, Countable
      */
     public function map(callable $mapper): Stream
     {
-        /** @psalm-suppress PossiblyInvalidArgument */
         return new self($this->innerCollection->map($mapper));
     }
 
@@ -308,7 +302,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
      *     elements of this stream
      *
      * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
@@ -332,7 +326,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
      * *     elements of this stream
      *
      * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
@@ -358,7 +352,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param pure-callable(TValue): bool $predicate a non-interfering predicate to apply to elements of this stream
+     * @param callable(TValue): bool $predicate a non-interfering predicate to apply to elements of this stream
      *
      * @return bool `true` if either no elements of the stream match the provided predicate or the stream is empty,
      *     otherwise `false`
@@ -374,7 +368,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param pure-callable(TValue): void $action a non-interfering action to perform on the elements as they are
+     * @param callable(TValue): void $action a non-interfering action to perform on the elements as they are
      *     consumed from the stream
      *
      * @return Stream<TValue> The new stream
@@ -416,7 +410,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
      *     to be used to compare stream elements
      *
      * @return static<TValue> The new stream
@@ -446,9 +440,9 @@ final class Stream implements IteratorAggregate, Countable
     /**
      * Transforms a comparator to a callable that can be used by the internal collection.
      *
-     * @param pure-callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator The comparator to transform
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator The comparator to transform
      *
-     * @return pure-callable(TValue, TValue): int<-1, 1>
+     * @return callable(TValue, TValue): int<-1, 1>
      */
     private function toInnerComparator(callable|Comparator $comparator = null): callable
     {

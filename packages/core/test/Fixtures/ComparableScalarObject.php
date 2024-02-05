@@ -9,9 +9,7 @@ use Par\Core\Comparison\Exception\IncomparableException;
 use Par\Core\Comparison\Order;
 
 /**
- * @template TValue of int|string
  * @internal
- * @psalm-immutable
  * @implements Comparable<self>
  */
 final class ComparableScalarObject implements Comparable
@@ -20,7 +18,7 @@ final class ComparableScalarObject implements Comparable
     {
     }
 
-    public function compare(mixed $other): Order
+    public function compare(?object $other): Order
     {
         if ($other instanceof self && gettype($this->value) === gettype($other->value)) {
             return Order::from($this->value <=> $other->value);

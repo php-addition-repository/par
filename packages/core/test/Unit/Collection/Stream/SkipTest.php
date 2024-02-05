@@ -17,7 +17,8 @@ final class SkipTest extends TestCase
         $stream = Stream::fromIterable(range(1, 5));
 
         $this->expectException(AssertionFailedException::class);
-        /** @psalm-suppress InvalidArgument */
+
+        /** @phpstan-ignore-next-line */
         $stream->skip(-2);
     }
 

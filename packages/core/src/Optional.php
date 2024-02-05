@@ -18,8 +18,8 @@ use Throwable;
  * "no result" and where using `null` is likely to cause errors. A variable whose type is `Optional` should never itself
  * be `null`; it should always point to an `Optional` instance.
  *
- * @template TValue
- * @implements Equable<self>
+ * @template-covariant TValue
+ * @implements Equable<Optional>
  */
 final class Optional implements Equable
 {
@@ -34,7 +34,7 @@ final class Optional implements Equable
     /**
      * Returns an empty `Optional` instance.
      *
-     * @return Optional
+     * @return Optional<mixed>
      */
     public static function empty(): self
     {
@@ -90,11 +90,6 @@ final class Optional implements Equable
         return self::empty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @psalm-mutation-free
-     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof self) {

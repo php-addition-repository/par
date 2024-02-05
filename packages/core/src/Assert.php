@@ -15,8 +15,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
      * @inheritDoc
      *
      * @throws AssertionFailedException
-     *
-     * @psalm-pure
      */
     protected static function reportInvalidArgument($message): never
     {
@@ -25,7 +23,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
 
     /**
      * @inheritDoc
-     * @psalm-pure
      */
     protected static function valueToString(mixed $value): string
     {
@@ -55,7 +52,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
             }
 
             if ($value instanceof DateTimeInterface) {
-                /** @psalm-suppress ImpureMethodCall */
                 return sprintf('%s(%s)', $value::class, static::valueToString($value->format('c')));
             }
 
