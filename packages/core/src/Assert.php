@@ -63,13 +63,13 @@ abstract class Assert extends \Webmozart\Assert\Assert
         }
 
         if (is_string($value)) {
-            $value = \preg_replace('/\s+/', ' ', $value);
+            $value = preg_replace('/\s+/', ' ', $value);
 
-            if (\mb_strlen($value) > static::MAX_SHORT_LENGTH) {
-                $value = \sprintf(
+            if (mb_strlen($value) > static::MAX_SHORT_LENGTH) {
+                $value = sprintf(
                     '%s...%s',
-                    \mb_substr($value, 0, (int)ceil(static::MAX_SHORT_LENGTH / 2) - 3),
-                    \mb_substr($value, (int)floor(static::MAX_SHORT_LENGTH / 2) * -1)
+                    mb_substr($value, 0, (int)ceil(static::MAX_SHORT_LENGTH / 2) - 3),
+                    mb_substr($value, (int)floor(static::MAX_SHORT_LENGTH / 2) * -1)
                 );
             }
 
