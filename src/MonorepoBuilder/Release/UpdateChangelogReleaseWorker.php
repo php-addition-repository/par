@@ -56,12 +56,13 @@ final class UpdateChangelogReleaseWorker implements ReleaseWorkerInterface
     private function createNewHeadline(Version $version): string
     {
         $dateTime = new DateTime();
+
         return implode(PHP_EOL, [
             '## [Unreleased]',
             '',
             '_Nothing yet._',
             '',
-            sprintf('## [%s] - %s', $version->getVersionString(), $dateTime->format('Y-m-d'))
+            sprintf('## [%s] - %s', $version->getVersionString(), $dateTime->format('Y-m-d')),
         ]);
     }
 
