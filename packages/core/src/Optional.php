@@ -239,8 +239,7 @@ final class Optional implements Equable
      *
      * If no supplying function is provided a default supplier will be used that returns a `NoSuchElementException`.
      *
-     * @param callable():Throwable|null $exceptionSupplier the supplying function that produces an exception to be
-     *                                                     thrown
+     * @param callable():Throwable|null $exceptionSupplier the supplying function that produces an exception to be thrown
      *
      * @return TValue
      *
@@ -253,10 +252,20 @@ final class Optional implements Equable
             return $this->value;
         }
 
-        if (!$exceptionSupplier) {
-            throw new NoSuchElementException();
+        throw $this->exceptionSupplier($exceptionSupplier);
+    }
+
+    /**
+     * @param callable():Throwable|null $supplier
+     *
+     * @return ($supplier is callable ? Throwable : NoSuchElementException)
+     */
+    private function exceptionSupplier(?callable $supplier = null): NoSuchElementException|Throwable
+    {
+        if (is_callable($supplier)) {
+            return $supplier();
         }
 
-        throw $exceptionSupplier();
+        return new NoSuchElementException();
     }
 }
