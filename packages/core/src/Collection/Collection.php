@@ -20,7 +20,7 @@ use Traversable;
 interface Collection extends IteratorAggregate, Countable
 {
     /**
-     * Returns true if this sequence contains the specified element.
+     * Returns true if this collection contains the specified element.
      *
      * More formally, returns true if and only if this sequence contains at least one element `$e` such that
      * `Values.equals($element, $e)`.
@@ -32,7 +32,7 @@ interface Collection extends IteratorAggregate, Countable
     public function contains(mixed $element): bool;
 
     /**
-     * Returns true if this Vector contains all of the elements in the specified iterable.
+     * Returns true if this collection contains all of the elements in the specified iterable.
      *
      * @param iterable<TValue|mixed> $elements an iterable whose elements will be tested for containment in this Vector
      *
