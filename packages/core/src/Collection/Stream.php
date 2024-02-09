@@ -210,8 +210,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param callable(TValue): bool $predicate a non-interfering predicate to apply to each element to
-     *                                          determine if it should be included
+     * @param callable(TValue): bool $predicate a non-interfering predicate to apply to each element to determine if it should be included
      *
      * @return static<TValue> The new stream
      */
@@ -295,11 +294,9 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
-     *                                                                                elements of this stream
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare elements of this stream
      *
-     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
-     *                          stream is empty
+     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
      */
     public function max(callable|Comparator|null $comparator = null): Optional
     {
@@ -319,11 +316,9 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is a terminal operation.
      *
-     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare
-     *                                                                                *     elements of this stream
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a comparator to compare elements of this stream
      *
-     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the
-     *                          stream is empty
+     * @return Optional<TValue> an Optional describing the maximum element of this stream, or an empty Optional if the stream is empty
      */
     public function min(callable|Comparator|null $comparator = null): Optional
     {
@@ -347,8 +342,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * @param callable(TValue): bool $predicate a non-interfering predicate to apply to elements of this stream
      *
-     * @return bool `true` if either no elements of the stream match the provided predicate or the stream is empty,
-     *              otherwise `false`
+     * @return bool `true` if either no elements of the stream match the provided predicate or the stream is empty, otherwise `false`
      */
     public function noneMatch(callable $predicate): bool
     {
@@ -361,8 +355,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param callable(TValue): void $action a non-interfering action to perform on the elements as they are
-     *                                       consumed from the stream
+     * @param callable(TValue): void $action a non-interfering action to perform on the elements as they are consumed from the stream
      *
      * @return Stream<TValue> The new stream
      */
@@ -376,8 +369,7 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
-     * Returns a stream consisting of the remaining elements of this stream after discarding the first n elements of
-     * the stream.
+     * Returns a stream consisting of the remaining elements of this stream after discarding the first n elements of the stream.
      *
      * If this stream contains fewer than n elements then an empty stream will be returned.
      *
@@ -404,8 +396,7 @@ final class Stream implements IteratorAggregate, Countable
      *
      * This is an intermediate operation.
      *
-     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator
-     *                                                                                to be used to compare stream elements
+     * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator a non-interfering comparator to be used to compare stream elements
      *
      * @return static<TValue> The new stream
      */
