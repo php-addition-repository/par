@@ -91,7 +91,7 @@ tools/phpunit: ## Run PHPUnit
 .PHONY: tools/php-cs-fixer
 tools/php-cs-fixer: ## Run PHP-CS-Fixer
 	@if [ -z "$(TOOL_ARGS)" ]; then \
-		CMD="php-cs-fixer check" $(MAKE) docker/workspace; \
+		CMD="php-cs-fixer check --diff -v" $(MAKE) docker/workspace; \
 	else \
 		CMD="php-cs-fixer $(TOOL_ARGS)" $(MAKE) docker/workspace; \
 	fi
