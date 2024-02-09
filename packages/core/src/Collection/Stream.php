@@ -250,7 +250,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public function isEmpty(): bool
     {
-        return $this->anyMatch(static fn(): bool => true);
+        return !$this->anyMatch(static fn(): bool => true);
     }
 
     /**
