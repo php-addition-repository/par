@@ -423,6 +423,52 @@ final class Stream implements IteratorAggregate, Countable
     }
 
     /**
+     * Returns an `Optional` describing the first element of this stream, or an empty `Optional` if the stream is empty. If the stream has no encounter order, then any element may be returned.
+     *
+     * @return Optional<TValue> an `Optional` describing the first element of this stream, or an empty `Optional` if the stream is empty
+     */
+    public function findFirst(): Optional
+    {
+        $first = $this->innerCollection->first(Optional::empty());
+        if ($first instanceof Optional) {
+            return $first;
+        }
+
+        return Optional::fromAny($first);
+    }
+
+    /**
+     * Performs a reduction on the elements of this stream, using the provided identity value and an associative accumulation function, and returns the reduced value.
+     *
+     * This is equivalent to:
+     * ```
+     * $result = $initialValue;
+     * foreach ($stream as $element) {
+     *    $result = $accumulator($element, $result);
+     * }
+     * return $result;
+     * ```
+     *
+     * This is a terminal operation.
+     *
+     * @template UValue
+     *
+     * @param UValue $initialValue the initial carried value to pass to the accumulator as second argument
+     * @param callable(TValue, UValue): UValue $accumulator an associative, non-interfering, stateless function for combining two values
+     *
+     * @return UValue
+     */
+    public function reduce(mixed $initialValue, callable $accumulator): mixed
+    {
+        $result = $initialValue;
+        foreach ($this as $element) {
+            $result = $accumulator($element, $result);
+        }
+
+        return $result;
+    }
+
+    /**
      * Transforms a comparator to a callable that can be used by the internal collection.
      *
      * @param callable(TValue, TValue): int<-1,1>|Comparator<TValue>|null $comparator The comparator to transform
