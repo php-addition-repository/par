@@ -105,7 +105,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public static function fromGenerator(Generator $generator): self
     {
-        return new self(InnerCollection::fromGenerator($generator));
+        return new self(InnerCollection::fromGenerator($generator)->normalize());
     }
 
     /**
@@ -129,7 +129,7 @@ final class Stream implements IteratorAggregate, Countable
             return $iterable;
         }
 
-        return new self(InnerCollection::fromIterable($iterable));
+        return new self(InnerCollection::fromIterable($iterable)->normalize());
     }
 
     /**
