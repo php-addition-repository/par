@@ -7,8 +7,7 @@ namespace Par\Core\Collection;
 use Countable;
 use Generator;
 use IteratorAggregate;
-use loophp\collection\Collection as CollectionFactory;
-use loophp\collection\Contract\Collection as CollectionInterface;
+use loophp\collection\Collection as InnerCollection;
 use loophp\collection\Contract\Operation\Sortable;
 use loophp\collection\Operation\MatchOne;
 use Par\Core\Assert;
@@ -37,9 +36,9 @@ use Traversable;
 final class Stream implements IteratorAggregate, Countable
 {
     /**
-     * @param CollectionInterface<int, TValue> $innerCollection
+     * @param InnerCollection<int, TValue> $innerCollection
      */
-    private function __construct(private readonly CollectionInterface $innerCollection)
+    private function __construct(private readonly InnerCollection $innerCollection)
     {
     }
 
@@ -50,7 +49,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public static function empty(): self
     {
-        return new self(CollectionFactory::empty());
+        return new self(InnerCollection::empty());
     }
 
     /**
@@ -68,7 +67,7 @@ final class Stream implements IteratorAggregate, Countable
         Assert::greaterThanEq($step, 0, 'Range step must be zero or more');
 
         return new self(
-            CollectionFactory::range(
+            InnerCollection::range(
                 $start,
                 $end + 1,
                 $step
@@ -88,7 +87,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public static function fromCallable(callable $callable, iterable $parameters): self
     {
-        return new self(CollectionFactory::fromCallable($callable, $parameters));
+        return new self(InnerCollection::fromCallable($callable, $parameters));
     }
 
     /**
@@ -106,7 +105,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public static function fromGenerator(Generator $generator): self
     {
-        return new self(CollectionFactory::fromGenerator($generator));
+        return new self(InnerCollection::fromGenerator($generator));
     }
 
     /**
@@ -130,7 +129,7 @@ final class Stream implements IteratorAggregate, Countable
             return $iterable;
         }
 
-        return new self(CollectionFactory::fromIterable($iterable));
+        return new self(InnerCollection::fromIterable($iterable));
     }
 
     /**
@@ -167,7 +166,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public static function times(int $amount = 0, ?callable $callable = null): self
     {
-        return new self(CollectionFactory::times($amount, $callable));
+        return new self(InnerCollection::times($amount, $callable));
     }
 
     /**
@@ -203,7 +202,7 @@ final class Stream implements IteratorAggregate, Countable
      */
     public function count(): int
     {
-        return iterator_count($this->innerCollection);
+        return count($this->innerCollection);
     }
 
     /**

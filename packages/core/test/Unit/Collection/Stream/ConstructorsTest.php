@@ -77,7 +77,7 @@ final class ConstructorsTest extends TestCase
         $generator->next();
         $generator->next();
 
-        yield 'forwarded generator' => [$generator, [2 => 'c', 3 => 'd', 4 => 'e']];
+        yield 'forwarded generator' => [$generator, ['c', 'd', 'e']];
     }
 
     public static function fromIterableProvider(): iterable
@@ -89,7 +89,7 @@ final class ConstructorsTest extends TestCase
         })();
         $generator->next();
         $generator->next();
-        yield 'forwarded generator' => [$generator, [2 => 'c', 3 => 'd', 4 => 'e']];
+        yield 'forwarded generator' => [$generator, ['c', 'd', 'e']];
 
         $stream = Stream::intRange(1, 5);
         yield 'stream' => [$stream, $stream];
