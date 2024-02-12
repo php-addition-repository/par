@@ -25,6 +25,14 @@ final class EquableScalarObject implements Equable
     }
 
     /**
+     * @return Generator<EquableScalarObject<int>>
+     */
+    public static function fromIntRange(int $start, int $end): iterable
+    {
+        yield from static::fromIterable(range($start, $end));
+    }
+
+    /**
      * @param iterable<TValue> $iterable
      *
      * @return Generator<EquableScalarObject<TValue>>
@@ -37,19 +45,19 @@ final class EquableScalarObject implements Equable
     }
 
     /**
-     * @return iterable<EquableScalarObject<int>>
-     */
-    public static function fromIntRange(int $start, int $end): iterable
-    {
-        yield from static::fromIterable(range($start, $end));
-    }
-
-    /**
      * @return self<string>
      */
     public static function fromString(string $value): self
     {
         return new self($value);
+    }
+
+    /**
+     * @return Generator<EquableScalarObject<string>>
+     */
+    public static function fromStringRange(string $start, string $end): iterable
+    {
+        yield from static::fromIterable(range($start, $end));
     }
 
     /**
