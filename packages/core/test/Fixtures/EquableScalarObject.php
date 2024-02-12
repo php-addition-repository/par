@@ -17,21 +17,52 @@ use Par\Core\Equable;
 final class EquableScalarObject implements Equable
 {
     /**
-     * @param iterable<TValue> $values
+     * @param int $value
+     *
+     * @return self<int>
+     */
+    public static function fromInt(int $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @param iterable<TValue> $iterable
      *
      * @return Generator<EquableScalarObject<TValue>>
      */
-    public static function generateList(iterable $values): iterable
+    public static function fromIterable(iterable $iterable): iterable
     {
-        foreach ($values as $value) {
+        foreach ($iterable as $value) {
             yield new self($value);
         }
     }
 
     /**
+     * @param int $start
+     * @param int $end
+     *
+     * @return iterable<EquableScalarObject<int>>
+     */
+    public static function fromIntRange(int $start, int $end): iterable
+    {
+        yield from static::fromIterable(range($start, $end));
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return self<string>
+     */
+    public static function fromString(string $value): self
+    {
+        return new self($value);
+    }
+
+    /**
      * @param TValue|null $value
      */
-    public function __construct(public readonly float|bool|int|string|null $value)
+    private function __construct(public readonly float|bool|int|string|null $value)
     {
     }
 
