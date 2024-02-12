@@ -170,7 +170,7 @@ final class ArraySequence implements MutableSequence
 
     public function stream(): Stream
     {
-        return Stream::fromIterable($this->inner);
+        return Stream::fromIterable($this);
     }
 
     public function toArray(): array
