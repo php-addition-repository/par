@@ -43,26 +43,22 @@ interface Sequence extends SequencedCollection
      * $this->get($i))`, or -1 if there is no such index.
      *
      * @param TValue $element element to search for
-     * @param int<0, max>|null $index index to start searching from, defaults to first index
      *
      * @return int<-1, max> the index of the first occurrence of the specified element in this sequence at position
      *                      `$index` or later, or -1 if this sequence does not contain the element
-     *
-     * @throws IndexOutOfBoundsException if the index is out of range (`$index < 0 || $index >= count($this)`)
      */
-    public function indexOf(mixed $element, ?int $index = null): int;
+    public function indexOf(mixed $element): int;
 
     /**
      * Returns the index of the last occurrence of the specified element in this sequence, searching backwards from
      * `$index`, or returns -1 if the element is not found.
      *
      * @param mixed $element element to search for
-     * @param int<0, max>|null $index index to start searching backwards from, defaults to last index
      *
      * @return int<-1, max> the index of the last occurrence of the element at position less than or equal to `$index`
      *                      in this sequence, or -1 if this sequence does not contain the element
      *
      * @throws IndexOutOfBoundsException if the index is out of range (`$index < 0 || $index >= count($this)`)
      */
-    public function lastIndexOf(mixed $element, ?int $index = null): int;
+    public function lastIndexOf(mixed $element): int;
 }

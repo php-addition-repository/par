@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Par\Core\Collection;
 
 use ArrayIterator;
+use Generator;
 use loophp\collection\Operation\Append;
-use loophp\collection\Operation\Drop;
-use loophp\collection\Operation\First;
+use loophp\collection\Operation\Filter;
 use loophp\collection\Operation\Flip;
-use loophp\collection\Operation\MatchOne;
+use loophp\collection\Operation\Head;
 use loophp\collection\Operation\Pipe;
 use loophp\collection\Operation\Reverse;
 use Par\Core\Comparison\Comparator;
@@ -30,17 +30,22 @@ use Traversable;
 abstract class AbstractVector implements Sequence
 {
     /**
-     * @var array<int<0,max>, TValue> internal array used to store the values of the sequence
+     * @var array<int, TValue> internal array used to store the values of the sequence
      */
-    protected array $array = [];
+    protected array $inner;
 
     /**
      * @param iterable<TValue> $iterable
      */
     final private function __construct(iterable $iterable)
     {
-        foreach ($iterable as $value) {
-            $this->array[] = $value;
+        if (is_array($iterable)) {
+            $this->inner = array_values($iterable);
+        } else {
+            $this->inner = [];
+            foreach ($iterable as $element) {
+                $this->inner[] = $element;
+            }
         }
     }
 
@@ -70,117 +75,111 @@ abstract class AbstractVector implements Sequence
 
     public function contains(mixed $element): bool
     {
-        return Values::equalsAnyIn($element, $this->array);
+        return $this->stream()->anyMatch(
+            static fn(mixed $value): bool => Values::equals($value, $element)
+        );
     }
 
     public function containsAll(iterable $elements): bool
     {
-        foreach ($elements as $element) {
-            if (!$this->contains($element)) {
-                return false;
-            }
+        if ($elements instanceof Generator) {
+            $elements = Stream::fromGenerator($elements);
+        } else {
+            $elements = Stream::fromIterable($elements);
         }
 
-        return true;
+        return $elements->allMatch(
+            fn(mixed $element): bool => $this->contains($element)
+        );
     }
 
     public function count(): int
     {
-        return count($this->array);
+        return count($this->inner);
     }
 
     public function first(): mixed
     {
         $this->guardNotEmpty();
 
-        return $this->array[0];
+        return $this->inner[0];
     }
 
     public function get(int $index): mixed
     {
         $this->guardIndexExists($index);
 
-        return $this->array[$index];
+        return $this->inner[$index];
     }
 
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->array);
+        return new ArrayIterator($this->inner);
     }
 
-    public function indexOf(mixed $element, ?int $index = null): int
+    public function indexOf(mixed $element): int
     {
-        $this->guardIndexExists($index);
+        $steps = [
+            Filter::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
+            Flip::of(),
+            Append::of()([-1]),
+            Head::of(),
+        ];
 
-        $pipe = Pipe::of()(
-            Drop::of()(null === $index ? 0 : $index),
-            MatchOne::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
-            Flip::of()(),
-            Append::of()(-1),
-            First::of()()
-        );
-
-        return $pipe($this->array)->first();
+        return Pipe::of()(...$steps)($this->inner)->current();
     }
 
     /**
-     * @phpstan-assert-if-false non-empty-array<int<0, max>, TValue> $this->array
+     * @phpstan-assert-if-false non-empty-array<int<0, max>, TValue> $this->inner
      */
     public function isEmpty(): bool
     {
-        return empty($this->array);
+        return !array_key_exists(0, $this->inner);
     }
 
     public function last(): mixed
     {
-        if ($this->isEmpty()) {
-            throw new NoSuchElementException();
-        }
+        $this->guardNotEmpty();
 
-        return $this->array[count($this->array) - 1];
+        return $this->inner[count($this) - 1];
     }
 
-    public function lastIndexOf(mixed $element, ?int $index = null): int
+    public function lastIndexOf(mixed $element): int
     {
-        $this->guardIndexExists($index);
+        $steps = [
+            Reverse::of(),
+            Filter::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
+            Flip::of(),
+            Append::of()([-1]),
+            Head::of(),
+        ];
 
-        $pipe = Pipe::of()(
-            Reverse::of()(),
-            Drop::of()(null === $index ? 0 : count($this) - $index - 1),
-            MatchOne::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
-            Flip::of()(),
-            Append::of()(-1),
-            First::of()()
-        );
-
-        return $pipe($this->array)->first();
+        return Pipe::of()(...$steps)($this->stream())->current();
     }
 
     public function reversed(): static
     {
-        return new static(array_reverse($this->array));
+        return new static(array_reverse($this->inner));
     }
 
     public function sorted(callable|Comparator|null $comparator = null): static
     {
-        return new static(
-            Stream::fromIterable($this->array)->sorted($comparator)->toArray()
-        );
+        return new static($this->stream()->sorted($comparator));
     }
 
     public function stream(): Stream
     {
-        return Stream::fromIterable($this->array);
+        return Stream::fromIterable($this->inner);
     }
 
     public function toArray(): array
     {
-        return $this->array;
+        return $this->inner;
     }
 
-    protected function guardIndexExists(?int $index): void
+    protected function guardIndexExists(int $index): void
     {
-        if (is_int($index) && ($index < 0 || $index >= count($this))) {
+        if ($index < 0 || !array_key_exists($index, $this->inner)) {
             throw IndexOutOfBoundsException::fromIndex($index);
         }
     }
@@ -188,7 +187,7 @@ abstract class AbstractVector implements Sequence
     protected function guardNotEmpty(): void
     {
         if ($this->isEmpty()) {
-            throw new NoSuchElementException(sprintf('%s is empty', self::class));
+            throw new NoSuchElementException(sprintf('%s is empty', static::class));
         }
     }
 }
