@@ -19,13 +19,14 @@ trait CollectionToArray
     {
         $array = [];
 
-        $format = 'A PHP array only supports keys of type "string|int", this map contains one or more keys of type %s';
+        $format = 'A PHP array only supports keys of type "string|int", this instance of %s contains one or more keys of type %s';
 
         foreach ($this as $key => $value) {
             if (!is_int($key) && !is_string($key)) {
                 throw new InvalidTypeException(
                     sprintf(
                         $format,
+                        static::class,
                         gettype($key)
                     )
                 );
