@@ -17,8 +17,6 @@ use Par\Core\Equable;
 final class EquableScalarObject implements Equable
 {
     /**
-     * @param int $value
-     *
      * @return self<int>
      */
     public static function fromInt(int $value): self
@@ -39,9 +37,6 @@ final class EquableScalarObject implements Equable
     }
 
     /**
-     * @param int $start
-     * @param int $end
-     *
      * @return iterable<EquableScalarObject<int>>
      */
     public static function fromIntRange(int $start, int $end): iterable
@@ -50,8 +45,6 @@ final class EquableScalarObject implements Equable
     }
 
     /**
-     * @param string $value
-     *
      * @return self<string>
      */
     public static function fromString(string $value): self
