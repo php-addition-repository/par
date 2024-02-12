@@ -13,21 +13,22 @@ use loophp\collection\Operation\Head;
 use loophp\collection\Operation\Pipe;
 use loophp\collection\Operation\Reverse;
 use Par\Core\Comparison\Comparator;
+use Par\Core\Comparison\Comparators;
 use Par\Core\Exception\IndexOutOfBoundsException;
 use Par\Core\Exception\NoSuchElementException;
 use Par\Core\Values;
 use Traversable;
 
 /**
- * Abstract implementation of a sequence.
+ * Implementation of a sequence backed by a native array.
  *
  * @internal
  *
  * @template TValue
  *
- * @implements Sequence<TValue>
+ * @implements MutableSequence<TValue>
  */
-abstract class AbstractVector implements Sequence
+final class ArraySequence implements MutableSequence
 {
     /**
      * @var array<int, TValue> internal array used to store the values of the sequence
@@ -175,6 +176,133 @@ abstract class AbstractVector implements Sequence
     public function toArray(): array
     {
         return $this->inner;
+    }
+
+    public function add(mixed $element): bool
+    {
+        $this->inner[] = $element;
+
+        return true;
+    }
+
+    public function addAll(iterable $elements): bool
+    {
+        $added = false;
+        foreach ($elements as $element) {
+            $added = $this->add($element);
+        }
+
+        return $added;
+    }
+
+    public function addFirst(mixed $element): void
+    {
+        array_unshift($this->inner, $element);
+    }
+
+    public function addLast(mixed $element): void
+    {
+        $this->add($element);
+    }
+
+    public function remove(mixed $element): bool
+    {
+        $index = $this->indexOf($element);
+
+        if ($index < 0) {
+            return false;
+        }
+
+        $this->unset($index);
+
+        return true;
+    }
+
+    public function removeFirst(): mixed
+    {
+        $this->guardNotEmpty();
+
+        $current = $this->first();
+
+        array_shift($this->inner);
+
+        return $current;
+    }
+
+    public function removeIf(callable $predicate): bool
+    {
+        $currentNum = $this->count();
+        $this->inner = Stream::fromIterable($this->inner)
+                             ->filter($predicate)
+                             ->toArray();
+
+        return $currentNum != $this->count();
+    }
+
+    public function removeLast(): mixed
+    {
+        $this->guardNotEmpty();
+
+        $current = $this->last();
+
+        array_pop($this->inner);
+
+        return $current;
+    }
+
+    public function reverse(): static
+    {
+        $this->inner = array_reverse($this->inner);
+
+        return $this;
+    }
+
+    public function set(int $index, mixed $element): mixed
+    {
+        $this->guardIndexExists($index);
+
+        $current = $this->get($index);
+        $this->inner[$index] = $element;
+
+        return $current;
+    }
+
+    public function setAll(int $index, iterable $elements): bool
+    {
+        $this->guardIndexExists($index);
+
+        $elementValues = [];
+        foreach ($elements as $element) {
+            $elementValues[] = $element;
+        }
+
+        if ($changed = !empty($elementValues)) {
+            array_splice($this->inner, $index, 0, $elementValues);
+        }
+
+        return $changed;
+    }
+
+    public function sort(callable|Comparator|null $comparator = null): static
+    {
+        if (!$comparator instanceof Comparator) {
+            $comparator = is_callable($comparator) ? Comparators::with($comparator) : Comparators::values();
+        }
+
+        usort($this->inner, static fn(mixed $a, $b): int => $comparator->compare($a, $b)->value);
+
+        return $this;
+    }
+
+    public function unset(int $index): mixed
+    {
+        $this->guardIndexExists($index);
+
+        $current = $this->get($index);
+
+        array_splice($this->inner, $index, 1);
+
+        return $current;
     }
 
     protected function guardIndexExists(int $index): void

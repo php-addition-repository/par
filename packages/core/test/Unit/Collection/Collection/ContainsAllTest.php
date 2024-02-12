@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Collection;
 
+use Par\Core\Collection\ArraySequence;
 use Par\Core\Collection\Collection;
-use Par\Core\Collection\Vector;
 use Par\CoreTest\Fixtures\EquableScalarObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -18,18 +18,18 @@ final class ContainsAllTest extends TestCase
 {
     public static function provideForVector(): iterable
     {
-        yield 'Vector:scalars-true' => [Vector::fromIterable(range(1, 5)), [3, 4], true];
-        yield 'Vector:scalars-false' => [Vector::fromIterable(range(1, 5)), [5, 7], false];
+        yield 'Vector:scalars-true' => [ArraySequence::fromIterable(range(1, 5)), [3, 4], true];
+        yield 'Vector:scalars-false' => [ArraySequence::fromIterable(range(1, 5)), [5, 7], false];
 
-        yield 'Vector:empty' => [Vector::empty(), ['foo'], false];
+        yield 'Vector:empty' => [ArraySequence::empty(), ['foo'], false];
 
         yield 'Vector:equable-true' => [
-            Vector::fromIterable(EquableScalarObject::generateList(range(1, 5))),
+            ArraySequence::fromIterable(EquableScalarObject::generateList(range(1, 5))),
             EquableScalarObject::generateList(range(3, 4)),
             true,
         ];
         yield 'Vector:equable-false' => [
-            Vector::fromIterable(EquableScalarObject::generateList(range(1, 5))),
+            ArraySequence::fromIterable(EquableScalarObject::generateList(range(1, 5))),
             [new EquableScalarObject(5), new EquableScalarObject(7)],
             false,
         ];

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Collection;
 
+use Par\Core\Collection\ArraySequence;
 use Par\Core\Collection\Collection;
-use Par\Core\Collection\Vector;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -17,8 +17,8 @@ final class CountTest extends TestCase
 {
     public static function provideForVector(): iterable
     {
-        yield 'Vector:empty' => [Vector::empty(), 0];
-        yield 'Vector:not-empty' => [Vector::fromIterable(range(1, 5)), 5];
+        yield 'Vector:empty' => [ArraySequence::empty(), 0];
+        yield 'Vector:not-empty' => [ArraySequence::fromIterable(range(1, 5)), 5];
     }
 
     /**

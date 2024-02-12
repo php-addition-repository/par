@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Collection;
 
+use Par\Core\Collection\ArraySequence;
 use Par\Core\Collection\Collection;
 use Par\Core\Collection\Stream;
-use Par\Core\Collection\Vector;
 use Par\CoreTest\Fixtures\EquableScalarObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,10 +19,10 @@ final class StreamTest extends TestCase
 {
     public static function provideForVector(): iterable
     {
-        yield 'Vector:[]]' => [Vector::empty(), Stream::empty()];
-        yield 'Vector:string[]' => [Vector::fromIterable(range('a', 'e')), Stream::fromIterable(range('a', 'e'))];
+        yield 'Vector:[]]' => [ArraySequence::empty(), Stream::empty()];
+        yield 'Vector:string[]' => [ArraySequence::fromIterable(range('a', 'e')), Stream::fromIterable(range('a', 'e'))];
         yield 'Vector:object[]' => [
-            Vector::fromIterable(EquableScalarObject::generateList(range('a', 'e'))),
+            ArraySequence::fromIterable(EquableScalarObject::generateList(range('a', 'e'))),
             Stream::fromIterable(EquableScalarObject::generateList(range('a', 'e'))),
         ];
     }

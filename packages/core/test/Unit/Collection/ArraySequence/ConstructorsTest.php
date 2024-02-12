@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Par\CoreTest\Unit\Collection\Vector;
+namespace Par\CoreTest\Unit\Collection\ArraySequence;
 
-use Par\Core\Collection\Vector;
+use Par\Core\Collection\ArraySequence;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             [],
-            Vector::empty()
+            ArraySequence::empty()
         );
     }
 
@@ -42,7 +42,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             $expectedIterable,
-            Vector::fromIterable($iterable)
+            ArraySequence::fromIterable($iterable)
         );
     }
 }

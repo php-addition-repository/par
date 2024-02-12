@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\SequencedCollection;
 
+use Par\Core\Collection\ArraySequence;
 use Par\Core\Collection\SequencedCollection;
-use Par\Core\Collection\Vector;
 use Par\Core\Comparison\Comparator;
 use Par\Core\Comparison\Comparators;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -23,19 +23,19 @@ final class SortedTest extends TestCase
         $reversedRange = array_reverse($range);
 
         yield 'Vector:callable' => [
-            Vector::fromIterable($reversedRange),
+            ArraySequence::fromIterable($reversedRange),
             static fn(int $a, int $b): int => $a <=> $b,
-            Vector::fromIterable($range),
+            ArraySequence::fromIterable($range),
         ];
         yield 'Vector:Comparator' => [
-            Vector::fromIterable($range),
+            ArraySequence::fromIterable($range),
             Comparators::values()->reversed(),
-            Vector::fromIterable($reversedRange),
+            ArraySequence::fromIterable($reversedRange),
         ];
         yield 'Vector:default' => [
-            Vector::fromIterable($reversedRange),
+            ArraySequence::fromIterable($reversedRange),
             null,
-            Vector::fromIterable($range),
+            ArraySequence::fromIterable($range),
         ];
     }
 
