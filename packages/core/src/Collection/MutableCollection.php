@@ -15,19 +15,20 @@ namespace Par\Core\Collection;
 interface MutableCollection extends Collection
 {
     /**
-     * Appends the specified element to the end of this list (optional operation).
+     * Ensures that this collection contains the specified element.
      *
-     * @param TValue $element element to be appended to this list
+     * @param TValue $element element to be appended to this collection
+     *
+     * @return bool `true` if this collection changed as a result of the call
      */
-    public function add(mixed $element): void;
+    public function add(mixed $element): bool;
 
     /**
-     * Appends all of the elements in the specified iterable to the end of this sequence, in the order that they are
-     * provided.
+     * Ensures that this collection contains all of the elements in the specified iterable, elements that are not contained are added in the order as they are provided.
      *
-     * @param iterable<TValue> $elements iterable containing elements to be added to this sequence
+     * @param iterable<TValue> $elements iterable containing elements to be added to this collection
      *
-     * @return bool `true` if any elements were added
+     * @return bool `true` if this collection changed as a result of the call
      */
     public function addAll(iterable $elements): bool;
 

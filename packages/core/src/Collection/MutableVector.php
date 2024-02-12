@@ -19,20 +19,21 @@ use Par\Core\Comparison\Comparators;
  */
 final class MutableVector extends AbstractVector implements MutableSequence
 {
-    public function add(mixed $element): void
+    public function add(mixed $element): bool
     {
-        $this->array[] = $element;
+        $this->inner[] = $element;
+
+        return true;
     }
 
     public function addAll(iterable $elements): bool
     {
-        $changed = false;
+        $added = false;
         foreach ($elements as $element) {
-            $this->array[] = $element;
-            $changed = true;
+            $added = $this->add($element);
         }
 
-        return $changed;
+        return $added;
     }
 
     public function addFirst(mixed $element): void
