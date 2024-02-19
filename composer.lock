@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "loophp/iterators",
-            "version": "3.0.2",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loophp/iterators.git",
-                "reference": "ade1a1ab70d728286899effee9ffcef28a417242"
+                "reference": "1332fd9bb9ec6adc82ee9d93e9a5445daa47bf81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loophp/iterators/zipball/ade1a1ab70d728286899effee9ffcef28a417242",
-                "reference": "ade1a1ab70d728286899effee9ffcef28a417242",
+                "url": "https://api.github.com/repos/loophp/iterators/zipball/1332fd9bb9ec6adc82ee9d93e9a5445daa47bf81",
+                "reference": "1332fd9bb9ec6adc82ee9d93e9a5445daa47bf81",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-25T09:11:42+00:00"
+            "time": "2024-02-18T17:17:56+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -4637,5 +4637,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
