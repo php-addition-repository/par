@@ -10,11 +10,11 @@ use loophp\iterators\MultipleIterableAggregate;
 use loophp\iterators\PackIterableAggregate;
 use MultipleIterator;
 use Par\Core\Assert;
-use SebastianBergmann\Comparator\Comparator;
+use SebastianBergmann\Comparator\ArrayComparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Exporter\Exporter;
 
-final class IterableComparator extends Comparator
+final class IterableComparator extends ArrayComparator
 {
     public function __construct(private readonly int $limit = 0)
     {
@@ -29,6 +29,9 @@ final class IterableComparator extends Comparator
         return is_iterable($expected) && is_iterable($actual);
     }
 
+    /**
+     * @param array<array{iterable<mixed>,iterable<mixed>}> $processed
+     */
     public function assertEquals(
         mixed $expected,
         mixed $actual,
@@ -120,6 +123,11 @@ final class IterableComparator extends Comparator
         }
     }
 
+    /**
+     * @param array<array{iterable<mixed>,iterable<mixed>}> $processed
+     * @param iterable<mixed> $expected
+     * @param iterable<mixed> $actual
+     */
     private function assertItemEquals(
         string $itemPart,
         int $index,
@@ -135,14 +143,11 @@ final class IterableComparator extends Comparator
     ): void {
         try {
             $comparator = $this->factory()->getComparatorFor($expectedItem, $actualItem);
-            $comparator->assertEquals(
-                $expectedItem,
-                $actualItem,
-                $delta,
-                $canonicalize,
-                $ignoreCase,
-                $processed
-            );
+            if ($comparator instanceof ArrayComparator) {
+                $comparator->assertEquals($expectedItem, $actualItem, $delta, $canonicalize, $ignoreCase, $processed);
+            } else {
+                $comparator->assertEquals($expectedItem, $actualItem, $delta, $canonicalize, $ignoreCase);
+            }
         } catch (ComparisonFailure $e) {
             throw new ComparisonFailure(
                 $expected,
@@ -154,6 +159,9 @@ final class IterableComparator extends Comparator
         }
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function generateIndexesDiff(?int $index, bool $addOne): array
     {
         $indexes = [];
