@@ -29,7 +29,9 @@ interface Comparator
     public function reversed(): Comparator;
 
     /**
-     * Returns a comparator that compares.
+     * Returns a lexicographic-order comparator with another comparator.
+     *
+     * @param Comparator<TValue> $nextComparator
      *
      * @return Comparator<TValue>
      */

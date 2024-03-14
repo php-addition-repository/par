@@ -29,7 +29,7 @@ final class ExtractorComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
-     * @var pure-Closure(TValue): mixed
+     * @var Closure(TValue): mixed
      */
     private Closure $extractor;
 

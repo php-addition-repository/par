@@ -29,7 +29,7 @@ final class CallableComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
-     * @var pure-Closure(TValue, TValue):(Order|int<-1,1>)
+     * @var Closure(TValue, TValue):(Order|int<-1,1>)
      */
     private readonly Closure $comparator;
 

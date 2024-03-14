@@ -10,8 +10,7 @@ use Par\Core\Comparison\Exception\IncomparableException;
 /**
  * This comparator makes sure that both values pass provided predicate.
  *
- * It will throw a `Par\Core\Comparator\IncomparableException` when the predicate returns` false` for either value in
- * the comparison.
+ * It will throw a `Par\Core\Comparator\IncomparableException` when the predicate returns` false` for either value in the comparison.
  *
  * @template TValue
  *
@@ -34,14 +33,13 @@ final class GuardComparator implements Comparator
      */
     use UsingComparatorTrait;
 
-    /** @var pure-Closure(TValue): bool */
+    /** @var Closure(TValue): bool */
     private Closure $test;
 
     /**
      * @param Comparator<TValue> $guardedComparator The comparator that is guarded
      * @param callable(TValue): bool $predicate The predicate to use
-     * @param string $additionalInfo optional additional info to add to the thrown exception
-     *                               message
+     * @param string $additionalInfo optional additional info to add to the thrown exception message
      */
     public function __construct(
         private readonly Comparator $guardedComparator,
