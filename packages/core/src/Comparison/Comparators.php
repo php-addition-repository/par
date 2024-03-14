@@ -13,8 +13,8 @@ use Stringable;
  *
  * Usage example:
  * ```php
- * $stream = Stream::fromIterable(array_shuffle(range(1, 10));
- * $stream->sort(Comparators::integers()); // [1,2,3,4,5,6,7,8,9,10]
+ * $stream = \Par\Core\Collection\Stream\MixedStream::fromIterable(array_shuffle(range(1, 10));
+ * $stream->sorted(Comparators::integers()); // [1,2,3,4,5,6,7,8,9,10]
  * ```
  */
 final class Comparators
@@ -283,6 +283,10 @@ final class Comparators
      */
     public static function with(callable $comparator): Comparator
     {
+        if ($comparator instanceof Comparator) {
+            return $comparator;
+        }
+
         return new CallableComparator($comparator);
     }
 

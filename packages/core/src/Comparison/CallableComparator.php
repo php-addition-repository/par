@@ -29,6 +29,11 @@ final class CallableComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
+    /**
      * @var Closure(TValue, TValue):(Order|int<-1,1>)
      */
     private readonly Closure $comparator;
