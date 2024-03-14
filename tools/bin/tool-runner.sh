@@ -23,8 +23,8 @@ tool_path="${root_dir}/tools/${tool_name}";
 tool_bin="${tool_path}/${bin}"
 
 if [ ! -f "${tool_bin}" ]; then
-    echo "Installing ${tool_name}"
-    composer install --working-dir="${tool_path}"
+    err "Installing ${tool_name}"
+    composer install --working-dir="${tool_path}" >&2
 fi
 
 echo "${tool_bin}"

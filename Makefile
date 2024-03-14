@@ -103,7 +103,7 @@ tools/psalm: ## Run Psalm
 .PHONY: tools/uninstall
 tools/uninstall: ## Uninstall all tools
 	@$(call MK_NOTIFY,"Cleaning up installed tools")
-	@rm -rf "$(HERE)/tools/*/vendor"
+	@rm -rf "$(HERE)/tools/php-cs-fixer/vendor"
 	@$(call MK_SUCCESS,"Done")
 
 ##@ Build
