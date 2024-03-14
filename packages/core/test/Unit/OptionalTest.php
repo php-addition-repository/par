@@ -127,6 +127,9 @@ final class OptionalTest extends TestCase
         self::assertEquals(['foo'], $invocations);
     }
 
+    /**
+     * @param Optional<mixed> $subject
+     */
     #[Test]
     #[DataProvider('equalsProvider')]
     public function itCanDetermineEquality(Optional $subject, mixed $other, bool $expected): void
