@@ -22,24 +22,23 @@ final class EquableComparatorTest extends TestCase
 
         $objectEqualityMock = $this->createMock(Equable::class);
 
-        self::assertTrue($comparator->accepts($objectEqualityMock, 'bar'));
-        self::assertTrue($comparator->accepts('bar', $objectEqualityMock));
-        self::assertFalse($comparator->accepts('bar', 'foo'));
+        self::assertTrue($comparator->accepts($objectEqualityMock, $objectEqualityMock));
+        self::assertTrue($comparator->accepts($objectEqualityMock, null));
+        self::assertFalse($comparator->accepts($objectEqualityMock, 'bar'));
+        self::assertFalse($comparator->accepts('bar', $objectEqualityMock));
     }
 
     #[Test]
-    public function ttCanAssertEquality(): void
+    public function itCanAssertEquality(): void
     {
         $comparator = new EquableComparator();
 
         $objectEqualityMock = $this->createMock(Equable::class);
-        $objectEqualityMock->method('equals')->willReturnOnConsecutiveCalls(true, true, true, false);
+        $objectEqualityMock->method('equals')->willReturnOnConsecutiveCalls(true, false);
 
-        $comparator->assertEquals($objectEqualityMock, 'foo');
-        $comparator->assertEquals(1, $objectEqualityMock);
         $comparator->assertEquals($objectEqualityMock, $objectEqualityMock);
 
         $this->expectException(ComparisonFailure::class);
-        $comparator->assertEquals($objectEqualityMock, 'bar');
+        $comparator->assertEquals($objectEqualityMock, null);
     }
 }

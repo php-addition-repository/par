@@ -20,24 +20,22 @@ interface Comparator
      * @param TValue $v2 The second value to be compared
      *
      * @throws IncomparableException if arguments are not comparable
-     *
-     * @psalm-mutation-free
      */
     public function compare(mixed $v1, mixed $v2): Order;
 
     /**
-     * @return Comparator<TValue>
+     * Returns a comparator that imposes the reverse ordering of this comparator.
      *
-     * @psalm-mutation-free
+     * @return Comparator<TValue>
      */
     public function reversed(): Comparator;
 
     /**
-     * Returns a comparator that compares.
+     * Returns a lexicographic-order comparator with another comparator.
+     *
+     * @param Comparator<TValue> $nextComparator
      *
      * @return Comparator<TValue>
-     *
-     * @psalm-mutation-free
      */
     public function then(Comparator $nextComparator): Comparator;
 
@@ -46,11 +44,9 @@ interface Comparator
      *
      * @template UValue
      *
-     * @param pure-callable(UValue): TValue $extractor The extractor to use to determine the values to compare
+     * @param callable(TValue): UValue $extractor The extractor to use to determine the values to compare
      *
      * @return Comparator<TValue>
-     *
-     * @psalm-mutation-free
      */
     public function using(callable $extractor): Comparator;
 }

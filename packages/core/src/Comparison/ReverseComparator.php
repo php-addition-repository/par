@@ -28,9 +28,6 @@ final class ReverseComparator implements Comparator
     {
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         return $this->reversedComparator->compare($v1, $v2)->invert();

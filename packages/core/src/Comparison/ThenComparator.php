@@ -34,9 +34,6 @@ final class ThenComparator implements Comparator
     {
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         return Order::from($this->first->compare($v1, $v2)->value <=> $this->next->compare($v1, $v2)->value);

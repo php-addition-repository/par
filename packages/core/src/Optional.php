@@ -18,9 +18,9 @@ use Throwable;
  * "no result" and where using `null` is likely to cause errors. A variable whose type is `Optional` should never itself
  * be `null`; it should always point to an `Optional` instance.
  *
- * @template TValue
+ * @template-covariant TValue
  *
- * @implements Equable<self>
+ * @implements Equable<Optional>
  */
 final class Optional implements Equable
 {
@@ -33,6 +33,8 @@ final class Optional implements Equable
 
     /**
      * Returns an empty `Optional` instance.
+     *
+     * @return Optional<mixed>
      */
     public static function empty(): self
     {
@@ -91,9 +93,6 @@ final class Optional implements Equable
         return self::empty();
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof self) {
@@ -238,13 +237,12 @@ final class Optional implements Equable
      *
      * If no supplying function is provided a default supplier will be used that returns a `NoSuchElementException`.
      *
-     * @template T of Throwable
-     *
-     * @param callable():T|null $exceptionSupplier the supplying function that produces an exception to be thrown
+     * @param callable():Throwable|null $exceptionSupplier the supplying function that produces an exception to be thrown
      *
      * @return TValue
      *
-     * @throws Throwable|NoSuchElementException
+     * @throws NoSuchElementException if no value is present and no `$exceptionSupplier` is provided
+     * @throws Throwable if no value is present and a `$exceptionSupplier` is provided
      */
     public function orElseThrow(?callable $exceptionSupplier = null): mixed
     {
@@ -252,10 +250,20 @@ final class Optional implements Equable
             return $this->value;
         }
 
-        if (!$exceptionSupplier) {
-            throw new NoSuchElementException();
+        throw $this->exceptionSupplier($exceptionSupplier);
+    }
+
+    /**
+     * @param callable():Throwable|null $supplier
+     *
+     * @return ($supplier is callable ? Throwable : NoSuchElementException)
+     */
+    private function exceptionSupplier(?callable $supplier = null): NoSuchElementException|Throwable
+    {
+        if (is_callable($supplier)) {
+            return $supplier();
         }
 
-        throw $exceptionSupplier();
+        return new NoSuchElementException();
     }
 }

@@ -79,7 +79,7 @@ qa: qa/lint qa/test/unit qa/analyse ## Run all QA tools
 
 qa/lint: tools/php-cs-fixer ## Run code linting
 qa/test/unit: tools/phpunit ## Run unit tests
-qa/analyse: tools/psalm ## Run code analysis
+qa/analyse: tools/phpstan ## Run code analysis
 
 ##@ Tools
 
@@ -96,9 +96,14 @@ tools/php-cs-fixer: ## Run PHP-CS-Fixer
 		CMD="php-cs-fixer $(TOOL_ARGS)" $(MAKE) docker/workspace; \
 	fi
 
-tools/psalm: ## Run Psalm
-	@$(call MK_NOTIFY,"Running Psalm")
-	@CMD="psalm" $(MAKE) docker/workspace
+.PHONY: tools/phpstan
+tools/phpstan: ## Run PHPStan
+	@$(call MK_NOTIFY,"Running PHPStan")
+	@if [ -z "$(TOOL_ARGS)" ]; then \
+		CMD="phpstan --memory-limit=2G" $(MAKE) docker/workspace; \
+	else \
+		CMD="phpstan --memory-limit=2G $(TOOL_ARGS)" $(MAKE) docker/workspace; \
+	fi
 
 .PHONY: tools/uninstall
 tools/uninstall: ## Uninstall all tools

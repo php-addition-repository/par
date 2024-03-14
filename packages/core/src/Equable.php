@@ -34,13 +34,11 @@ interface Equable
      *
      * @param TValue|mixed $other The other value with which to compare
      *
-     * @return bool True if this object should be considered equal to other value
+     * @return bool `true` if this object should be considered equal to other value
      *
-     * @example packages/core/test/Fixtures/ScalarValueObject.php 15 7 Implementation example
+     * @example packages/core/test/Fixtures/EquableScalarObject.php 15 7 Implementation example
      *
-     * @psalm-pure
-     *
-     * @psalm-assert-if-true TValue $other
+     * @phpstan-assert-if-true TValue $other
      */
     public function equals(mixed $other): bool;
 }

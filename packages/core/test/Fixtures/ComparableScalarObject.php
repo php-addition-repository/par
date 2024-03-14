@@ -11,10 +11,6 @@ use Par\Core\Comparison\Order;
 /**
  * @internal
  *
- * @template TValue of int|string
- *
- * @psalm-immutable
- *
  * @implements Comparable<self>
  */
 final class ComparableScalarObject implements Comparable
@@ -23,7 +19,7 @@ final class ComparableScalarObject implements Comparable
     {
     }
 
-    public function compare(mixed $other): Order
+    public function compare(?object $other): Order
     {
         if ($other instanceof self && gettype($this->value) === gettype($other->value)) {
             return Order::from($this->value <=> $other->value);

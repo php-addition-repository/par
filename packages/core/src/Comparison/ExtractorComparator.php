@@ -29,14 +29,14 @@ final class ExtractorComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
-     * @var pure-Closure(TValue): mixed
+     * @var Closure(TValue): mixed
      */
     private Closure $extractor;
 
     /**
      * @template UValue
      *
-     * @param pure-callable(TValue):UValue $extractor
+     * @param callable(TValue):UValue $extractor
      * @param Comparator<UValue> $comparator
      */
     public function __construct(callable $extractor, private readonly Comparator $comparator)
@@ -44,9 +44,6 @@ final class ExtractorComparator implements Comparator
         $this->extractor = $extractor(...);
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $extractor = $this->extractor;

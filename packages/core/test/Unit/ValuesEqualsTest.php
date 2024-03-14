@@ -27,7 +27,7 @@ final class ValuesEqualsTest extends TestCase
             'bool' => [true, false],
             'array' => [['foo'], ['bar']],
             'object' => [new stdClass(), new stdClass()],
-            'object-equality' => [new EquableScalarObject('foo'), new EquableScalarObject('bar')],
+            'object-equality' => [EquableScalarObject::fromString('foo'), EquableScalarObject::fromString('bar')],
         ];
 
         foreach ($valueTypes as $type => $values) {
@@ -42,7 +42,7 @@ final class ValuesEqualsTest extends TestCase
             yield $type . '-vs-null' => [$values[0], null, false];
         }
 
-        yield 'null-vs-object-equality' => [null, new EquableScalarObject('foo'), false];
+        yield 'null-vs-object-equality' => [null, EquableScalarObject::fromString('foo'), false];
 
         $dateTime = new DateTime('2023-11-28 16:16:23');
         yield 'same-datetime-instances' => [$dateTime, $dateTime, true];
@@ -71,21 +71,21 @@ final class ValuesEqualsTest extends TestCase
         yield 'not-in-mixed-list' => ['foo', $list, false];
 
         yield 'in-object-equality-list' => [
-            new EquableScalarObject('foo'),
+            EquableScalarObject::fromString('foo'),
             [
-                new EquableScalarObject('bar'),
-                new EquableScalarObject('foo'),
-                new EquableScalarObject('baz'),
+                EquableScalarObject::fromString('bar'),
+                EquableScalarObject::fromString('foo'),
+                EquableScalarObject::fromString('baz'),
             ],
             true,
         ];
 
         yield 'not-in-object-equality-list' => [
-            new EquableScalarObject('foobar'),
+            EquableScalarObject::fromString('foobar'),
             [
-                new EquableScalarObject('bar'),
-                new EquableScalarObject('foo'),
-                new EquableScalarObject('baz'),
+                EquableScalarObject::fromString('bar'),
+                EquableScalarObject::fromString('foo'),
+                EquableScalarObject::fromString('baz'),
             ],
             false,
         ];

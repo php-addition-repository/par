@@ -13,13 +13,9 @@ final class EquableComparator extends Comparator
 {
     public function accepts(mixed $expected, mixed $actual): bool
     {
-        return $expected instanceof Equable || $actual instanceof Equable;
+        return $expected instanceof Equable && (is_object($actual) || is_null($actual));
     }
 
-    /**
-     * @param mixed|Equable $expected
-     * @param mixed|Equable $actual
-     */
     public function assertEquals(
         mixed $expected,
         mixed $actual,
@@ -27,16 +23,10 @@ final class EquableComparator extends Comparator
         bool $canonicalize = false,
         bool $ignoreCase = false
     ): void {
-        if ($expected instanceof Equable) {
-            $left = $expected;
-            $right = $actual;
-        } else {
-            $right = $expected;
-            /** @var Equable $actual */
-            $left = $actual;
-        }
+        assert($expected instanceof Equable);
+        assert(is_null($actual) || is_object($actual));
 
-        if (!$left->equals($right)) {
+        if (!$expected->equals($actual)) {
             $exporter = new Exporter();
 
             throw new ComparisonFailure(

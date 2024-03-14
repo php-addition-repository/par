@@ -51,7 +51,7 @@ final class IntegersComparatorTest extends TestCase
     }
 
     /**
-     * @param pure-callable(mixed): int $extractor
+     * @param callable(mixed): int $extractor
      */
     #[Test]
     #[DataProvider('comparableValuesUsingExtractorProvider')]
