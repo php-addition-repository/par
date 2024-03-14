@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Stream;
 
-use Par\Core\Collection\Stream;
+use Par\Core\Collection\Stream\MixedStream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ final class IsEmptyTest extends TestCase
     #[Test]
     public function itReturnsTrueForEmptyStream(): void
     {
-        $stream = Stream::empty();
+        $stream = MixedStream::empty();
 
         self::assertTrue($stream->isEmpty());
     }
@@ -26,10 +26,12 @@ final class IsEmptyTest extends TestCase
     {
         $peeked = 0;
 
-        $stream = Stream::fromIterable(range(1, 5))
-        ->peek(static function() use (&$peeked): void {
-            ++$peeked;
-        });
+        $stream = MixedStream::fromIterable(range(1, 5))
+                             ->peek(
+                                 static function() use (&$peeked): void {
+                                     ++$peeked;
+                                 }
+                             );
 
         self::assertFalse($stream->isEmpty());
         self::assertEquals(1, $peeked);

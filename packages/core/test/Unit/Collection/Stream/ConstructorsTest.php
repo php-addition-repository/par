@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Par\CoreTest\Unit\Collection\Stream;
 
 use Generator;
-use Par\Core\Collection\Stream;
+use Par\Core\Collection\Stream\FloatStream;
+use Par\Core\Collection\Stream\IntStream;
+use Par\Core\Collection\Stream\MixedStream;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -91,7 +93,7 @@ final class ConstructorsTest extends TestCase
         $generator->next();
         yield 'forwarded generator' => [$generator, ['c', 'd', 'e']];
 
-        $stream = Stream::intRange(1, 5);
+        $stream = IntStream::range(1, 5);
         yield 'stream' => [$stream, $stream];
     }
 
@@ -118,28 +120,20 @@ final class ConstructorsTest extends TestCase
             ],
         ];
 
-        yield 'default callable' => [
-            [10],
-            range(1, 10),
-        ];
+        $callable = static fn(int $time): int => $time;
 
         yield 'negative times' => [
-            [-5],
+            [-5, $callable],
             [],
         ];
         yield 'zero times' => [
-            [0],
+            [0, $callable],
             [],
         ];
 
         yield 'one time' => [
+            [1, $callable],
             [1],
-            [1],
-        ];
-
-        yield 'no arguments' => [
-            [],
-            [],
         ];
     }
 
@@ -148,7 +142,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             [],
-            Stream::empty()
+            MixedStream::empty()
         );
     }
 
@@ -156,7 +150,7 @@ final class ConstructorsTest extends TestCase
     #[DataProvider('floatRangeProvider')]
     public function floatRange(array $parameters, iterable $expectedIterable, int $limit = 0): void
     {
-        $stream = Stream::floatRange(...$parameters);
+        $stream = FloatStream::range(...$parameters);
         if ($limit > 0) {
             $stream = $stream->limit($limit);
         }
@@ -178,7 +172,7 @@ final class ConstructorsTest extends TestCase
     ): void {
         self::assertEquals(
             $expectedIterable,
-            Stream::fromCallable($callable, $parameters)
+            MixedStream::fromCallable($callable, $parameters)
         );
     }
 
@@ -188,7 +182,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             $expectedIterable,
-            Stream::fromGenerator($generator)
+            MixedStream::fromGenerator($generator)
         );
     }
 
@@ -198,7 +192,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             $expectedIterable,
-            Stream::fromIterable($iterable)
+            MixedStream::fromIterable($iterable)
         );
     }
 
@@ -206,7 +200,7 @@ final class ConstructorsTest extends TestCase
     #[DataProvider('intRangeProvider')]
     public function intRange(array $parameters, iterable $expectedIterable, int $limit = 0): void
     {
-        $stream = Stream::intRange(...$parameters);
+        $stream = IntStream::range(...$parameters);
         if ($limit > 0) {
             $stream = $stream->limit($limit);
         }
@@ -222,7 +216,7 @@ final class ConstructorsTest extends TestCase
     {
         self::assertEquals(
             $expectedIterable,
-            Stream::times(...$parameters)
+            MixedStream::times(...$parameters)
         );
     }
 }

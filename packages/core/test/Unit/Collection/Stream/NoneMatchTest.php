@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Stream;
 
-use Par\Core\Collection\Stream;
+use Par\Core\Collection\Stream\MixedStream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,8 +16,7 @@ final class NoneMatchTest extends TestCase
     #[Test]
     public function itReturnsTrueIfNoneMatch(): void
     {
-        /** @var Stream<mixed> $stream */
-        $stream = Stream::fromIterable(['a', 'b', false, 'd', 'e']);
+        $stream = MixedStream::fromIterable(['a', 'b', false, 'd', 'e']);
 
         self::assertTrue($stream->noneMatch(static fn(mixed $value): bool => 'f' === $value));
     }
@@ -25,8 +24,7 @@ final class NoneMatchTest extends TestCase
     #[Test]
     public function itReturnsFalseIfOneMatch(): void
     {
-        /** @var Stream<mixed> $stream */
-        $stream = Stream::fromIterable(range('a', 'e'));
+        $stream = MixedStream::fromIterable(range('a', 'e'));
 
         self::assertFalse($stream->noneMatch(static fn(mixed $value): bool => 'd' === $value));
     }
@@ -34,8 +32,7 @@ final class NoneMatchTest extends TestCase
     #[Test]
     public function itReturnsTrueWithEmptyStream(): void
     {
-        /** @var Stream<mixed> $stream */
-        $stream = Stream::empty();
+        $stream = MixedStream::empty();
 
         self::assertTrue($stream->noneMatch(static fn(mixed $value): bool => is_string($value)));
     }

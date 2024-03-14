@@ -11,20 +11,16 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-final class CountTest extends TestCase
+final class MapTest extends TestCase
 {
     #[Test]
-    public function itReturnsNumberOfElementsInStream(): void
+    public function itTransformsElementsViaMapper(): void
     {
         $stream = MixedStream::fromIterable(range(1, 5));
 
-        self::assertCount(5, $stream);
-    }
-
-    #[Test]
-    public function itReturnsZeroForEmptyStream(): void
-    {
-        $stream = MixedStream::empty();
-        self::assertCount(0, $stream);
+        self::assertEquals(
+            ['1', '2', '3', '4', '5'],
+            $stream->map(static fn(int $value): string => (string) $value)
+        );
     }
 }

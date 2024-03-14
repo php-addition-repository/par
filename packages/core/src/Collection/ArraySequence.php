@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Par\Core\Collection;
 
 use ArrayIterator;
-use Generator;
 use loophp\collection\Operation\Append;
 use loophp\collection\Operation\Filter;
 use loophp\collection\Operation\Flip;
 use loophp\collection\Operation\Head;
 use loophp\collection\Operation\Pipe;
 use loophp\collection\Operation\Reverse;
+use Par\Core\Collection\Stream\MixedStream;
+use Par\Core\Collection\Stream\Stream;
 use Par\Core\Comparison\Comparator;
 use Par\Core\Comparison\Comparators;
 use Par\Core\Exception\IndexOutOfBoundsException;
@@ -83,11 +84,7 @@ final class ArraySequence implements MutableSequence
 
     public function containsAll(iterable $elements): bool
     {
-        if ($elements instanceof Generator) {
-            $elements = Stream::fromGenerator($elements);
-        } else {
-            $elements = Stream::fromIterable($elements);
-        }
+        $elements = MixedStream::fromIterable($elements);
 
         return $elements->allMatch(
             fn(mixed $element): bool => $this->contains($element)
@@ -170,7 +167,7 @@ final class ArraySequence implements MutableSequence
 
     public function stream(): Stream
     {
-        return Stream::fromIterable($this->inner);
+        return MixedStream::fromIterable($this->inner);
     }
 
     public function toArray(): array
@@ -232,7 +229,7 @@ final class ArraySequence implements MutableSequence
     public function removeIf(callable $predicate): bool
     {
         $currentNum = $this->count();
-        $this->inner = Stream::fromIterable($this->inner)
+        $this->inner = MixedStream::fromIterable($this->inner)
                              ->filter($predicate)
                              ->toArray();
 

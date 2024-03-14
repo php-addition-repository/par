@@ -6,6 +6,7 @@ namespace Par\Core\Collection;
 
 use Countable;
 use IteratorAggregate;
+use Par\Core\Collection\Stream\Stream;
 use Traversable;
 
 /**
@@ -56,7 +57,7 @@ interface Collection extends IteratorAggregate, Countable
     public function isEmpty(): bool;
 
     /**
-     * Returns a Stream with this collection as its source.
+     * Returns a stream with this collection as its source.
      *
      * @return Stream<TValue>
      */

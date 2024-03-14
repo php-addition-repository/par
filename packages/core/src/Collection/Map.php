@@ -6,6 +6,7 @@ namespace Par\Core\Collection;
 
 use Countable;
 use IteratorAggregate;
+use Par\Core\Collection\Stream\Stream;
 use Par\Core\Exception\InvalidTypeException;
 use Par\Core\Exception\NoSuchElementException;
 use Traversable;
@@ -94,7 +95,7 @@ interface Map extends IteratorAggregate, Countable
     public function keySet(): Set;
 
     /**
-     * Returns a Stream with this map as its source.
+     * Returns a stream with this map as its source.
      *
      * @return Stream<TValue>
      */

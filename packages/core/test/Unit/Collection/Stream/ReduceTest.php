@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Unit\Collection\Stream;
 
-use Par\Core\Collection\Stream;
+use Par\Core\Collection\Stream\MixedStream;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ final class ReduceTest extends TestCase
     #[Test]
     public function itCanReduceElements(): void
     {
-        $stream = Stream::fromIterable(range(1, 5));
+        $stream = MixedStream::fromIterable(range(1, 5));
 
         self::assertEquals(
             15,
@@ -25,9 +25,9 @@ final class ReduceTest extends TestCase
     }
 
     #[Test]
-    public function itWillReturnCarryWhenStreamIsEmpty(): void
+    public function itWillReturnInitialValueWhenStreamIsEmpty(): void
     {
-        $stream = Stream::empty();
+        $stream = MixedStream::empty();
 
         $carry = 0;
         self::assertEquals(

@@ -6,6 +6,8 @@ namespace Par\Core\Collection;
 
 use ArrayAccess;
 use ArrayIterator;
+use Par\Core\Collection\Stream\MixedStream;
+use Par\Core\Collection\Stream\Stream;
 use Par\Core\Collection\Traits\MapTrait;
 use Par\Core\Collection\Traits\MutableMapTrait;
 use Par\Core\Exception\InvalidTypeException;
@@ -175,7 +177,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
 
     public function stream(): Stream
     {
-        return Stream::fromIterable($this->internalMap);
+        return MixedStream::fromIterable($this->internalMap);
     }
 
     public function toArray(): array

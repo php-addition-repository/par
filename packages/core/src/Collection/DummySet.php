@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Par\Core\Collection;
 
 use EmptyIterator;
+use Par\Core\Collection\Stream\MixedStream;
+use Par\Core\Collection\Stream\Stream;
 use Traversable;
 
 /**
@@ -61,7 +63,7 @@ final class DummySet implements Set
     public function stream(): Stream
     {
         // TODO: Implement stream() method.
-        return Stream::empty();
+        return MixedStream::empty();
     }
 
     public function toArray(): array
