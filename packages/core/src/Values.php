@@ -24,14 +24,18 @@ final class Values
      * Usage:
      * ```php
      * if (Values::equals($a, $b)) {
-     *     // When equal
+     *     // $a and $b are equal
      * }
      * ```
      *
+     * @template TValue
+     *
      * @param mixed $value The value to test
-     * @param mixed $otherValue The other value with which to compare
+     * @param TValue $otherValue The other value with which to compare
      *
      * @return bool True if both values should be considered equal
+     *
+     * @phpstan-assert-if-true TValue $value
      */
     public static function equals(mixed $value, mixed $otherValue): bool
     {
@@ -44,10 +48,12 @@ final class Values
         }
 
         if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
+            /* @phpstan-ignore-next-line */
             return $value == $otherValue;
         }
 
         if ($value instanceof DateTime && $otherValue instanceof DateTime) {
+            /* @phpstan-ignore-next-line */
             return $value == $otherValue;
         }
 
@@ -64,12 +70,16 @@ final class Values
      * }
      * ```
      *
-     *@see Values::equals
+     * @see Values::equals
      *
-     * @param iterable $otherValues The list of other values with which to compare
+     * @template TValue
+     *
+     * @param iterable<TValue> $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to any of the items in the list of other values
+     *
+     * @phpstan-assert-if-true TValue $value
      */
     public static function equalsAnyIn(mixed $value, iterable $otherValues): bool
     {
@@ -88,10 +98,14 @@ final class Values
      *
      * @see Values::equals
      *
-     * @param mixed ...$otherValues The other values with which to compare
+     * @template TValue
+     *
+     * @param TValue ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to any of the other values
+     *
+     * @phpstan-assert-if-true TValue $value
      */
     public static function equalsAnyOf(mixed $value, mixed ...$otherValues): bool
     {
@@ -108,12 +122,16 @@ final class Values
      * }
      * ```
      *
-     *@see Values::equals
+     * @see Values::equals
      *
-     * @param iterable $otherValues The list of other values with which to compare
+     * @template TValue
+     *
+     * @param iterable<TValue> $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the items in the list of other values
+     *
+     * @phpstan-assert-if-false TValue $value
      */
     public static function equalsNoneIn(mixed $value, iterable $otherValues): bool
     {
@@ -130,18 +148,27 @@ final class Values
      * }
      * ```
      *
-     *@see Values::equals
+     * @see Values::equals
      *
-     * @param mixed ...$otherValues The other values with which to compare
+     * @template TValue
+     *
+     * @param TValue ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the other values
+     *
+     * @phpstan-assert-if-false TValue $value
      */
     public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
     {
         return self::equalsNoneIn($value, $otherValues);
     }
 
+    /**
+     * @template TValue
+     *
+     * @param iterable<TValue> $otherValues
+     */
     private static function containsValue(mixed $value, iterable $otherValues, bool $onMatch = true): bool
     {
         foreach ($otherValues as $otherValue) {
