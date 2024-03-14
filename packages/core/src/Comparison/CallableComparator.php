@@ -34,16 +34,13 @@ final class CallableComparator implements Comparator
     private readonly Closure $comparator;
 
     /**
-     * @param pure-callable(TValue, TValue):(Order|int<-1,1>) $comparator
+     * @param callable(TValue, TValue):(Order|int<-1,1>) $comparator
      */
     public function __construct(callable $comparator)
     {
         $this->comparator = $comparator(...);
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $comparator = $this->comparator;

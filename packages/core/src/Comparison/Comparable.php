@@ -30,9 +30,7 @@ interface Comparable
      *
      * @throws IncomparableException if other value cannot be compared to this
      *
-     * @psalm-mutation-free
-     *
-     * @psalm-assert-if-true TValue $other
+     * @phpstan-assert-if-true TValue $other
      */
     public function compare(mixed $other): Order;
 }

@@ -36,7 +36,7 @@ final class ExtractorComparator implements Comparator
     /**
      * @template UValue
      *
-     * @param pure-callable(TValue):UValue $extractor
+     * @param callable(TValue):UValue $extractor
      * @param Comparator<UValue> $comparator
      */
     public function __construct(callable $extractor, private readonly Comparator $comparator)
@@ -44,9 +44,6 @@ final class ExtractorComparator implements Comparator
         $this->extractor = $extractor(...);
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $extractor = $this->extractor;

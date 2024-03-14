@@ -6,8 +6,6 @@ namespace Par\Core\Comparison;
 
 /**
  * This enum represents the value of something when compared to another.
- *
- * @psalm-immutable
  */
 enum Order: int
 {

@@ -13,8 +13,6 @@ use Par\Core\Comparison\Order;
  *
  * @template TValue of int|string
  *
- * @psalm-immutable
- *
  * @implements Comparable<self>
  */
 final class ComparableScalarObject implements Comparable

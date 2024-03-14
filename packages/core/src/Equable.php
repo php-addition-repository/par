@@ -38,9 +38,7 @@ interface Equable
      *
      * @example packages/core/test/Fixtures/ScalarValueObject.php 15 7 Implementation example
      *
-     * @psalm-pure
-     *
-     * @psalm-assert-if-true TValue $other
+     * @phpstan-assert-if-true TValue $other
      */
     public function equals(mixed $other): bool;
 }

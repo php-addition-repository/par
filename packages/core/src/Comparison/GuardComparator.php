@@ -39,7 +39,7 @@ final class GuardComparator implements Comparator
 
     /**
      * @param Comparator<TValue> $guardedComparator The comparator that is guarded
-     * @param pure-callable(TValue): bool $predicate The predicate to use
+     * @param callable(TValue): bool $predicate The predicate to use
      * @param string $additionalInfo optional additional info to add to the thrown exception
      *                               message
      */
@@ -51,9 +51,6 @@ final class GuardComparator implements Comparator
         $this->test = $predicate(...);
     }
 
-    /**
-     * @psalm-external-mutation-free
-     */
     public function compare(mixed $v1, mixed $v2): Order
     {
         $test = $this->test;

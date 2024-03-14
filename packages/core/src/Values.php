@@ -32,8 +32,6 @@ final class Values
      * @param mixed $otherValue The other value with which to compare
      *
      * @return bool True if both values should be considered equal
-     *
-     * @psalm-pure
      */
     public static function equals(mixed $value, mixed $otherValue): bool
     {
@@ -66,8 +64,6 @@ final class Values
      * }
      * ```
      *
-     * @psalm-mutation-free
-     *
      *@see Values::equals
      *
      * @param iterable $otherValues The list of other values with which to compare
@@ -96,8 +92,6 @@ final class Values
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to any of the other values
-     *
-     * @psalm-mutation-free
      */
     public static function equalsAnyOf(mixed $value, mixed ...$otherValues): bool
     {
@@ -113,8 +107,6 @@ final class Values
      *     // When not equal to $b AND $c
      * }
      * ```
-     *
-     * @psalm-mutation-free
      *
      *@see Values::equals
      *
@@ -138,8 +130,6 @@ final class Values
      * }
      * ```
      *
-     * @psalm-mutation-free
-     *
      *@see Values::equals
      *
      * @param mixed ...$otherValues The other values with which to compare
@@ -152,9 +142,6 @@ final class Values
         return self::equalsNoneIn($value, $otherValues);
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     private static function containsValue(mixed $value, iterable $otherValues, bool $onMatch = true): bool
     {
         foreach ($otherValues as $otherValue) {

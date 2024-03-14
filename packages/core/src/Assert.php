@@ -13,17 +13,12 @@ abstract class Assert extends \Webmozart\Assert\Assert
 
     /**
      * @throws AssertionFailedException
-     *
-     * @psalm-pure
      */
     protected static function reportInvalidArgument($message): never
     {
         throw new AssertionFailedException($message);
     }
 
-    /**
-     * @psalm-pure
-     */
     protected static function valueToString(mixed $value): string
     {
         if (null === $value) {
@@ -52,7 +47,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
             }
 
             if ($value instanceof DateTimeInterface) {
-                /* @psalm-suppress ImpureMethodCall */
                 return sprintf('%s(%s)', $value::class, static::valueToString($value->format('c')));
             }
 

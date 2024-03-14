@@ -91,9 +91,6 @@ final class Optional implements Equable
         return self::empty();
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     public function equals(mixed $other): bool
     {
         if ($other instanceof self) {

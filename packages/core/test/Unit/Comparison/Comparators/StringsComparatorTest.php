@@ -70,7 +70,7 @@ final class StringsComparatorTest extends TestCase
     }
 
     /**
-     * @param pure-callable(mixed): string $extractor
+     * @param callable(mixed): string $extractor
      */
     #[Test]
     #[DataProvider('comparableValuesUsingExtractorProvider')]

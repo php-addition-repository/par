@@ -135,7 +135,6 @@ final class IterableComparator extends Comparator
     ): void {
         try {
             $comparator = $this->factory()->getComparatorFor($expectedItem, $actualItem);
-            /* @psalm-suppress TooManyArguments */
             $comparator->assertEquals(
                 $expectedItem,
                 $actualItem,
