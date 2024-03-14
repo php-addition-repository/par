@@ -12,6 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
+/**
+ * @internal
+ */
 final class StringsComparatorTest extends TestCase
 {
     public static function comparableValuesProvider(): iterable
@@ -20,19 +23,19 @@ final class StringsComparatorTest extends TestCase
         yield 'greater' => ['a10', 'a1', Order::Greater];
         yield 'lesser' => [
             'a1',
-            new class () implements Stringable {
+            new class() implements Stringable {
                 public function __toString(): string
                 {
                     return 'a10';
                 }
             },
-            Order::Lesser
+            Order::Lesser,
         ];
     }
 
     public static function comparableValuesUsingExtractorProvider(): iterable
     {
-        $toStringExtractor = static fn(float|int|string $value): string => (string)$value;
+        $toStringExtractor = static fn(float|int|string $value): string => (string) $value;
 
         yield 'equal' => ['10', 10, $toStringExtractor, Order::Equal];
         yield 'greater' => ['10', 0.3, $toStringExtractor, Order::Greater];
@@ -48,16 +51,16 @@ final class StringsComparatorTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("comparableValuesProvider")]
+    #[DataProvider('comparableValuesProvider')]
     public function itCanCompareValues(string|Stringable $a, string|Stringable $b, Order $expected): void
     {
         $comparator = Comparators::strings();
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 
     #[Test]
-    #[DataProvider("incompatibleValuesProvider")]
+    #[DataProvider('incompatibleValuesProvider')]
     public function itThrowsIncomparableExceptionForIncompatibleValues(mixed $a, mixed $b): void
     {
         $comparator = Comparators::strings();
@@ -70,11 +73,11 @@ final class StringsComparatorTest extends TestCase
      * @param pure-callable(mixed): string $extractor
      */
     #[Test]
-    #[DataProvider("comparableValuesUsingExtractorProvider")]
+    #[DataProvider('comparableValuesUsingExtractorProvider')]
     public function itWillCompareValuesFromExtractor(mixed $a, mixed $b, callable $extractor, Order $expected): void
     {
         $comparator = Comparators::strings($extractor);
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 }

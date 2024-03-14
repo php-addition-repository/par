@@ -17,8 +17,6 @@ enum Order: int
 
     /**
      * Returns the inverted value of current Order.
-     *
-     * @return self
      */
     public function invert(): self
     {

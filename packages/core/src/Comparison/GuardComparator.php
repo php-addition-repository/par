@@ -14,6 +14,7 @@ use Par\Core\Comparison\Exception\IncomparableException;
  * the comparison.
  *
  * @template TValue
+ *
  * @implements Comparator<TValue>
  */
 final class GuardComparator implements Comparator
@@ -37,10 +38,10 @@ final class GuardComparator implements Comparator
     private Closure $test;
 
     /**
-     * @param Comparator<TValue>          $guardedComparator The comparator that is guarded
+     * @param Comparator<TValue> $guardedComparator The comparator that is guarded
      * @param pure-callable(TValue): bool $predicate The predicate to use
-     * @param string                      $additionalInfo Optional additional info to add to the thrown exception
-     *     message.
+     * @param string $additionalInfo optional additional info to add to the thrown exception
+     *                               message
      */
     public function __construct(
         private readonly Comparator $guardedComparator,
@@ -51,7 +52,6 @@ final class GuardComparator implements Comparator
     }
 
     /**
-     * @inheritDoc
      * @psalm-external-mutation-free
      */
     public function compare(mixed $v1, mixed $v2): Order

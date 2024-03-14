@@ -17,8 +17,6 @@ final class EquableComparator extends Comparator
     }
 
     /**
-     * @inheritDoc
-     *
      * @param mixed|Equable $expected
      * @param mixed|Equable $actual
      */

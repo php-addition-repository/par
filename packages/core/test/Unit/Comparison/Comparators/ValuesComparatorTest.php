@@ -11,6 +11,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class ValuesComparatorTest extends TestCase
 {
     public static function comparableValuesProvider(): iterable
@@ -24,11 +27,11 @@ final class ValuesComparatorTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("comparableValuesProvider")]
+    #[DataProvider('comparableValuesProvider')]
     public function itCanCompareValues(mixed $a, mixed $b, Order $expected): void
     {
         $comparator = Comparators::values();
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 }

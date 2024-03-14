@@ -11,6 +11,9 @@ use Par\Core\Comparison\Order;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class GuardComparatorTest extends TestCase
 {
     #[Test]
@@ -19,21 +22,21 @@ final class GuardComparatorTest extends TestCase
         $a = 'a';
         $b = 'b';
         $decorated = $this->createMock(Comparator::class);
-        $decorated->expects($this->once())->method('compare')->with($a, $b)->willReturn(Order::Lesser);
+        $decorated->expects(self::once())->method('compare')->with($a, $b)->willReturn(Order::Lesser);
 
         $tested = [];
 
         $comparator = new GuardComparator(
             $decorated,
-            static function (string $value) use (&$tested): bool {
+            static function(string $value) use (&$tested): bool {
                 $tested[] = $value;
 
-                return $value === 'a' || $value === 'b';
+                return 'a' === $value || 'b' === $value;
             }
         );
 
-        $this->assertEquals(Order::Lesser, $comparator->compare($a, $b));
-        $this->assertEquals(['a', 'b'], $tested);
+        self::assertEquals(Order::Lesser, $comparator->compare($a, $b));
+        self::assertEquals(['a', 'b'], $tested);
     }
 
     #[Test]
@@ -42,16 +45,16 @@ final class GuardComparatorTest extends TestCase
         $a = 'a';
         $b = 'b';
         $decorated = $this->createMock(Comparator::class);
-        $decorated->expects($this->once())->method('compare')->with($a, $b)->willReturn(Order::Lesser);
+        $decorated->expects(self::once())->method('compare')->with($a, $b)->willReturn(Order::Lesser);
 
         $comparator = new GuardComparator(
             $decorated,
-            static function (string $value): bool {
-                return $value === 'a' || $value === 'b';
+            static function(string $value): bool {
+                return 'a' === $value || 'b' === $value;
             }
         );
 
-        $this->assertEquals(Order::Lesser, $comparator->compare($a, $b));
+        self::assertEquals(Order::Lesser, $comparator->compare($a, $b));
     }
 
     #[Test]
@@ -62,12 +65,12 @@ final class GuardComparatorTest extends TestCase
         $additionalInfo = 'test is success';
 
         $decorated = $this->createMock(Comparator::class);
-        $decorated->expects($this->never())->method('compare');
+        $decorated->expects(self::never())->method('compare');
 
         $comparator = new GuardComparator(
             $decorated,
-            static function (string $value): bool {
-                return $value !== 'a' && $value !== 'b';
+            static function(string $value): bool {
+                return 'a' !== $value && 'b' !== $value;
             },
             $additionalInfo
         );
