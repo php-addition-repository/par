@@ -66,14 +66,14 @@ final class Values
      * }
      * ```
      *
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
+     *
      * @param iterable $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to any of the items in the list of other values
-     *
-     * @psalm-mutation-free
-     *@see Values::equals
-     *
      */
     public static function equalsAnyIn(mixed $value, iterable $otherValues): bool
     {
@@ -114,14 +114,14 @@ final class Values
      * }
      * ```
      *
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
+     *
      * @param iterable $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the items in the list of other values
-     *
-     * @psalm-mutation-free
-     *@see Values::equals
-     *
      */
     public static function equalsNoneIn(mixed $value, iterable $otherValues): bool
     {
@@ -138,14 +138,14 @@ final class Values
      * }
      * ```
      *
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
+     *
      * @param mixed ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the other values
-     *
-     * @psalm-mutation-free
-     *@see Values::equals
-     *
      */
     public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
     {

@@ -26,8 +26,7 @@ final class EquableComparator extends Comparator
         float $delta = 0.0,
         bool $canonicalize = false,
         bool $ignoreCase = false
-    ): void
-    {
+    ): void {
         if ($expected instanceof Equable) {
             $left = $expected;
             $right = $actual;
