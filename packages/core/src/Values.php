@@ -32,6 +32,7 @@ final class Values
      * @param mixed $otherValue The other value with which to compare
      *
      * @return bool True if both values should be considered equal
+     *
      * @psalm-pure
      */
     public static function equals(mixed $value, mixed $otherValue): bool
@@ -65,14 +66,14 @@ final class Values
      * }
      * ```
      *
-     * @see Values::equals
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
      *
      * @param iterable $otherValues The list of other values with which to compare
-     * @param mixed    $value The value to test
+     * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to any of the items in the list of other values
-     *
-     * @psalm-mutation-free
      */
     public static function equalsAnyIn(mixed $value, iterable $otherValues): bool
     {
@@ -113,14 +114,14 @@ final class Values
      * }
      * ```
      *
-     * @see Values::equals
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
      *
      * @param iterable $otherValues The list of other values with which to compare
-     * @param mixed    $value The value to test
+     * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the items in the list of other values
-     *
-     * @psalm-mutation-free
      */
     public static function equalsNoneIn(mixed $value, iterable $otherValues): bool
     {
@@ -137,13 +138,14 @@ final class Values
      * }
      * ```
      *
-     * @see Values::equals
+     * @psalm-mutation-free
+     *
+     *@see Values::equals
      *
      * @param mixed ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
      *
      * @return bool True if value should be considered equal to none of the other values
-     * @psalm-mutation-free
      */
     public static function equalsNoneOf(mixed $value, mixed ...$otherValues): bool
     {
@@ -151,11 +153,6 @@ final class Values
     }
 
     /**
-     * @param mixed    $value
-     * @param iterable $otherValues
-     * @param bool     $onMatch
-     *
-     * @return bool
      * @psalm-mutation-free
      */
     private static function containsValue(mixed $value, iterable $otherValues, bool $onMatch = true): bool

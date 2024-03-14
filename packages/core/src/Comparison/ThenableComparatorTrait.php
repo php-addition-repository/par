@@ -6,7 +6,9 @@ namespace Par\Core\Comparison;
 
 /**
  * @template TValue
+ *
  * @mixin Comparator<TValue>
+ *
  * @psalm-immutable
  */
 trait ThenableComparatorTrait

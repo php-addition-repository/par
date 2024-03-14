@@ -9,9 +9,12 @@ use Par\Core\Comparison\Exception\IncomparableException;
 use Par\Core\Comparison\Order;
 
 /**
- * @template TValue of int|string
  * @internal
+ *
+ * @template TValue of int|string
+ *
  * @psalm-immutable
+ *
  * @implements Comparable<self>
  */
 final class ComparableScalarObject implements Comparable

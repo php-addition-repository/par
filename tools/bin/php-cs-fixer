@@ -7,6 +7,4 @@ script_dir="$(dirname "$script_path")"
 
 bin="$(sh "${script_dir}/tool-runner.sh" php-cs-fixer)"
 
-echo "${bin}"
-
 "${bin}" "$@"

@@ -19,12 +19,12 @@ use Throwable;
  * be `null`; it should always point to an `Optional` instance.
  *
  * @template TValue
+ *
  * @implements Equable<self>
  */
 final class Optional implements Equable
 {
     /**
-     * @param bool $hasValue
      * @param TValue $value
      */
     private function __construct(private readonly bool $hasValue = false, private readonly mixed $value = null)
@@ -33,8 +33,6 @@ final class Optional implements Equable
 
     /**
      * Returns an empty `Optional` instance.
-     *
-     * @return Optional
      */
     public static function empty(): self
     {
@@ -45,6 +43,7 @@ final class Optional implements Equable
      * Returns an `Optional` describing the given value.
      *
      * @template UValue
+     *
      * @param UValue $value The value to describe, which can be `null`
      *
      * @return Optional<UValue>
@@ -59,6 +58,7 @@ final class Optional implements Equable
      * empty `Optional`.
      *
      * @template UValue
+     *
      * @param iterable<UValue> $iterable The iterable to use the current value from
      *
      * @return Optional<UValue>
@@ -77,6 +77,7 @@ final class Optional implements Equable
      * Returns an `Optional` describing the given value, if non-null, otherwise returns an empty `Optional`.
      *
      * @template UValue
+     *
      * @param UValue $value The value to describe, which can be `null`
      *
      * @return Optional<UValue>
@@ -91,8 +92,6 @@ final class Optional implements Equable
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @psalm-mutation-free
      */
     public function equals(mixed $other): bool
@@ -125,6 +124,7 @@ final class Optional implements Equable
      * Retrieve the value of the optional.
      *
      * @return TValue
+     *
      * @throws NoSuchElementException if no value is present
      */
     public function get(): mixed
@@ -136,14 +136,12 @@ final class Optional implements Equable
      * If a value is present, performs the given action with the value, otherwise does nothing.
      *
      * @param callable(TValue): void $action The action to execute if a value is present
-     *
-     * @return void
      */
     public function ifPresent(callable $action): void
     {
         $this->ifPresentOrElse(
             $action,
-            static function (): void {
+            static function(): void {
             }
         );
     }
@@ -152,9 +150,7 @@ final class Optional implements Equable
      * If a value is present, performs the given action with the value, otherwise performs the given empty-based action.
      *
      * @param callable(TValue): void $action The action to execute when a value is present
-     * @param callable(): void       $emptyAction The action to execute when the optional is empty
-     *
-     * @return void
+     * @param callable(): void $emptyAction The action to execute when the optional is empty
      */
     public function ifPresentOrElse(callable $action, callable $emptyAction): void
     {
@@ -167,8 +163,6 @@ final class Optional implements Equable
 
     /**
      * If a value is not present, returns true, otherwise false.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -177,8 +171,6 @@ final class Optional implements Equable
 
     /**
      * If a value is present, returns true, otherwise false.
-     *
-     * @return bool
      */
     public function isPresent(): bool
     {
@@ -190,6 +182,7 @@ final class Optional implements Equable
      * the given mapping function to the value, otherwise returns an empty `Optional`.
      *
      * @template UValue
+     *
      * @param callable(TValue): UValue $mapper The mapping function to apply to a value, if present
      *
      * @return Optional<UValue>
@@ -207,7 +200,8 @@ final class Optional implements Equable
      * If a value is present, returns the value, otherwise returns other.
      *
      * @template UValue
-     * @param UValue $other the value to be returned, if no value is present.
+     *
+     * @param UValue $other the value to be returned, if no value is present
      *
      * @return TValue|UValue
      */
@@ -224,6 +218,7 @@ final class Optional implements Equable
      * If a value is present, returns the value, otherwise returns the result produced by the supplying function.
      *
      * @template UValue
+     *
      * @param callable():UValue $supplier the supplying function that produces a value to be returned
      *
      * @return TValue|UValue
@@ -244,12 +239,14 @@ final class Optional implements Equable
      * If no supplying function is provided a default supplier will be used that returns a `NoSuchElementException`.
      *
      * @template T of Throwable
+     *
      * @param callable():T|null $exceptionSupplier the supplying function that produces an exception to be thrown
      *
      * @return TValue
+     *
      * @throws Throwable|NoSuchElementException
      */
-    public function orElseThrow(callable $exceptionSupplier = null): mixed
+    public function orElseThrow(?callable $exceptionSupplier = null): mixed
     {
         if ($this->isPresent()) {
             return $this->value;

@@ -12,8 +12,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
     protected const MAX_SHORT_LENGTH = 100;
 
     /**
-     * @inheritDoc
-     *
      * @throws AssertionFailedException
      *
      * @psalm-pure
@@ -24,7 +22,6 @@ abstract class Assert extends \Webmozart\Assert\Assert
     }
 
     /**
-     * @inheritDoc
      * @psalm-pure
      */
     protected static function valueToString(mixed $value): string
@@ -55,7 +52,7 @@ abstract class Assert extends \Webmozart\Assert\Assert
             }
 
             if ($value instanceof DateTimeInterface) {
-                /** @psalm-suppress ImpureMethodCall */
+                /* @psalm-suppress ImpureMethodCall */
                 return sprintf('%s(%s)', $value::class, static::valueToString($value->format('c')));
             }
 
@@ -72,8 +69,8 @@ abstract class Assert extends \Webmozart\Assert\Assert
             if (\mb_strlen($value) > static::MAX_SHORT_LENGTH) {
                 $value = \sprintf(
                     '%s...%s',
-                    \mb_substr($value, 0, (int)ceil(static::MAX_SHORT_LENGTH / 2) - 3),
-                    \mb_substr($value, (int)floor(static::MAX_SHORT_LENGTH / 2) * -1)
+                    \mb_substr($value, 0, (int) ceil(static::MAX_SHORT_LENGTH / 2) - 3),
+                    \mb_substr($value, (int) floor(static::MAX_SHORT_LENGTH / 2) * -1)
                 );
             }
 

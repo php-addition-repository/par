@@ -11,6 +11,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class IntegersComparatorTest extends TestCase
 {
     public static function comparableValuesProvider(): iterable
@@ -22,7 +25,7 @@ final class IntegersComparatorTest extends TestCase
 
     public static function comparableValuesUsingExtractorProvider(): iterable
     {
-        $toIntExtractor = static fn(string $value): int => (int)$value;
+        $toIntExtractor = static fn(string $value): int => (int) $value;
 
         yield 'equal' => ['1', '1', $toIntExtractor, Order::Equal];
         yield 'greater' => ['2', '1', $toIntExtractor, Order::Greater];
@@ -38,7 +41,7 @@ final class IntegersComparatorTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider("incompatibleValuesProvider")]
+    #[DataProvider('incompatibleValuesProvider')]
     public function itThrowsIncomparableExceptionForIncompatibleValues(mixed $a, mixed $b): void
     {
         $comparator = Comparators::integers();
@@ -51,20 +54,20 @@ final class IntegersComparatorTest extends TestCase
      * @param pure-callable(mixed): int $extractor
      */
     #[Test]
-    #[DataProvider("comparableValuesUsingExtractorProvider")]
+    #[DataProvider('comparableValuesUsingExtractorProvider')]
     public function itWillCompareValuesFromExtractor(mixed $a, mixed $b, callable $extractor, Order $expected): void
     {
         $comparator = Comparators::integers($extractor);
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 
     #[Test]
-    #[DataProvider("comparableValuesProvider")]
+    #[DataProvider('comparableValuesProvider')]
     public function itCanCompareValues(int $a, int $b, Order $expected): void
     {
         $comparator = Comparators::integers();
 
-        $this->assertEquals($expected, $comparator->compare($a, $b));
+        self::assertEquals($expected, $comparator->compare($a, $b));
     }
 }

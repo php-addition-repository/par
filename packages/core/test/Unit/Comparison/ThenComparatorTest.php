@@ -10,6 +10,9 @@ use Par\Core\Comparison\ThenComparator;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class ThenComparatorTest extends TestCase
 {
     #[Test]
@@ -20,8 +23,8 @@ final class ThenComparatorTest extends TestCase
             new CallableComparator(static fn(array $left, array $right) => $left[1] <=> $right[1]),
         );
 
-        $this->assertEquals(Order::Equal, $comparator->compare([1, 2], [1, 2]));
-        $this->assertEquals(Order::Lesser, $comparator->compare([1, 2], [1, 1]));
-        $this->assertEquals(Order::Greater, $comparator->compare([2, 1], [2, 2]));
+        self::assertEquals(Order::Equal, $comparator->compare([1, 2], [1, 2]));
+        self::assertEquals(Order::Lesser, $comparator->compare([1, 2], [1, 1]));
+        self::assertEquals(Order::Greater, $comparator->compare([2, 1], [2, 2]));
     }
 }

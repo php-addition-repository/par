@@ -8,6 +8,7 @@ use Closure;
 
 /**
  * @template TValue
+ *
  * @implements Comparator<TValue>
  */
 final class ExtractorComparator implements Comparator
@@ -34,8 +35,9 @@ final class ExtractorComparator implements Comparator
 
     /**
      * @template UValue
+     *
      * @param pure-callable(TValue):UValue $extractor
-     * @param Comparator<UValue>           $comparator
+     * @param Comparator<UValue> $comparator
      */
     public function __construct(callable $extractor, private readonly Comparator $comparator)
     {
@@ -43,7 +45,6 @@ final class ExtractorComparator implements Comparator
     }
 
     /**
-     * @inheritDoc
      * @psalm-mutation-free
      */
     public function compare(mixed $v1, mixed $v2): Order

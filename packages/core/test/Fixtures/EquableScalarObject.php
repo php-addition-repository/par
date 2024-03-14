@@ -8,7 +8,9 @@ use Par\Core\Equable;
 
 /**
  * @internal
+ *
  * @psalm-immutable
+ *
  * @implements Equable<self>
  */
 final class EquableScalarObject implements Equable
