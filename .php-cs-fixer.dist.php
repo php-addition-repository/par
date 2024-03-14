@@ -58,6 +58,7 @@ return (new PhpCsFixer\Config())
                 'template',
                 'extends',
                 'implements',
+                'mixin',
                 'var',
                 'param',
                 'return',
