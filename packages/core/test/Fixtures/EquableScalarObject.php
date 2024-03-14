@@ -4,19 +4,66 @@ declare(strict_types=1);
 
 namespace Par\CoreTest\Fixtures;
 
+use Generator;
 use Par\Core\Equable;
 
 /**
  * @internal
  *
- * @implements Equable<self>
+ * @template-covariant TValue of scalar
+ *
+ * @implements Equable<EquableScalarObject>
  */
 final class EquableScalarObject implements Equable
 {
     /**
-     * @param scalar|null $value
+     * @return self<int>
      */
-    public function __construct(public readonly float|bool|int|string|null $value)
+    public static function fromInt(int $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @return Generator<EquableScalarObject<int>>
+     */
+    public static function fromIntRange(int $start, int $end): iterable
+    {
+        yield from static::fromIterable(range($start, $end));
+    }
+
+    /**
+     * @param iterable<TValue> $iterable
+     *
+     * @return Generator<EquableScalarObject<TValue>>
+     */
+    public static function fromIterable(iterable $iterable): iterable
+    {
+        foreach ($iterable as $value) {
+            yield new self($value);
+        }
+    }
+
+    /**
+     * @return self<string>
+     */
+    public static function fromString(string $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @return Generator<EquableScalarObject<string>>
+     */
+    public static function fromStringRange(string $start, string $end): iterable
+    {
+        yield from static::fromIterable(range($start, $end));
+    }
+
+    /**
+     * @param TValue|null $value
+     */
+    private function __construct(public readonly float|bool|int|string|null $value)
     {
     }
 
