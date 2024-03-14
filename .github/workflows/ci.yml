@@ -40,8 +40,8 @@ jobs:
       - name: Composer validate
         run: composer validate --strict
 
-      #      - name: Run psalm
-      #        run: ./vendor/bin/psalm --output-format=github
+      - name: Run phpstan
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G --error-format=github
 
       - name: Configure phpunit github matchers
         uses: mheap/phpunit-matcher-action@v1
