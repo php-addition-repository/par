@@ -29,7 +29,7 @@ final class EquableComparatorTest extends TestCase
     }
 
     #[Test]
-    public function ttCanAssertEquality(): void
+    public function itCanAssertEquality(): void
     {
         $comparator = new EquableComparator();
 

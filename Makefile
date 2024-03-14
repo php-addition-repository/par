@@ -109,7 +109,6 @@ tools/phpstan: ## Run PHPStan
 tools/uninstall: ## Uninstall all tools
 	@$(call MK_NOTIFY,"Cleaning up installed tools")
 	@rm -rf "$(HERE)/tools/php-cs-fixer/vendor"
-	@rm -rf "$(HERE)/tools/phpstan/vendor"
 	@$(call MK_SUCCESS,"Done")
 
 ##@ Build

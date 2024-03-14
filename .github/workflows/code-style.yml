@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - "**.php"
-      - "phpcs.xml"
-      - ".github/workflows/phpcs.yml"
+      - ".php-cs-fixer.dist.php"
+      - ".github/workflows/code-style.yml"
 
 jobs:
   phpcs:
@@ -23,7 +23,7 @@ jobs:
           tools: cs2pr
 
       - name: Composer install
-        uses: "ramsey/composer-install@v2"
+        run: ./tools/bin/php-cs-fixer --version
 
       - name: Run phpcs
-        run: ./vendor/bin/phpcs --report=checkstyle -q | cs2pr
+        run: ./tools/bin/php-cs-fixer check --show-progress=none --format=checkstyle | cs2pr
