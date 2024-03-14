@@ -9,7 +9,7 @@ use Closure;
 /**
  * @template TValue
  *
- * @implements  Comparator<TValue>
+ * @implements Comparator<TValue>
  */
 final class CallableComparator implements Comparator
 {

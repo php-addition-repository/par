@@ -24,6 +24,8 @@ interface Comparator
     public function compare(mixed $v1, mixed $v2): Order;
 
     /**
+     * Returns a comparator that imposes the reverse ordering of this comparator.
+     *
      * @return Comparator<TValue>
      */
     public function reversed(): Comparator;
@@ -42,7 +44,7 @@ interface Comparator
      *
      * @template UValue
      *
-     * @param callable(UValue): TValue $extractor The extractor to use to determine the values to compare
+     * @param callable(TValue): UValue $extractor The extractor to use to determine the values to compare
      *
      * @return Comparator<TValue>
      */
