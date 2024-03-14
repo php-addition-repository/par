@@ -26,4 +26,4 @@ jobs:
         run: ./tools/bin/php-cs-fixer --version
 
       - name: Run phpcs
-        run: ./tools/bin/php-cs-fixer check --show-progress=none --format=checkstyle
+        run: ./tools/bin/php-cs-fixer check --show-progress=none --format=checkstyle | cs2pr
