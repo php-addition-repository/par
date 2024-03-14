@@ -24,6 +24,21 @@ interface Comparator
     public function compare(mixed $v1, mixed $v2): Order;
 
     /**
+     * Alias to allow passing a comparator to the PHP native methods that support a callable to execute sorting.
+     *
+     * Same as:
+     * ```
+     * usort($list, static fn($v1, $v2): int => $comparator->compare($v1, $v2)->value)
+     * ```
+     *
+     * @param TValue $v1 The first value to be compared
+     * @param TValue $v2 The second value to be compared
+     *
+     * @throws IncomparableException if arguments are not comparable
+     */
+    public function __invoke(mixed $v1, mixed $v2): int;
+
+    /**
      * Returns a comparator that imposes the reverse ordering of this comparator.
      *
      * @return Comparator<TValue>

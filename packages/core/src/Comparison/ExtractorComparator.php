@@ -29,6 +29,11 @@ final class ExtractorComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
+    /**
      * @var Closure(TValue): mixed
      */
     private Closure $extractor;

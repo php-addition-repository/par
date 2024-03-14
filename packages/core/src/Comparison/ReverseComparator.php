@@ -22,6 +22,11 @@ final class ReverseComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
+    /**
      * @param Comparator<TValue> $reversedComparator
      */
     public function __construct(private readonly Comparator $reversedComparator)

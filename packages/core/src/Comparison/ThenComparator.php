@@ -27,6 +27,11 @@ final class ThenComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
+    /**
      * @param Comparator<TValue> $first
      * @param Comparator<TValue> $next
      */
