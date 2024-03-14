@@ -28,6 +28,7 @@ final class OptionalTest extends TestCase
         yield 'same-value' => [Optional::fromAny('foo'), Optional::fromAny('foo'), true];
         yield 'different-value' => [Optional::fromAny('foo'), Optional::fromAny('bar'), false];
         yield 'value-vs-empty' => [Optional::fromAny('foo'), Optional::empty(), false];
+        yield 'value-vs-null' => [Optional::fromAny('foo'), null, false];
         yield 'value-vs-other' => [Optional::fromAny('foo'), false, false];
         yield 'value-vs-internal-value' => [Optional::fromAny('foo'), 'foo', false];
     }
@@ -126,6 +127,9 @@ final class OptionalTest extends TestCase
         self::assertEquals(['foo'], $invocations);
     }
 
+    /**
+     * @param Optional<mixed> $subject
+     */
     #[Test]
     #[DataProvider('equalsProvider')]
     public function itCanDetermineEquality(Optional $subject, mixed $other, bool $expected): void
