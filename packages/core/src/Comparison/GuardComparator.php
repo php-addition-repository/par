@@ -33,6 +33,11 @@ final class GuardComparator implements Comparator
      */
     use UsingComparatorTrait;
 
+    /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
     /** @var Closure(TValue): bool */
     private Closure $test;
 
