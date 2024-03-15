@@ -29,7 +29,7 @@ return static function(MBConfig $mbConfig): void {
                 ],
             ],
             ComposerJsonSection::REQUIRE_DEV => [
-                'phpunit/phpunit' => '^10.4',
+                'phpunit/phpunit' => '^10.5',
                 'roave/security-advisories' => 'dev-master',
                 'symfony/string' => '^6.4',
                 'symplify/monorepo-builder' => '^11.2',
