@@ -125,12 +125,9 @@ final class Optional implements Equable
      * @return TValue
      *
      * @throws NoSuchElementException if no value is present
-     *
-     * @noinspection PhpDocMissingThrowsInspection
      */
     public function get(): mixed
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return $this->orElseThrow();
     }
 
@@ -143,7 +140,8 @@ final class Optional implements Equable
     {
         $this->ifPresentOrElse(
             $action,
-            static function(): void {}
+            static function(): void {
+            }
         );
     }
 
