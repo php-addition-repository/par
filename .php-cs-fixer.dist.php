@@ -84,5 +84,6 @@ return (new PhpCsFixer\Config())
                 'call_type' => 'self',
             ],
             'single_line_throw' => false,
-        ])
+        ]
+    )
     ->setFinder($finder);
