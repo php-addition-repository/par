@@ -28,7 +28,7 @@ final class Limit implements IntermediateOperation
         yield from new NormalizeIterableAggregate(
             new LimitIterableAggregate(
                 iterable: $iterable,
-                limit:    $this->amount
+                limit: $this->amount
             )
         );
     }

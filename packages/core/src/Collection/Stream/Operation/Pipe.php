@@ -31,8 +31,10 @@ final class Pipe implements IntermediateOperation
     {
         return array_reduce(
             $this->operations,
-            static fn(callable $a,
-                      callable $b): Closure => static fn(iterable $iterable): iterable => $b($a($iterable)),
+            static fn(
+                callable $a,
+                callable $b
+            ): Closure => static fn(iterable $iterable): iterable => $b($a($iterable)),
             static fn(iterable $iterable): iterable => $iterable
         )($iterable);
     }
