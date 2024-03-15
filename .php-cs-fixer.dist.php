@@ -48,6 +48,9 @@ return (new PhpCsFixer\Config())
             'global_namespace_import' => [
                 'import_classes' => true,
             ],
+            'method_argument_space' => [
+                'on_multiline' => 'ensure_fully_multiline',
+            ],
             'phpdoc_align' => [
                 'align' => 'left',
             ],
