@@ -35,7 +35,7 @@ jobs:
           #extensions: ${{ join(fromJson(needs.supported-versions-matrix.outputs.extensions), ',') }}
 
       - name: Composer install
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
 
       - name: Composer validate
         run: composer validate --strict
