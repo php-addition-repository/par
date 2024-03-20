@@ -106,6 +106,8 @@ interface MutableMap extends Map
      *
      * @return Optional<TValue> optional with the previous value associated with `$key`, or an empty optional if
      *                          there was no mapping for `$key`
+     *
+     * @throws InvalidTypeException if the key or value is of an inappropriate type for this map
      */
     public function putIfAbsent(mixed $key, mixed $value): Optional;
 

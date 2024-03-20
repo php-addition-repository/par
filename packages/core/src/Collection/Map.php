@@ -41,8 +41,6 @@ interface Map extends IteratorAggregate, Countable
      * @param TValue $value value whose presence in this map is to be tested
      *
      * @return bool `true` if this map maps one or more keys to the specified value
-     *
-     * @throws InvalidTypeException if value is of an inappropriate type for this map
      */
     public function containsValue(mixed $value): bool;
 
