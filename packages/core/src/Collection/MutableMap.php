@@ -104,7 +104,7 @@ interface MutableMap extends Map
      * @param TKey $key key with which the specified value is to be associated
      * @param UValue $value value to be associated with the specified key
      *
-     * @return Optional<TValue> optional with the previous value associated with `$key`, or an empty optional if
+     * @return Optional<TValue> optional with the current value associated with `$key`, or an empty optional if
      *                          there was no mapping for `$key`
      *
      * @throws InvalidTypeException if the key or value is of an inappropriate type for this map
