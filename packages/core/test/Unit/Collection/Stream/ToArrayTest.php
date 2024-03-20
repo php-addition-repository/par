@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 final class ToArrayTest extends TestCase
 {
     #[Test]
-    public function itReturnsAnZeroBasedArray(): void
+    public function itReturnsZeroBasedArray(): void
     {
         $stream = MixedStream::fromIterable(range(1, 5));
 
