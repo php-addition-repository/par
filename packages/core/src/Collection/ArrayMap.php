@@ -46,7 +46,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
     /**
      * TODO.
      *
-     * @return static<TKey, mixed> TODO
+     * @return static<string|int, mixed> TODO
      */
     public static function empty(): self
     {
