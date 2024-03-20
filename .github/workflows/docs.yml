@@ -21,10 +21,10 @@ jobs:
         uses: "actions/checkout@v4"
 
       - name: Generate docs
-        uses: "docker://phpdoc/phpdoc:3"
+        uses: "docker://phpdoc/phpdoc:3.4"
         with:
           workdir: '/github/workspace'
-          args: 'project:run -t packages/docs/docs'
+          args: '-t packages/docs/docs'
 
       # no tag
       - if: "!startsWith(github.ref, 'refs/tags/')"

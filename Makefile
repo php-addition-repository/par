@@ -114,7 +114,7 @@ tools/uninstall: ## Uninstall all tools
 ##@ Build
 
 docs: ## Generate docs
-	docker run --rm --volume $(HERE):/data phpdoc/phpdoc:3.4 project:run
+	docker run --rm --volume $(HERE):/data phpdoc/phpdoc:3.4
 
 ##@ Docker
 
