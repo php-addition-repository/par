@@ -165,24 +165,6 @@ final class ArrayMap implements MutableMap, ArrayAccess
         return $this->get($offset);
     }
 
-    public function stream(): Stream
-    {
-        return MixedStream::fromIterable($this->internalMap);
-    }
-
-    public function toArray(): array
-    {
-        return $this->internalMap;
-    }
-
-    /**
-     * @return ArraySequence<TValue>
-     */
-    public function values(): ArraySequence
-    {
-        return ArraySequence::fromIterable(array_values($this->internalMap));
-    }
-
     public function offsetSet(mixed $offset, mixed $value): void
     {
         self::guardArrayKey($offset);
@@ -223,5 +205,23 @@ final class ArrayMap implements MutableMap, ArrayAccess
         unset($this->internalMap[$key]);
 
         return $oldValue;
+    }
+
+    public function stream(): Stream
+    {
+        return MixedStream::fromIterable($this->internalMap);
+    }
+
+    public function toArray(): array
+    {
+        return $this->internalMap;
+    }
+
+    /**
+     * @return ArraySequence<TValue>
+     */
+    public function values(): ArraySequence
+    {
+        return ArraySequence::fromIterable($this->internalMap);
     }
 }
