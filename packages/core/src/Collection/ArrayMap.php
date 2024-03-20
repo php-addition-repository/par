@@ -37,16 +37,10 @@ final class ArrayMap implements MutableMap, ArrayAccess
     use MutableMapTrait;
 
     /**
-     * @var array<TKey, TValue>
-     */
-    private array $internalMap;
-
-    /**
      * @param array<TKey, TValue> $internalMap
      */
-    private function __construct(array $internalMap)
+    private function __construct(private array $internalMap)
     {
-        $this->internalMap = $internalMap;
     }
 
     /**

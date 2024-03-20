@@ -53,7 +53,7 @@ trait MutableMapTrait
                 $this->remove($key);
             }
 
-            return Optional::fromAny($newValue);
+            return Optional::fromNullable($newValue);
         }
 
         return Optional::empty();
@@ -72,6 +72,6 @@ trait MutableMapTrait
             return $this->put($key, $value);
         }
 
-        return Optional::empty();
+        return Optional::fromAny($this->get($key));
     }
 }
