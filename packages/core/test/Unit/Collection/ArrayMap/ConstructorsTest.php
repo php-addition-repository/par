@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Par\CoreTest\Unit\Collection\ArrayMap;
 
 use Par\Core\Collection\ArrayMap;
+use Par\Core\Exception\InvalidTypeException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -38,6 +39,19 @@ final class ConstructorsTest extends TestCase
 
         $map = [3 => 'a', 'b' => 'b'];
         yield 'iterable<int|string, string>' => [$generator($map), $map];
+    }
+
+    #[Test]
+    public function cannotCreateFromIterableWithInvalidArrayKeyTypes(): void
+    {
+        $generator = static function(): iterable {
+            yield 1 => null;
+            yield 'two' => 2;
+            yield null => 3;
+        };
+
+        $this->expectExceptionObject(InvalidTypeException::forIndexedValue(2, null, 'int|string'));
+        ArrayMap::fromIterable($generator());
     }
 
     #[Test]
