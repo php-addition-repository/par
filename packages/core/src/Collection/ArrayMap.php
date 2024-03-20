@@ -90,7 +90,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
     /**
      * @phpstan-assert TKey $key
      */
-    protected static function guardArrayKey(mixed $key): void
+    private static function guardArrayKey(mixed $key): void
     {
         if (!is_int($key) && !is_string($key)) {
             throw InvalidTypeException::forValue($key, 'int|string');
@@ -100,7 +100,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
     /**
      * @phpstan-assert TKey $key
      */
-    protected static function guardItemArrayKey(int $index, mixed $key): void
+    private static function guardItemArrayKey(int $index, mixed $key): void
     {
         if (!is_int($key) && !is_string($key)) {
             throw InvalidTypeException::forIndexedValue($index, $key, 'int|string');
