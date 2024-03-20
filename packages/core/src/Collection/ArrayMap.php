@@ -46,37 +46,33 @@ final class ArrayMap implements MutableMap, ArrayAccess
     /**
      * TODO.
      *
-     * @return static<array-key, mixed>
+     * @return static<TKey, mixed> TODO
      */
     public static function empty(): self
     {
-        return new static([]);
+        return new self([]);
     }
 
     /**
      * TODO.
      *
-     * @template UKey of array-key
-     * @template UValue
+     * @param array<TKey, TValue> $map array map to use as source for this ArrayMap
      *
-     * @param array<UKey, UValue> $map TODO
-     *
-     * @return static<UKey, UValue>
+     * @return self<TKey, TValue> TODO
      */
     public static function fromArray(array $map): self
     {
-        return new static($map);
+        return new self($map);
     }
 
     /**
      * TODO.
      *
-     * @template UKey of array-key
-     * @template UValue
+     * @param iterable<TKey, TValue> $map TODO
      *
-     * @param iterable<UKey, UValue> $map TODO
+     * @return self<TKey, TValue> TODO
      *
-     * @return static<UKey, UValue>
+     * @throws InvalidTypeException if any key or value of the provided iterable is of an inappropriate type for this map
      */
     public static function fromIterable(iterable $map): self
     {
@@ -88,7 +84,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
             ++$i;
         }
 
-        return new static($array);
+        return new self($array);
     }
 
     /**
