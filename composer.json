@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.1",
         "ext-mbstring": "*",
-        "loophp/iterators": "^3.0",
+        "loophp/collection": "^7.0",
         "webmozart/assert": "^1.11"
     },
     "autoload": {
