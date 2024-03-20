@@ -5,18 +5,13 @@ declare(strict_types=1);
 namespace Par\Core\Collection;
 
 use ArrayIterator;
-use loophp\collection\Operation\Append;
-use loophp\collection\Operation\Filter;
-use loophp\collection\Operation\Flip;
-use loophp\collection\Operation\Head;
-use loophp\collection\Operation\Pipe;
-use loophp\collection\Operation\Reverse;
 use Par\Core\Collection\Stream\MixedStream;
 use Par\Core\Collection\Stream\Stream;
 use Par\Core\Comparison\Comparator;
 use Par\Core\Comparison\Comparators;
 use Par\Core\Exception\IndexOutOfBoundsException;
 use Par\Core\Exception\NoSuchElementException;
+use Par\Core\Optional;
 use Par\Core\Values;
 use Traversable;
 
@@ -32,9 +27,9 @@ use Traversable;
 final class ArraySequence implements MutableSequence
 {
     /**
-     * @var array<int, TValue> internal array used to store the values of the sequence
+     * @var TValue[]
      */
-    protected array $inner;
+    private array $inner;
 
     /**
      * @param iterable<TValue> $iterable
@@ -52,7 +47,7 @@ final class ArraySequence implements MutableSequence
     }
 
     /**
-     * Creates a vector without any elements.
+     * Creates a sequence without any elements.
      *
      * @return static<mixed> an empty vector
      */
@@ -62,13 +57,13 @@ final class ArraySequence implements MutableSequence
     }
 
     /**
-     * Creates a vector containing the elements of the specified iterable, in the order they are returned by it.
+     * Creates a sequence containing the elements of the specified iterable, in the order they are returned by it.
      *
      * @template UValue
      *
      * @param iterable<UValue> $iterable iterable whose elements are to be placed into this vector
      *
-     * @return static<UValue> A vector containing all values from the provided iterable in the order
+     * @return static<UValue> A sequence containing all values from the provided iterable in the order
      */
     public static function fromIterable(iterable $iterable): self
     {
@@ -117,14 +112,12 @@ final class ArraySequence implements MutableSequence
 
     public function indexOf(mixed $element): int
     {
-        $steps = [
-            Filter::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
-            Flip::of(),
-            Append::of()([-1]),
-            Head::of(),
-        ];
+        $pipe = new Operation\Pipe(
+            new Operation\Filter(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
+            new Operation\Flip()
+        );
 
-        return Pipe::of()(...$steps)($this->inner)->current();
+        return Optional::fromCurrent($pipe($this->inner))->orElse(-1);
     }
 
     /**
@@ -144,15 +137,12 @@ final class ArraySequence implements MutableSequence
 
     public function lastIndexOf(mixed $element): int
     {
-        $steps = [
-            Reverse::of(),
-            Filter::of()(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
-            Flip::of(),
-            Append::of()([-1]),
-            Head::of(),
-        ];
+        $pipe = new Operation\Pipe(
+            new Operation\Filter(static fn(mixed $internalElement): bool => Values::equals($internalElement, $element)),
+            new Operation\Flip()
+        );
 
-        return Pipe::of()(...$steps)($this->stream())->current();
+        return Optional::fromCurrent($pipe(array_reverse($this->inner, true)))->orElse(-1);
     }
 
     public function reversed(): static
@@ -268,13 +258,13 @@ final class ArraySequence implements MutableSequence
     {
         $this->guardIndexExists($index);
 
-        $elementValues = [];
+        $changed = false;
         foreach ($elements as $element) {
-            $elementValues[] = $element;
-        }
-
-        if ($changed = !empty($elementValues)) {
-            array_splice($this->inner, $index, 0, $elementValues);
+            if (!Values::equals($element, $this->inner[$index] ?? null)) {
+                $this->inner[$index] = $element;
+                $changed = true;
+            }
+            ++$index;
         }
 
         return $changed;
@@ -286,7 +276,7 @@ final class ArraySequence implements MutableSequence
             $comparator = is_callable($comparator) ? Comparators::with($comparator) : Comparators::values();
         }
 
-        usort($this->inner, static fn(mixed $a, $b): int => $comparator->compare($a, $b)->value);
+        usort($this->inner, static fn(mixed $a, $b): int => $comparator($a, $b));
 
         return $this;
     }
