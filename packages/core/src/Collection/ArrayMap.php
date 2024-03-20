@@ -116,7 +116,7 @@ final class ArrayMap implements MutableMap, ArrayAccess
 
     public function containsValue(mixed $value): bool
     {
-        return false;
+        return $this->values()->contains($value);
     }
 
     final public function count(): int
