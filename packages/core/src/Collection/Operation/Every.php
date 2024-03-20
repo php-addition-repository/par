@@ -1,17 +1,18 @@
 <?php
 
-namespace Par\Core\Collection\Stream\Operation;
+namespace Par\Core\Collection\Operation;
 
 use Closure;
 
 /**
  * TODO.
  *
+ * @template TKey
  * @template TValue
  *
- * @implements IntermediateOperation<TValue, bool>
+ * @implements Operation<TKey, TValue>
  */
-final class Every implements IntermediateOperation
+final class Every implements Operation
 {
     /**
      * @var Closure(TValue): bool
@@ -26,6 +27,9 @@ final class Every implements IntermediateOperation
         $this->predicate = $predicate(...);
     }
 
+    /**
+     * @return iterable<TKey, bool>
+     */
     public function __invoke(iterable $iterable): iterable
     {
         $predicate = $this->predicate;

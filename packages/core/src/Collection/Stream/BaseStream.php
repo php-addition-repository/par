@@ -9,16 +9,17 @@ use loophp\iterators\ClosureIteratorAggregate;
 use loophp\iterators\NormalizeIterableAggregate;
 use NoRewindIterator;
 use Par\Core\Assert;
-use Par\Core\Collection\Stream\Operation\Apply;
-use Par\Core\Collection\Stream\Operation\Every;
-use Par\Core\Collection\Stream\Operation\Filter;
-use Par\Core\Collection\Stream\Operation\IntermediateOperation;
-use Par\Core\Collection\Stream\Operation\Limit;
-use Par\Core\Collection\Stream\Operation\Map;
-use Par\Core\Collection\Stream\Operation\Pipe;
-use Par\Core\Collection\Stream\Operation\Reduce;
-use Par\Core\Collection\Stream\Operation\Skip;
-use Par\Core\Collection\Stream\Operation\Sort;
+use Par\Core\Collection\Operation\Apply;
+use Par\Core\Collection\Operation\Every;
+use Par\Core\Collection\Operation\Filter;
+use Par\Core\Collection\Operation\Limit;
+use Par\Core\Collection\Operation\Map;
+use Par\Core\Collection\Operation\Normalize;
+use Par\Core\Collection\Operation\Operation;
+use Par\Core\Collection\Operation\Pipe;
+use Par\Core\Collection\Operation\Reduce;
+use Par\Core\Collection\Operation\Skip;
+use Par\Core\Collection\Operation\Sort;
 use Par\Core\Comparison\Comparator;
 use Par\Core\Comparison\Comparators;
 use Par\Core\Optional;
@@ -93,10 +94,10 @@ abstract class BaseStream implements Stream
     }
 
     /**
-     * @param callable|IntermediateOperation<mixed, TValue> $callable
+     * @param callable|Operation<mixed, TValue> $callable
      * @param iterable<int, mixed> $parameters
      */
-    final protected function __construct(callable|IntermediateOperation $callable, iterable $parameters = [])
+    final protected function __construct(callable|Operation $callable, iterable $parameters = [])
     {
         $this->innerIterator = new ClosureIteratorAggregate($callable, $parameters);
     }
@@ -142,7 +143,7 @@ abstract class BaseStream implements Stream
 
     public function filter(callable $predicate): Stream
     {
-        return $this->pipe(new Filter($predicate));
+        return $this->pipe(new Filter($predicate), new Normalize());
     }
 
     public function forEach(callable $action): void
@@ -204,14 +205,14 @@ abstract class BaseStream implements Stream
             return $this;
         }
 
-        return $this->pipe(new Skip($num));
+        return $this->pipe(new Skip($num), new Normalize());
     }
 
     public function sorted(callable|Comparator|null $comparator = null): Stream
     {
         $comparator = $this->toComparator($comparator);
 
-        return $this->pipe(new Sort($comparator));
+        return $this->pipe(new Sort($comparator), new Normalize());
     }
 
     public function findFirst(): Optional
@@ -229,11 +230,11 @@ abstract class BaseStream implements Stream
     /**
      * @template TOut
      *
-     * @param IntermediateOperation<mixed, TOut> ...$operations
+     * @param callable(iterable<TValue>): iterable<TOut> ...$operations
      *
      * @return BaseStream<TOut>&static
      */
-    protected function pipe(IntermediateOperation ...$operations): static
+    protected function pipe(callable ...$operations): static
     {
         return match (count($operations)) {
             0 => $this,

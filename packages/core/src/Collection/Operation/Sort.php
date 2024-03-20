@@ -1,17 +1,17 @@
 <?php
 
-namespace Par\Core\Collection\Stream\Operation;
+namespace Par\Core\Collection\Operation;
 
-use loophp\iterators\NormalizeIterableAggregate;
 use loophp\iterators\SortIterableAggregate;
 use Par\Core\Comparison\Comparator;
 
 /**
+ * @template TKey
  * @template TValue
  *
- * @implements IntermediateOperation<TValue, TValue>
+ * @implements Operation<TKey, TValue>
  */
-final class Sort implements IntermediateOperation
+final class Sort implements Operation
 {
     /**
      * @param Comparator<TValue> $comparator
@@ -24,11 +24,9 @@ final class Sort implements IntermediateOperation
     {
         $comparator = $this->comparator;
 
-        yield from new NormalizeIterableAggregate(
-            new SortIterableAggregate(
-                $iterable,
-                $comparator(...)
-            )
+        yield from new SortIterableAggregate(
+            $iterable,
+            $comparator(...)
         );
     }
 }

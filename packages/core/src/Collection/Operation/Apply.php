@@ -1,17 +1,18 @@
 <?php
 
-namespace Par\Core\Collection\Stream\Operation;
+namespace Par\Core\Collection\Operation;
 
 use Closure;
 
 /**
  * TODO.
  *
+ * @template TKey
  * @template TValue
  *
- * @implements IntermediateOperation<TValue, TValue>
+ * @implements Operation<TKey, TValue>
  */
-final class Apply implements IntermediateOperation
+final class Apply implements Operation
 {
     /**
      * @var Closure(TValue): void
@@ -29,10 +30,10 @@ final class Apply implements IntermediateOperation
     public function __invoke(iterable $iterable): iterable
     {
         $action = $this->action;
-        foreach ($iterable as $item) {
+        foreach ($iterable as $key => $item) {
             $action($item);
 
-            yield $item;
+            yield $key => $item;
         }
     }
 }

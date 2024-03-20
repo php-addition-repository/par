@@ -1,16 +1,19 @@
 <?php
 
-namespace Par\Core\Collection\Stream\Operation;
+namespace Par\Core\Collection\Operation;
 
 use Closure;
 use loophp\iterators\FilterIterableAggregate;
 
 /**
+ * TODO.
+ *
+ * @template TKey
  * @template TValue
  *
- * @implements IntermediateOperation<TValue, TValue>
+ * @implements Operation<TKey, TValue>
  */
-final class Filter implements IntermediateOperation
+final class Filter implements Operation
 {
     /**
      * @var Closure(TValue): bool

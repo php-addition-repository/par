@@ -1,35 +1,35 @@
 <?php
 
-namespace Par\Core\Collection\Stream\Operation;
+namespace Par\Core\Collection\Operation;
 
 use Closure;
 
 /**
  * TODO.
  *
+ * @template TKey
  * @template TIn
- * @template TOut
  *
- * @implements IntermediateOperation<TIn, TOut>
+ * @implements Operation<TKey, TIn>
  */
-final class Pipe implements IntermediateOperation
+final class Pipe implements Operation
 {
     /**
-     * @var (Closure(iterable<TIn>): iterable<TOut>)[]
+     * @var Operation<TKey, TIn>[]
      */
     private array $operations;
 
     /**
-     * @param callable(iterable<TIn>): iterable<TOut> ...$operations
+     * @param Operation<TKey, TIn> ...$operations
      */
-    public function __construct(callable ...$operations)
+    public function __construct(Operation ...$operations)
     {
         $this->operations = $operations;
     }
 
     public function __invoke(iterable $iterable): iterable
     {
-        return array_reduce(
+        yield from array_reduce(
             $this->operations,
             static fn(
                 callable $a,
