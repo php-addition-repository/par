@@ -11,12 +11,12 @@ use Throwable;
 /**
  * A container object which may or may not contain a value.
  *
- * If a value is present, `isPresent()` returns `true`. If no value is present, the object is considered **empty** and
- * `isPresent()` returns `false`.
+ * If a value is present, `Par\Core\Optional::isPresent()` returns `true`. If no value is present, the object is considered **empty** and
+ * `Par\Core\Optional::isPresent()` returns `false`.
  *
- * __NOTE:__ `Optional` is primarily intended for use as a method return type where there is a clear need to represent
- * "no result" and where using `null` is likely to cause errors. A variable whose type is `Optional` should never itself
- * be `null`; it should always point to an `Optional` instance.
+ * __NOTE:__ `Par\Core\Optional` is primarily intended for use as a method return type where there is a clear need to represent
+ * "no result" and where using `null` is likely to cause errors. A variable whose type is `Par\Core\Optional` should never itself
+ * be `null`; it should always point to an `Par\Core\Optional` instance.
  *
  * @template-covariant TValue
  *
@@ -32,7 +32,7 @@ final class Optional implements Equable
     }
 
     /**
-     * Returns an empty `Optional` instance.
+     * Returns an empty `Par\Core\Optional` instance.
      *
      * @return Optional<mixed>
      */
@@ -42,7 +42,7 @@ final class Optional implements Equable
     }
 
     /**
-     * Returns an `Optional` describing the given value.
+     * Returns an `Par\Core\Optional` describing the given value.
      *
      * @template UValue
      *
@@ -56,8 +56,8 @@ final class Optional implements Equable
     }
 
     /**
-     * Returns an `Optional` instance using the current element value of an iterable, if present, otherwise returns an
-     * empty `Optional`.
+     * Returns an `Par\Core\Optional` instance using the current element value of an iterable, if present, otherwise returns an
+     * empty `Par\Core\Optional`.
      *
      * @template UValue
      *
@@ -76,7 +76,7 @@ final class Optional implements Equable
     }
 
     /**
-     * Returns an `Optional` describing the given value, if non-null, otherwise returns an empty `Optional`.
+     * Returns an `Par\Core\Optional` describing the given value, if non-null, otherwise returns an empty `Par\Core\Optional`.
      *
      * @template UValue
      *
@@ -103,8 +103,8 @@ final class Optional implements Equable
     }
 
     /**
-     * If a value is present, and the value matches the given predicate, returns an `Optional` describing the value,
-     * otherwise returns an empty `Optional`.
+     * If a value is present, and the value matches the given predicate, returns an `Par\Core\Optional` describing the value,
+     * otherwise returns an empty `Par\Core\Optional`.
      *
      * @param callable(TValue): bool $predicate the predicate to apply to a value, if present
      *
@@ -177,8 +177,8 @@ final class Optional implements Equable
     }
 
     /**
-     * If a value is present, returns an `Optional` describing (as if by `fromAny(UValue)`) the result of applying
-     * the given mapping function to the value, otherwise returns an empty `Optional`.
+     * If a value is present, returns an `Par\Core\Optional` describing the result of applying
+     * the given mapping function to the value, otherwise returns an empty `Par\Core\Optional`.
      *
      * @template UValue
      *
@@ -235,7 +235,7 @@ final class Optional implements Equable
      * If a value is present, returns the value, otherwise throws an exception produced by the exception supplying
      * function.
      *
-     * If no supplying function is provided a default supplier will be used that returns a `NoSuchElementException`.
+     * If no supplying function is provided a default supplier will be used which returns a `Par\Core\Exception\NoSuchElementException`.
      *
      * @param callable():Throwable|null $exceptionSupplier the supplying function that produces an exception to be thrown
      *
