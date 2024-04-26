@@ -36,8 +36,6 @@ interface Equable
      *
      * @return bool `true` if this object should be considered equal to other value, `false` otherwise
      *
-     * @example packages/core/test/Fixtures/EquableScalarObject.php 15 7 Implementation example
-     *
      * @phpstan-assert-if-true TValue $other
      */
     public function equals(?Equable $other): bool;
