@@ -7,6 +7,11 @@ namespace Par\Core;
 use DateTimeInterface;
 use Par\Core\Exception\AssertionFailedException;
 
+/**
+ * TODO describe.
+ *
+ * @internal
+ */
 abstract class Assert extends \Webmozart\Assert\Assert
 {
     protected const MAX_SHORT_LENGTH = 100;
