@@ -13,17 +13,17 @@ use SebastianBergmann\Comparator\Factory;
 /**
  * A PHPUnit extension that adds several features.
  *
- * - The ability to use the "assertEquals" assertion on objects that implement the `\Par\Core\Equable` interface.
+ * - The ability to use the "assertEquals" assertion on objects that implement the `Par\Core\Equable` interface.
  * - The ability to use the "assertEquals" assertion on iterables on basis of their contents.
  *
  * Include the following in your phpunit configuration xml to enable the extension:
  * ```xml
- * <phpunit ..>
- *
+ * <phpunit ...>
+ *   ...
  *   <extensions>
- *         <extension class="\Par\Core\PHPUnit\CoreExtension"/>
+ *     <extension class="\Par\Core\PHPUnit\CoreExtension"/>
  *   </extensions>
- *
+ *   ...
  * </phpunit>
  * ```
  */
