@@ -241,6 +241,10 @@ final class Comparators
                         return $value->compare($otherValue);
                     }
 
+                    if ($otherValue instanceof Comparable) {
+                        return $otherValue->compare($value)->invert();
+                    }
+
                     return Order::from($value <=> $otherValue);
                 }
             ),
