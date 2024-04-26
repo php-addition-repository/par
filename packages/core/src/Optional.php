@@ -34,7 +34,7 @@ final class Optional implements Equable
     /**
      * Returns an empty `Par\Core\Optional` instance.
      *
-     * @return Optional<mixed>
+     * @return Optional<null>
      */
     public static function empty(): self
     {
@@ -44,11 +44,9 @@ final class Optional implements Equable
     /**
      * Returns an `Par\Core\Optional` describing the given value.
      *
-     * @template UValue
+     * @param TValue $value The value to describe, which can be `null`
      *
-     * @param UValue $value The value to describe, which can be `null`
-     *
-     * @return Optional<UValue>
+     * @return Optional<TValue>
      */
     public static function fromAny(mixed $value): self
     {
@@ -59,11 +57,9 @@ final class Optional implements Equable
      * Returns an `Par\Core\Optional` instance using the current element value of an iterable, if present, otherwise returns an
      * empty `Par\Core\Optional`.
      *
-     * @template UValue
+     * @param iterable<TValue> $iterable The iterable to use the current value from
      *
-     * @param iterable<UValue> $iterable The iterable to use the current value from
-     *
-     * @return Optional<UValue>
+     * @return Optional<TValue>
      */
     public static function fromCurrent(iterable $iterable): self
     {
@@ -78,11 +74,9 @@ final class Optional implements Equable
     /**
      * Returns an `Par\Core\Optional` describing the given value, if non-null, otherwise returns an empty `Par\Core\Optional`.
      *
-     * @template UValue
+     * @param TValue $value The value to describe, which can be `null`
      *
-     * @param UValue $value The value to describe, which can be `null`
-     *
-     * @return Optional<UValue>
+     * @return ($value is null ? Optional<null> : Optional<TValue>)
      */
     public static function fromNullable(mixed $value): self
     {

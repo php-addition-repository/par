@@ -66,7 +66,7 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresent(
-            static function(string $value) use (&$invocations): void {
+            static function(?string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
         );
@@ -96,7 +96,7 @@ final class OptionalTest extends TestCase
 
         $invocations = [];
         $optional->ifPresentOrElse(
-            static function(string $value) use (&$invocations): void {
+            static function(?string $value) use (&$invocations): void {
                 $invocations[] = $value;
             },
             static function() use (&$invocations): void {
@@ -183,7 +183,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::empty();
 
-        self::assertEquals(Optional::empty(), $optional->map(static fn(string $value): string => $value . '-mapped'));
+        self::assertEquals(Optional::empty(), $optional->map(static fn(?string $value): string => $value . '-mapped'));
     }
 
     #[Test]
