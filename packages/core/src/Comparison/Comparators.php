@@ -16,23 +16,28 @@ use Stringable;
  * $stream = \Par\Core\Collection\Stream\MixedStream::fromIterable(array_shuffle(range(1, 10));
  * $stream->sorted(Comparators::integers()); // [1,2,3,4,5,6,7,8,9,10]
  * ```
+ *
+ * @template T the type of value that can be compared
+ *
+ * @phpstan-type IntFunction callable(T): int
+ * @phpstan-type FloatFunction callable(T): float
+ * @phpstan-type StringFunction callable(T): (string|Stringable)
  */
 final class Comparators
 {
     /**
-     * Returns true if value comes after otherValue.
+     * Returns `true` if value comes after otherValue.
      *
      * This is the same as:
      * ```
      * $comparator->compare($value, $otherValue) === Order::Greater;
      * ```
      *
-     * @template TValue
+     * @param T $value The value to test
+     * @param T $otherValue The other value to test against
+     * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
-     * @param TValue $value The value to test
-     * @param TValue $otherValue The other value to test against
-     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
-     *                                            `\Par\Core\Comparison\Comparators::values()`
+     * @return bool `true` if value comes after otherValue
      */
     public static function comesAfter(mixed $value, mixed $otherValue, ?Comparator $comparator = null): bool
     {
@@ -42,19 +47,18 @@ final class Comparators
     }
 
     /**
-     * Returns true if value comes after or equals otherValue.
+     * Returns `true` if value comes after or equals otherValue.
      *
      * This is the same as:
      * ```
      * $comparator->compare($value, $otherValue) !== Order::Lesser;
      * ```
      *
-     * @template TValue
+     * @param T $value the value to test
+     * @param T $otherValue the other value to test against
+     * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
-     * @param TValue $value The value to test
-     * @param TValue $otherValue The other value to test against
-     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
-     *                                            `\Par\Core\Comparison\Comparators::values()`
+     * @return bool `true` if value comes after or equals otherValue
      */
     public static function comesAfterOrEquals(mixed $value, mixed $otherValue, ?Comparator $comparator = null): bool
     {
@@ -62,19 +66,18 @@ final class Comparators
     }
 
     /**
-     * Returns true if value comes before otherValue.
+     * Returns `true` if value comes before otherValue.
      *
      * This is the same as:
      * ```
      * $comparator->compare($value, $otherValue) === Order::Lesser;
      * ```
      *
-     * @template TValue
+     * @param T $value the value to test
+     * @param T $otherValue the other value to test against
+     * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
-     * @param TValue $value The value to test
-     * @param TValue $otherValue the other value to test against
-     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
-     *                                            `\Par\Core\Comparison\Comparators::values()`
+     * @return bool `true` if value comes before otherValue
      */
     public static function comesBefore(mixed $value, mixed $otherValue, ?Comparator $comparator = null): bool
     {
@@ -91,12 +94,11 @@ final class Comparators
      * $comparator->compare($value, $otherValue) !== Order::Greater;
      * ```
      *
-     * @template TValue
+     * @param T $value The value to test
+     * @param T $otherValue the other value to test against
+     * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
-     * @param TValue $value The value to test
-     * @param TValue $otherValue the other value to test against
-     * @param Comparator<TValue>|null $comparator Optional comparator to use, defaults to
-     *                                            `\Par\Core\Comparison\Comparators::values()`
+     * @return bool `true` if value comes before or equals otherValue
      */
     public static function comesBeforeOrEquals(mixed $value, mixed $otherValue, ?Comparator $comparator = null): bool
     {
@@ -104,16 +106,13 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator to compare two float values.
+     * Returns a comparator to compare two `float` values.
      *
      * The comparator will automatically implement a guard to make sure both values are floats.
      *
-     * @template TValue
+     * @param FloatFunction|null $extractor an extractor that returns the `float` value to use in the comparison
      *
-     * @param callable(TValue): float|null $extractor an extractor that returns the float value to use in the
-     *                                                comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> : Comparator<float>)
+     * @return ($extractor is callable ? Comparator<T> : Comparator<float>)
      */
     public static function floats(?callable $extractor = null): Comparator
     {
@@ -128,16 +127,13 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator to compare two integer values.
+     * Returns a comparator to compare two `integer` values.
      *
      * The comparator will automatically implement a guard to make sure both values are integers.
      *
-     * @template TValue
+     * @param IntFunction|null $extractor an extractor that returns the `integer` value to use in the comparison
      *
-     * @param callable(TValue): int|null $extractor an extractor that returns the integer value to use in the
-     *                                              comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> : Comparator<int>)
+     * @return ($extractor is callable ? Comparator<T> : Comparator<int>)
      */
     public static function integers(?callable $extractor = null): Comparator
     {
@@ -152,17 +148,14 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator to compare two strings or Stringable objects using a natural case insensitive order.
+     * Returns a comparator to compare two `string` or `Stringable` values using a natural case insensitive order.
      *
      * The comparator will automatically implement a guard to make sure both values are strings or objects implementing
      * the `Stringable` interface.
      *
-     * @template TValue
+     * @param StringFunction|null $extractor an extractor that returns the `string` or `Stringable` value to use in the comparison
      *
-     * @param callable(TValue): (string|Stringable)|null $extractor an extractor that returns the `string` or
-     *                                                              `Stringable` value to use in the comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> :Comparator<string|Stringable>)
+     * @return ($extractor is callable ? Comparator<T> :Comparator<string|Stringable>)
      */
     public static function naturalCaseSensitiveOrder(?callable $extractor = null): Comparator
     {
@@ -181,17 +174,14 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator to compare two strings or Stringable objects using a natural case sensitive order.
+     * Returns a comparator to compare two `string` or `Stringable` values using a natural case sensitive order.
      *
      * The comparator will automatically implement a guard to make sure both values are strings or objects implementing
      * the `Stringable` interface.
      *
-     * @template TValue
+     * @param StringFunction|null $extractor an extractor that returns the `string` or `Stringable` value to use in the comparison
      *
-     * @param callable(TValue): (string|Stringable)|null $extractor an extractor that returns the string or
-     *                                                              Stringable value to use in the comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> : Comparator<string|Stringable>)
+     * @return ($extractor is callable ? Comparator<T> : Comparator<string|Stringable>)
      */
     public static function naturalOrder(?callable $extractor = null): Comparator
     {
@@ -210,17 +200,14 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator that compares two strings or Stringable objects.
+     * Returns a comparator to compare two `string` or `Stringable` values.
      *
      * The comparator will automatically implement a guard to make sure both values are strings or objects implementing
      * the `Stringable` interface.
      *
-     * @template TValue
+     * @param StringFunction|null $extractor an extractor that returns the `string` or `Stringable` value to use in the comparison
      *
-     * @param callable(TValue): (string|Stringable)|null $extractor an extractor that returns the string or
-     *                                                              Stringable value to use in the comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> : Comparator<string|Stringable>)
+     * @return ($extractor is callable ? Comparator<T> : Comparator<string|Stringable>)
      */
     public static function strings(?callable $extractor = null): Comparator
     {
@@ -239,15 +226,11 @@ final class Comparators
     }
 
     /**
-     * Returns a comparator that uses the objects comparator if possible, otherwise falls back on the native comparison
-     * `$a <=> $b`.
+     * Returns a comparator that uses the objects comparator if possible, otherwise falls back on the native comparison `$a <=> $b`.
      *
-     * @template TValue
-     * @template UValue
+     * @param callable(T): mixed|null $extractor an extractor that returns the value to use in the comparison
      *
-     * @param callable(TValue): UValue|null $extractor an extractor that returns the value to use in the comparison
-     *
-     * @return ($extractor is callable ? Comparator<TValue> : Comparator<mixed>)
+     * @return ($extractor is callable ? Comparator<T> : Comparator<mixed>)
      */
     public static function values(?callable $extractor = null): Comparator
     {
@@ -275,11 +258,9 @@ final class Comparators
      * );
      * ```
      *
-     * @template TValue
+     * @param callable(T, T): (Order|int<-1,1>) $comparator The comparator callback
      *
-     * @param callable(TValue, TValue): (Order|int<-1,1>) $comparator The comparator callback
-     *
-     * @return Comparator<TValue>
+     * @return Comparator<T>
      */
     public static function with(callable $comparator): Comparator
     {
@@ -291,13 +272,10 @@ final class Comparators
     }
 
     /**
-     * @template TValue
-     * @template UValue
+     * @param Comparator<mixed> $decorated
+     * @param callable(T):mixed|null $extractor
      *
-     * @param Comparator<TValue> $decorated
-     * @param callable(TValue):UValue|null $extractor
-     *
-     * @return Comparator<TValue>
+     * @return ($extractor is callable ? Comparator<T> : Comparator<mixed>)
      */
     private static function decorateWithExtractor(Comparator $decorated, ?callable $extractor): Comparator
     {

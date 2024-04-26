@@ -14,7 +14,7 @@ enum Order: int
     case Greater = 1;
 
     /**
-     * Returns the inverted value of current Order.
+     * Returns the inverted value of current `Par\Core\Comparison\Order`.
      */
     public function invert(): self
     {

@@ -14,17 +14,17 @@ use Par\Core\Comparison\Exception\IncomparableException;
 interface Comparable
 {
     /**
-     * Compares this object with the specified value for order.
+     * Compares this object with the other value for order.
      *
      * ```php
-     * usort($list, static fn(ComparableType $a, mixed $b): int => $a->compareTo($b)->value);
+     * usort($list, static fn(ComparableType $a, ComparableType $b): int => $a->compareTo($b)->value);
      * ```
      *
      * __NOTE:__ It is strongly recommended, but not required, that `($a->compare($b) === Order::equals) ===
      * $a->equals($b)`. Generally speaking, any class that implements the `Par\Core\Comparison\Comparable` interface
      * and violates this condition should clearly state this fact.
      *
-     * @param TValue|null $other
+     * @param (TValue&object)|null $other The other value to compare with
      *
      * @return Order The order of other in comparison to this
      *

@@ -12,7 +12,7 @@ use Par\Core\Equable;
  *
  * @template-covariant TValue of float|bool|int|string
  *
- * @implements Equable<EquableScalarObject<float|bool|int|string>>
+ * @implements Equable<self<float|bool|int|string>>
  */
 final class EquableScalarObject implements Equable
 {

@@ -10,7 +10,7 @@ use Par\Core\Comparison\Exception\IncomparableException;
 /**
  * This comparator makes sure that both values pass provided predicate.
  *
- * It will throw a `Par\Core\Comparator\IncomparableException` when the predicate returns` false` for either value in the comparison.
+ * It will throw a `Par\Core\Comparison\Exception\IncomparableException` when the predicate returns` false` for either value in the comparison.
  *
  * @template TValue
  *

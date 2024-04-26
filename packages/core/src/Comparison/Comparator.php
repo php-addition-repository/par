@@ -19,6 +19,8 @@ interface Comparator
      * @param TValue $v1 The first value to be compared
      * @param TValue $v2 The second value to be compared
      *
+     * @return Order The order of the second value in comparison to the first
+     *
      * @throws IncomparableException if arguments are not comparable
      */
     public function compare(mixed $v1, mixed $v2): Order;
