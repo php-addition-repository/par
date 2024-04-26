@@ -20,7 +20,7 @@ use Throwable;
  *
  * @template-covariant TValue
  *
- * @implements Equable<Optional>
+ * @implements Equable<Optional<mixed>>
  */
 final class Optional implements Equable
 {
@@ -93,7 +93,7 @@ final class Optional implements Equable
         return self::empty();
     }
 
-    public function equals(mixed $other): bool
+    public function equals(?Equable $other): bool
     {
         if ($other instanceof self) {
             return $this->hasValue === $other->hasValue && Values::equals($this->value, $other->value);

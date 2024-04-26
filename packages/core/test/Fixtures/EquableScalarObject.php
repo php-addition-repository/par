@@ -10,9 +10,9 @@ use Par\Core\Equable;
 /**
  * @internal
  *
- * @template-covariant TValue of scalar
+ * @template-covariant TValue of float|bool|int|string
  *
- * @implements Equable<EquableScalarObject>
+ * @implements Equable<EquableScalarObject<float|bool|int|string>>
  */
 final class EquableScalarObject implements Equable
 {
@@ -25,9 +25,9 @@ final class EquableScalarObject implements Equable
     }
 
     /**
-     * @return Generator<EquableScalarObject<int>>
+     * @return Generator<self<int>>
      */
-    public static function fromIntRange(int $start, int $end): iterable
+    public static function fromIntRange(int $start, int $end): Generator
     {
         yield from static::fromIterable(range($start, $end));
     }
@@ -35,9 +35,9 @@ final class EquableScalarObject implements Equable
     /**
      * @param iterable<TValue> $iterable
      *
-     * @return Generator<EquableScalarObject<TValue>>
+     * @return Generator<self<TValue>>
      */
-    public static function fromIterable(iterable $iterable): iterable
+    public static function fromIterable(iterable $iterable): Generator
     {
         foreach ($iterable as $value) {
             yield new self($value);
@@ -53,17 +53,14 @@ final class EquableScalarObject implements Equable
     }
 
     /**
-     * @return Generator<EquableScalarObject<string>>
+     * @return Generator<self<string>>
      */
-    public static function fromStringRange(string $start, string $end): iterable
+    public static function fromStringRange(string $start, string $end): Generator
     {
         yield from static::fromIterable(range($start, $end));
     }
 
-    /**
-     * @param TValue|null $value
-     */
-    private function __construct(public readonly float|bool|int|string|null $value)
+    private function __construct(public readonly float|bool|int|string $value)
     {
     }
 

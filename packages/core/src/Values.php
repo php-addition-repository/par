@@ -15,10 +15,8 @@ final class Values
     /**
      * Determines if two values should be considered equal.
      *
-     * - If `$value` implements `\Par\Core\Equable` then `$value->equals($otherValue)` is used.
-     * - If `$otherValue` implements `\Par\Core\Equable` then `$otherValue->equals($value)` is used.
-     * - When both values are instances of `\DateTime` `$value == $otherValue` is used.
-     * - When both values are instances of `\DateTimeImmutable` `$value == $otherValue` is used.
+     * - If both values implement `\Par\Core\Equable` then `$value->equals($otherValue)` is used.
+     * - When both values are instances of `\DateTime` or `\DateTimeImmutable` then `$value == $otherValue` is used.
      * - Otherwise a strict comparison (`$value === $otherValue`) is used.
      *
      * Usage:
@@ -39,12 +37,12 @@ final class Values
      */
     public static function equals(mixed $value, mixed $otherValue): bool
     {
-        if ($value instanceof Equable) {
-            return $value->equals($otherValue);
+        if ($value === $otherValue) {
+            return true;
         }
 
-        if ($otherValue instanceof Equable) {
-            return $otherValue->equals($value);
+        if ($value instanceof Equable && $otherValue instanceof Equable) {
+            return $value->equals($otherValue);
         }
 
         if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
@@ -57,7 +55,7 @@ final class Values
             return $value == $otherValue;
         }
 
-        return $value === $otherValue;
+        return false;
     }
 
     /**

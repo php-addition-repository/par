@@ -29,8 +29,6 @@ final class OptionalTest extends TestCase
         yield 'different-value' => [Optional::fromAny('foo'), Optional::fromAny('bar'), false];
         yield 'value-vs-empty' => [Optional::fromAny('foo'), Optional::empty(), false];
         yield 'value-vs-null' => [Optional::fromAny('foo'), null, false];
-        yield 'value-vs-other' => [Optional::fromAny('foo'), false, false];
-        yield 'value-vs-internal-value' => [Optional::fromAny('foo'), 'foo', false];
     }
 
     public static function nonNullableValuesProvider(): iterable
