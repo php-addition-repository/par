@@ -100,7 +100,7 @@ tools/php-cs-fixer: ## Run PHP-CS-Fixer
 tools/phpstan: ## Run PHPStan
 	@$(call MK_NOTIFY,"Running PHPStan")
 	@if [ -z "$(TOOL_ARGS)" ]; then \
-		CMD="phpstan --memory-limit=2G" $(MAKE) docker/workspace; \
+		CMD="phpstan --memory-limit=2G -v" $(MAKE) docker/workspace; \
 	else \
 		CMD="phpstan --memory-limit=2G $(TOOL_ARGS)" $(MAKE) docker/workspace; \
 	fi
