@@ -31,7 +31,7 @@ final class Values
      * @param mixed $value The value to test
      * @param TValue $otherValue The other value with which to compare
      *
-     * @return bool True if both values should be considered equal
+     * @return bool `true` if both values should be considered equal
      *
      * @phpstan-assert-if-true TValue $value
      */
@@ -46,12 +46,12 @@ final class Values
         }
 
         if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
-            /* @phpstan-ignore-next-line */
+            /* @phpstan-ignore equal.invalid (we explicitly use non-strict comparison) */
             return $value == $otherValue;
         }
 
         if ($value instanceof DateTime && $otherValue instanceof DateTime) {
-            /* @phpstan-ignore-next-line */
+            /* @phpstan-ignore equal.invalid (we explicitly use non-strict comparison) */
             return $value == $otherValue;
         }
 
@@ -72,10 +72,10 @@ final class Values
      *
      * @template TValue
      *
-     * @param iterable<TValue> $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
+     * @param iterable<TValue> $otherValues The list of other values with which to compare
      *
-     * @return bool True if value should be considered equal to any of the items in the list of other values
+     * @return bool `true` if value should be considered equal to any of the items in the list of other values
      *
      * @phpstan-assert-if-true TValue $value
      */
@@ -98,10 +98,10 @@ final class Values
      *
      * @template TValue
      *
-     * @param TValue ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
+     * @param TValue ...$otherValues The other values with which to compare
      *
-     * @return bool True if value should be considered equal to any of the other values
+     * @return bool `true` if value should be considered equal to any of the other values
      *
      * @phpstan-assert-if-true TValue $value
      */
@@ -124,10 +124,10 @@ final class Values
      *
      * @template TValue
      *
-     * @param iterable<TValue> $otherValues The list of other values with which to compare
      * @param mixed $value The value to test
+     * @param iterable<TValue> $otherValues The list of other values with which to compare
      *
-     * @return bool True if value should be considered equal to none of the items in the list of other values
+     * @return bool `true` if value should be considered equal to __none__ of the items in the list of other values
      *
      * @phpstan-assert-if-false TValue $value
      */
@@ -150,10 +150,10 @@ final class Values
      *
      * @template TValue
      *
-     * @param TValue ...$otherValues The other values with which to compare
      * @param mixed $value The value to test
+     * @param TValue ...$otherValues The other values with which to compare
      *
-     * @return bool True if value should be considered equal to none of the other values
+     * @return bool `true` if value should be considered equal to __none__ of the other values
      *
      * @phpstan-assert-if-false TValue $value
      */
