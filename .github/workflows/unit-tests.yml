@@ -35,7 +35,7 @@ jobs:
     needs:
       - supported-versions-matrix
     env:
-      extensions: apcu,intl,mbstring
+      extensions: apcu,intl,mbstring,iconv
     strategy:
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
