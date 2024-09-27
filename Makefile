@@ -60,12 +60,16 @@ help: ## Display this help
 
 ##@ Repo
 
-install: install/composer ## Install everything needed to work with this repository
+install: install/composer install/githooks ## Install everything needed to work with this repository
 setup: install/composer  ## Setup repository according to new branch
 
 install/composer: ## Install composer
 	@$(call MK_NOTIFY,"Running composer install")
 	@CMD="composer install" $(MAKE) docker/workspace
+
+install/githooks: ## Configure githooks
+	@$(call MK_NOTIFY,"Configuring githooks")
+	@git config -f "$(HERE)/.git/config" core.hooksPath "$(HERE)/.githooks"
 
 workspace: docker/workspace ## Alias for docker/workspace
 
