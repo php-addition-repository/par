@@ -46,12 +46,12 @@ final class Values
         }
 
         if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
-            /* @phpstan-ignore equal.invalid (we explicitly use non-strict comparison) */
+            /* @phpstan-ignore equal.invalid (we explicitly use loose comparison) */
             return $value == $otherValue;
         }
 
         if ($value instanceof DateTime && $otherValue instanceof DateTime) {
-            /* @phpstan-ignore equal.invalid (we explicitly use non-strict comparison) */
+            /* @phpstan-ignore equal.invalid (we explicitly use loose comparison) */
             return $value == $otherValue;
         }
 
