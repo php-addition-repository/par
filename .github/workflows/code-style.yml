@@ -1,0 +1,43 @@
+name: Code style
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: "PHP CS Fixer"
+    runs-on: ubuntu-latest
+    env:
+      extensions: apcu,intl,mbstring,iconv
+      php: 8.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          ini-values: date.timezone=UTC,memory_limit=-1,session.gc_probability=0,apc.enable_cli=1,zend.assertions=1
+          php-version: "${{ env.php }}"
+          extensions: "${{ env.extensions }}"
+          tools: cs2pr
+      - name: Composer install
+        uses: ramsey/composer-install@v3
+        with:
+          working-directory: tools/php-cs-fixer
+      - name: php-cs-fixer
+        run: ./tools/php-cs-fixer/vendor/bin/php-cs-fixer check --show-progress=none --format=checkstyle | cs2pr
