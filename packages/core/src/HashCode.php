@@ -30,7 +30,7 @@ final class HashCode
     /**
      * Transform an array to a hash.
      *
-     * @param array $value The array to transform
+     * @param mixed[] $value The array to transform
      *
      * @return int The resulting hash
      */
