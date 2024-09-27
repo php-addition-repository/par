@@ -170,7 +170,7 @@ final class HashCode
                     'forAny',
                     $type
                 )
-            )
+            ),
         };
     }
 
