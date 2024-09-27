@@ -164,9 +164,19 @@ final class HashCode
             'object' => self::forObject($value),
             'resource', 'resource (closed)' => self::forResource($value),
             'NULL' => 0,
+            default => throw new TypeError(
+                sprintf(
+                    'Argument 1 passed to %s() must a value of a supported type, %s given',
+                    'forAny',
+                    $type
+                )
+            )
         };
     }
 
+    /**
+     * @param mixed[] $value
+     */
     private static function recursiveForArray(array $value, int $maxRecursion = self::MAX_ARRAY_RECURSION): int
     {
         if (0 === $maxRecursion || empty($value)) {

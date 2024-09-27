@@ -100,6 +100,9 @@ final class HashCodeTest extends TestCase
         self::assertEquals($hashCode, HashCode::forAny($value));
     }
 
+    /**
+     * @param mixed[] $value
+     */
     #[DataProvider('arrayProvider')]
     public function testForArray(array $value, int $hashCode): void
     {
@@ -130,6 +133,9 @@ final class HashCodeTest extends TestCase
         self::assertEquals($hashCode, HashCode::forObject($value));
     }
 
+    /**
+     * @param resource $value
+     */
     #[DataProvider('resourceProvider')]
     public function testForResource($value, int $hashCode): void
     {
