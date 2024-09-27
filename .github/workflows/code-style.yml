@@ -47,6 +47,8 @@ jobs:
           tools: cs2pr
       - name: Composer install
         uses: ramsey/composer-install@v3
+      - name: Composer install
+        uses: ramsey/composer-install@v3
         with:
           working-directory: tools/php-cs-fixer
       - name: php-cs-fixer
@@ -69,6 +71,8 @@ jobs:
           ini-values: date.timezone=UTC,memory_limit=-1,session.gc_probability=0,apc.enable_cli=1,zend.assertions=1
           php-version: "${{ env.php }}"
           extensions: "${{ env.extensions }}"
+      - name: Composer install
+        uses: ramsey/composer-install@v3
       - name: Composer install
         uses: ramsey/composer-install@v3
         with:
