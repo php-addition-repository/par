@@ -92,31 +92,6 @@ final class ValuesTest extends TestCase
         yield 'different-datetime-immutable-values' => [$dateTime, $otherDateTime, false];
     }
 
-    public static function hashProvider(): iterable
-    {
-        yield 'string' => ['foo', 'foo'];
-        yield 'int<positive>' => [1, 1];
-        yield 'int<negative>' => [-1, -1];
-        yield 'bool<true>' => [true, true];
-        yield 'bool<false>' => [false, false];
-        yield 'float<double>' => [1.1, 1.1];
-        yield 'null' => [null, null];
-
-        $obj = new stdClass();
-        yield 'object' => [$obj, 'stdClass:' . spl_object_hash($obj)];
-
-        yield 'empty-array' => [[], '[]'];
-        yield 'scalar[]' => [[1, false, null, 'foo', 1.1], '[1,false,null,"foo",1.1]'];
-
-        $map = ['a' => 'foo', 'b' => 1, 'd' => true];
-        yield 'array<string,string>' => [$map, '{"a":"foo","b":1,"d":true}'];
-        yield 'iterable<string,string>' => [new ArrayIterator($map), 'ArrayIterator{"a":"foo","b":1,"d":true}'];
-        yield 'multi-assoc-array' => [
-            [[], $map, $obj, ['a' => $map]],
-            '[[],{"a":"foo","b":1,"d":true},stdClass:' . spl_object_hash($obj) . ',{"a":{"a":"foo","b":1,"d":true}}]',
-        ];
-    }
-
     #[DataProvider('equalsProvider')]
     public function testItCanDetermineEqualityBetweenTwoValues(
         mixed $value,
