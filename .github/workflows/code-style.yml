@@ -2,7 +2,17 @@ name: Code style
 
 on:
   push:
+    paths:
+      - "**.php"
+      - ".github/workflows/code-style.yml"
+      - ".php-cs-fixer.dist.php"
+    branches:
+      - main
   pull_request:
+    paths:
+      - "**.php"
+      - ".github/workflows/code-style.yml"
+      - ".php-cs-fixer.dist.php"
 
 defaults:
   run:

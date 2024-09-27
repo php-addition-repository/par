@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - packages/**
+      - .github/workflows/package-tests.yml
 
 permissions:
   contents: read
