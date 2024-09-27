@@ -42,7 +42,7 @@ final class Values
         }
 
         if ($value instanceof Equable && $otherValue instanceof Equable) {
-            return $value->equals($value);
+            return $value->equals($otherValue);
         }
 
         if ($value instanceof DateTimeImmutable && $otherValue instanceof DateTimeImmutable) {
