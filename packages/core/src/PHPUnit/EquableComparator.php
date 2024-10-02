@@ -21,7 +21,7 @@ final class EquableComparator extends Comparator
         mixed $actual,
         float $delta = 0.0,
         bool $canonicalize = false,
-        bool $ignoreCase = false
+        bool $ignoreCase = false,
     ): void {
         assert($expected instanceof Equable);
         assert($actual instanceof Equable);
@@ -38,5 +38,4 @@ final class EquableComparator extends Comparator
             );
         }
     }
-
 }

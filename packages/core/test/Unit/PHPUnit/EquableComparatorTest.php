@@ -9,9 +9,11 @@ use Par\Core\PHPUnit\EquableComparator;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
+/**
+ * @internal
+ */
 final class EquableComparatorTest extends TestCase
 {
-
     public function testAccepts(): void
     {
         $comparator = new EquableComparator();
