@@ -49,7 +49,7 @@ jobs:
         working-directory: docs
         run: hugo --gc --minify
       - name: Deploy
-        uses: appleboy/git-push-action@v0.0.2
+        uses: appleboy/git-push-action@v1.0.0
         with:
           author_email: brouwer.alexander@gmail.com
           author_name: Alex Brouwer
