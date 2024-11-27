@@ -73,9 +73,6 @@ install/githooks: ## Configure githooks
 
 workspace: docker/workspace ## Alias for docker/workspace
 
-docs/serve:
-	cd docs; hugo server --buildDrafts --disableFastRender
-
 ##@ Docker
 
 docker/rebuild: docker/init ## Rebuild docker-compose containers
